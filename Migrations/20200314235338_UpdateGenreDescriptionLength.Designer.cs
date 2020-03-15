@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
-using MovieDbLite.Models;
+using MovieDbLite.MVC.Models;
 
 namespace MovieDbLiteMvc2.Migrations
 {
@@ -21,7 +21,7 @@ namespace MovieDbLiteMvc2.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 128)
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-            modelBuilder.Entity("MovieDbLite.Models.Award", b =>
+            modelBuilder.Entity("MovieDbLite.MVC.Models.Award", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -49,7 +49,7 @@ namespace MovieDbLiteMvc2.Migrations
                     b.ToTable("Award");
                 });
 
-            modelBuilder.Entity("MovieDbLite.Models.AwardShow", b =>
+            modelBuilder.Entity("MovieDbLite.MVC.Models.AwardShow", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -72,7 +72,7 @@ namespace MovieDbLiteMvc2.Migrations
                     b.ToTable("AwardShow");
                 });
 
-            modelBuilder.Entity("MovieDbLite.Models.FilmMember", b =>
+            modelBuilder.Entity("MovieDbLite.MVC.Models.FilmMember", b =>
                 {
                     b.Property<long>("Id")
                         .ValueGeneratedOnAdd()
@@ -132,7 +132,7 @@ namespace MovieDbLiteMvc2.Migrations
                     b.ToTable("FilmMember");
                 });
 
-            modelBuilder.Entity("MovieDbLite.Models.FilmMemberAward", b =>
+            modelBuilder.Entity("MovieDbLite.MVC.Models.FilmMemberAward", b =>
                 {
                     b.Property<long>("FilmMemberId")
                         .HasColumnType("bigint");
@@ -162,7 +162,7 @@ namespace MovieDbLiteMvc2.Migrations
                     b.ToTable("FilmMemberAward");
                 });
 
-            modelBuilder.Entity("MovieDbLite.Models.FilmRole", b =>
+            modelBuilder.Entity("MovieDbLite.MVC.Models.FilmRole", b =>
                 {
                     b.Property<int>("Id")
                         .HasColumnType("int");
@@ -183,7 +183,7 @@ namespace MovieDbLiteMvc2.Migrations
                     b.ToTable("FilmRole");
                 });
 
-            modelBuilder.Entity("MovieDbLite.Models.Genre", b =>
+            modelBuilder.Entity("MovieDbLite.MVC.Models.Genre", b =>
                 {
                     b.Property<int>("Id")
                         .HasColumnType("int");
@@ -204,7 +204,7 @@ namespace MovieDbLiteMvc2.Migrations
                     b.ToTable("Genre");
                 });
 
-            modelBuilder.Entity("MovieDbLite.Models.Language", b =>
+            modelBuilder.Entity("MovieDbLite.MVC.Models.Language", b =>
                 {
                     b.Property<int>("Id")
                         .HasColumnType("int");
@@ -220,7 +220,7 @@ namespace MovieDbLiteMvc2.Migrations
                     b.ToTable("Language");
                 });
 
-            modelBuilder.Entity("MovieDbLite.Models.Movie", b =>
+            modelBuilder.Entity("MovieDbLite.MVC.Models.Movie", b =>
                 {
                     b.Property<long>("Id")
                         .ValueGeneratedOnAdd()
@@ -260,7 +260,7 @@ namespace MovieDbLiteMvc2.Migrations
                     b.ToTable("Movie");
                 });
 
-            modelBuilder.Entity("MovieDbLite.Models.MovieActor", b =>
+            modelBuilder.Entity("MovieDbLite.MVC.Models.MovieActor", b =>
                 {
                     b.Property<long>("MovieId")
                         .HasColumnType("bigint");
@@ -283,7 +283,7 @@ namespace MovieDbLiteMvc2.Migrations
                     b.ToTable("Movie_Actor");
                 });
 
-            modelBuilder.Entity("MovieDbLite.Models.MovieFilmMember", b =>
+            modelBuilder.Entity("MovieDbLite.MVC.Models.MovieFilmMember", b =>
                 {
                     b.Property<long>("MovieId")
                         .HasColumnType("bigint");
@@ -303,7 +303,7 @@ namespace MovieDbLiteMvc2.Migrations
                     b.ToTable("MovieFilmMember");
                 });
 
-            modelBuilder.Entity("MovieDbLite.Models.MovieGenre", b =>
+            modelBuilder.Entity("MovieDbLite.MVC.Models.MovieGenre", b =>
                 {
                     b.Property<long>("MovieId")
                         .HasColumnType("bigint");
@@ -318,7 +318,7 @@ namespace MovieDbLiteMvc2.Migrations
                     b.ToTable("Movie_Genre");
                 });
 
-            modelBuilder.Entity("MovieDbLite.Models.MovieUserReview", b =>
+            modelBuilder.Entity("MovieDbLite.MVC.Models.MovieUserReview", b =>
                 {
                     b.Property<long>("Id")
                         .ValueGeneratedOnAdd()
@@ -349,7 +349,7 @@ namespace MovieDbLiteMvc2.Migrations
                     b.ToTable("MovieUserReview");
                 });
 
-            modelBuilder.Entity("MovieDbLite.Models.MovieUserReviewHelpful", b =>
+            modelBuilder.Entity("MovieDbLite.MVC.Models.MovieUserReviewHelpful", b =>
                 {
                     b.Property<long>("MovieUserReviewId")
                         .HasColumnType("bigint");
@@ -367,7 +367,7 @@ namespace MovieDbLiteMvc2.Migrations
                     b.ToTable("MovieUserReviewHelpful");
                 });
 
-            modelBuilder.Entity("MovieDbLite.Models.RestrictionRating", b =>
+            modelBuilder.Entity("MovieDbLite.MVC.Models.RestrictionRating", b =>
                 {
                     b.Property<short>("Id")
                         .HasColumnType("smallint");
@@ -398,7 +398,7 @@ namespace MovieDbLiteMvc2.Migrations
                     b.ToTable("RestrictionRating");
                 });
 
-            modelBuilder.Entity("MovieDbLite.Models.User", b =>
+            modelBuilder.Entity("MovieDbLite.MVC.Models.User", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -428,124 +428,124 @@ namespace MovieDbLiteMvc2.Migrations
                     b.ToTable("User");
                 });
 
-            modelBuilder.Entity("MovieDbLite.Models.Award", b =>
+            modelBuilder.Entity("MovieDbLite.MVC.Models.Award", b =>
                 {
-                    b.HasOne("MovieDbLite.Models.AwardShow", "AwardShow")
+                    b.HasOne("MovieDbLite.MVC.Models.AwardShow", "AwardShow")
                         .WithMany("Award")
                         .HasForeignKey("AwardShowId")
                         .HasConstraintName("FK_Award_AwardShow")
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("MovieDbLite.Models.FilmMemberAward", b =>
+            modelBuilder.Entity("MovieDbLite.MVC.Models.FilmMemberAward", b =>
                 {
-                    b.HasOne("MovieDbLite.Models.Award", "Award")
+                    b.HasOne("MovieDbLite.MVC.Models.Award", "Award")
                         .WithMany("FilmMemberAward")
                         .HasForeignKey("AwardId")
                         .HasConstraintName("FK_FilmMemberAward_Award")
                         .IsRequired();
 
-                    b.HasOne("MovieDbLite.Models.FilmMember", "FilmMember")
+                    b.HasOne("MovieDbLite.MVC.Models.FilmMember", "FilmMember")
                         .WithMany("FilmMemberAward")
                         .HasForeignKey("FilmMemberId")
                         .HasConstraintName("FK_FilmMemberAward_FilmMember")
                         .IsRequired();
 
-                    b.HasOne("MovieDbLite.Models.Movie", "Movie")
+                    b.HasOne("MovieDbLite.MVC.Models.Movie", "Movie")
                         .WithMany("FilmMemberAward")
                         .HasForeignKey("MovieId")
                         .HasConstraintName("FK_FilmMemberAward_Movie")
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("MovieDbLite.Models.Movie", b =>
+            modelBuilder.Entity("MovieDbLite.MVC.Models.Movie", b =>
                 {
-                    b.HasOne("MovieDbLite.Models.Language", "Language")
+                    b.HasOne("MovieDbLite.MVC.Models.Language", "Language")
                         .WithMany("Movie")
                         .HasForeignKey("LanguageId")
                         .HasConstraintName("FK_Movie_Language");
 
-                    b.HasOne("MovieDbLite.Models.RestrictionRating", "RestrictionRating")
+                    b.HasOne("MovieDbLite.MVC.Models.RestrictionRating", "RestrictionRating")
                         .WithMany("Movie")
                         .HasForeignKey("RestrictionRatingId")
                         .HasConstraintName("FK_Movie_RestrictionRating");
                 });
 
-            modelBuilder.Entity("MovieDbLite.Models.MovieActor", b =>
+            modelBuilder.Entity("MovieDbLite.MVC.Models.MovieActor", b =>
                 {
-                    b.HasOne("MovieDbLite.Models.FilmMember", "ActorFilmMember")
+                    b.HasOne("MovieDbLite.MVC.Models.FilmMember", "ActorFilmMember")
                         .WithMany("MovieActor")
                         .HasForeignKey("ActorFilmMemberId")
                         .HasConstraintName("FK_Movie_Actor_FilmMember")
                         .IsRequired();
 
-                    b.HasOne("MovieDbLite.Models.Movie", "Movie")
+                    b.HasOne("MovieDbLite.MVC.Models.Movie", "Movie")
                         .WithMany("MovieActor")
                         .HasForeignKey("MovieId")
                         .HasConstraintName("FK_Movie_Actor_Movie")
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("MovieDbLite.Models.MovieFilmMember", b =>
+            modelBuilder.Entity("MovieDbLite.MVC.Models.MovieFilmMember", b =>
                 {
-                    b.HasOne("MovieDbLite.Models.FilmMember", "FilmMember")
+                    b.HasOne("MovieDbLite.MVC.Models.FilmMember", "FilmMember")
                         .WithMany("MovieFilmMember")
                         .HasForeignKey("FilmMemberId")
                         .HasConstraintName("FK_MovieFilmMember_FilmMember")
                         .IsRequired();
 
-                    b.HasOne("MovieDbLite.Models.FilmRole", "FilmRole")
+                    b.HasOne("MovieDbLite.MVC.Models.FilmRole", "FilmRole")
                         .WithMany("MovieFilmMember")
                         .HasForeignKey("FilmRoleId")
                         .HasConstraintName("FK_MovieFilmMember_FilmRole")
                         .IsRequired();
 
-                    b.HasOne("MovieDbLite.Models.Movie", "Movie")
+                    b.HasOne("MovieDbLite.MVC.Models.Movie", "Movie")
                         .WithMany("MovieFilmMember")
                         .HasForeignKey("MovieId")
                         .HasConstraintName("FK_MovieFilmMember_Movie")
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("MovieDbLite.Models.MovieGenre", b =>
+            modelBuilder.Entity("MovieDbLite.MVC.Models.MovieGenre", b =>
                 {
-                    b.HasOne("MovieDbLite.Models.Genre", "Genre")
+                    b.HasOne("MovieDbLite.MVC.Models.Genre", "Genre")
                         .WithMany("MovieGenre")
                         .HasForeignKey("GenreId")
                         .HasConstraintName("FK_Movie_Genre_Genre")
                         .IsRequired();
 
-                    b.HasOne("MovieDbLite.Models.Movie", "Movie")
+                    b.HasOne("MovieDbLite.MVC.Models.Movie", "Movie")
                         .WithMany("MovieGenre")
                         .HasForeignKey("MovieId")
                         .HasConstraintName("FK_Movie_Genre_Movie")
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("MovieDbLite.Models.MovieUserReview", b =>
+            modelBuilder.Entity("MovieDbLite.MVC.Models.MovieUserReview", b =>
                 {
-                    b.HasOne("MovieDbLite.Models.Movie", "Movie")
+                    b.HasOne("MovieDbLite.MVC.Models.Movie", "Movie")
                         .WithMany("MovieUserReview")
                         .HasForeignKey("MovieId")
                         .HasConstraintName("FK_MovieUserReview_Movie")
                         .IsRequired();
 
-                    b.HasOne("MovieDbLite.Models.User", "User")
+                    b.HasOne("MovieDbLite.MVC.Models.User", "User")
                         .WithMany("MovieUserReview")
                         .HasForeignKey("UserId")
                         .HasConstraintName("FK_MovieUserReview_User")
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("MovieDbLite.Models.MovieUserReviewHelpful", b =>
+            modelBuilder.Entity("MovieDbLite.MVC.Models.MovieUserReviewHelpful", b =>
                 {
-                    b.HasOne("MovieDbLite.Models.MovieUserReview", "MovieUserReview")
+                    b.HasOne("MovieDbLite.MVC.Models.MovieUserReview", "MovieUserReview")
                         .WithMany("MovieUserReviewHelpful")
                         .HasForeignKey("MovieUserReviewId")
                         .HasConstraintName("FK_MovieUserReviewHelpful_MovieUserReview")
                         .IsRequired();
 
-                    b.HasOne("MovieDbLite.Models.User", "User")
+                    b.HasOne("MovieDbLite.MVC.Models.User", "User")
                         .WithMany("MovieUserReviewHelpful")
                         .HasForeignKey("UserId")
                         .HasConstraintName("FK_MovieUserReviewHelpful_User")

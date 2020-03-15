@@ -1,4 +1,4 @@
-namespace MovieDbLite.Models
+namespace MovieDbLite.MVC.Models
 {
     public class ErrorViewModel
     {

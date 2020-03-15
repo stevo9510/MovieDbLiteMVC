@@ -5,10 +5,10 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using MovieDbLite.Data;
-using MovieDbLite.Models;
+using MovieDbLite.MVC.Data;
+using MovieDbLite.MVC.Models;
 
-namespace MovieDbLite
+namespace MovieDbLite.MVC
 {
     public class Startup
     {

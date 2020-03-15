@@ -1,6 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 
-namespace MovieDbLite.Models
+namespace MovieDbLite.MVC.Models
 {
     public partial class MovieDbLiteContext : DbContext
     {

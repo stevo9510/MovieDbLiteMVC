@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
-namespace MovieDbLite.Models
+namespace MovieDbLite.MVC.Models
 {
     public partial class User
     {

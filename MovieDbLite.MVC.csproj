@@ -3,7 +3,7 @@
   <PropertyGroup>
     <TargetFramework>netcoreapp3.1</TargetFramework>
     <UserSecretsId>aspnet-MovieDbLite-F43FB84E-DEE0-446F-B31B-CE97F8705B62</UserSecretsId>
-    <AssemblyName>MovieDbLite</AssemblyName>
+    <AssemblyName>MovieDbLite.MVC</AssemblyName>
   </PropertyGroup>
 
 

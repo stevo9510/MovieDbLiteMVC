@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace MovieDbLite.Models
+namespace MovieDbLite.MVC.Models
 {
     public partial class MovieUserReview
     {

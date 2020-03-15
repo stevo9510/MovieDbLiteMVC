@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace MovieDbLite.Models
+namespace MovieDbLite.MVC.Models
 {
     public partial class FilmMemberAward
     {

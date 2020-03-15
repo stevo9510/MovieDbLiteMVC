@@ -1,11 +1,11 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
-using MovieDbLite.Models;
+using MovieDbLite.MVC.Models;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace MovieDbLite.Controllers
+namespace MovieDbLite.MVC.Controllers
 {
     public class MoviesController : Controller
     {

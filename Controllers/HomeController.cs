@@ -1,9 +1,9 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
-using MovieDbLite.Models;
+using MovieDbLite.MVC.Models;
 using System.Diagnostics;
 
-namespace MovieDbLite.Controllers
+namespace MovieDbLite.MVC.Controllers
 {
     public class HomeController : Controller
     {
