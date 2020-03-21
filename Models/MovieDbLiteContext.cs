@@ -15,6 +15,7 @@ namespace MovieDbLite.MVC.Models
 
         public virtual DbSet<Award> Award { get; set; }
         public virtual DbSet<AwardShow> AwardShow { get; set; }
+        public virtual DbSet<AwardShowInstance> AwardShowInstance { get; set; }
         public virtual DbSet<FilmMember> FilmMember { get; set; }
         public virtual DbSet<FilmMemberAward> FilmMemberAward { get; set; }
         public virtual DbSet<FilmRole> FilmRole { get; set; }
@@ -34,7 +35,7 @@ namespace MovieDbLite.MVC.Models
             if (!optionsBuilder.IsConfigured)
             {
 #warning To protect potentially sensitive information in your connection string, you should move it out of source code. See http://go.microsoft.com/fwlink/?LinkId=723263 for guidance on storing connection strings.
-                optionsBuilder.UseSqlServer("Server=.\\SQLEXPRESS;Database=MovieDbLite;Trusted_Connection=True;");
+                optionsBuilder.UseSqlServer("Server=.\\SQLExpress;Database=MovieDbLite;Trusted_Connection=True;");
             }
         }
 
@@ -70,10 +71,26 @@ namespace MovieDbLite.MVC.Models
                     .IsUnicode(false);
             });
 
+            modelBuilder.Entity<AwardShowInstance>(entity =>
+            {
+                entity.Property(e => e.DateHosted).HasColumnType("date");
+
+                entity.Property(e => e.Year)
+                    .IsRequired()
+                    .HasMaxLength(4)
+                    .IsUnicode(false)
+                    .IsFixedLength();
+
+                entity.HasOne(d => d.AwardShow)
+                    .WithMany(p => p.AwardShowInstance)
+                    .HasForeignKey(d => d.AwardShowId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_AwardShowInstance_AwardShow");
+            });
+
             modelBuilder.Entity<FilmMember>(entity =>
             {
-                entity.Property(e => e.Biography)
-                    .IsUnicode(false);
+                entity.Property(e => e.Biography).IsUnicode(false);
 
                 entity.Property(e => e.DateOfBirth).HasColumnType("date");
 
@@ -184,12 +201,14 @@ namespace MovieDbLite.MVC.Models
 
             modelBuilder.Entity<Movie>(entity =>
             {
+                entity.Property(e => e.AverageUserRating).HasColumnType("decimal(5, 2)");
+
                 entity.Property(e => e.Description)
-                    .IsUnicode(false)
-                    .HasMaxLength(500);
+                    .HasMaxLength(500)
+                    .IsUnicode(false);
 
                 entity.Property(e => e.ReleaseDate).HasColumnType("date");
-                
+
                 entity.Property(e => e.Title)
                     .IsRequired()
                     .HasMaxLength(200)
@@ -204,9 +223,6 @@ namespace MovieDbLite.MVC.Models
                     .WithMany(p => p.Movie)
                     .HasForeignKey(d => d.RestrictionRatingId)
                     .HasConstraintName("FK_Movie_RestrictionRating");
-
-                entity.Property(e => e.AverageUserRating)
-                    .HasColumnType("decimal(5,2)");
             });
 
             modelBuilder.Entity<MovieCastMember>(entity =>
@@ -294,8 +310,6 @@ namespace MovieDbLite.MVC.Models
             modelBuilder.Entity<MovieUserReviewHelpful>(entity =>
             {
                 entity.HasKey(e => new { e.MovieUserReviewId, e.UserId });
-
-                entity.Property(e => e.IsHelpful);
 
                 entity.HasOne(d => d.MovieUserReview)
                     .WithMany(p => p.MovieUserReviewHelpful)

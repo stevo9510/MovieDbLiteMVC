@@ -21,12 +21,10 @@ namespace MovieDbLite.MVC.Models
         public string Suffix { get; set; }
         public string PreferredFullName { get; set; }
         public string Gender { get; set; }
-
         [DataType(DataType.Date)]
         public DateTime? DateOfBirth { get; set; }
         [DataType(DataType.Date)]
         public DateTime? DateOfDeath { get; set; }
-
         public string Biography { get; set; }
 
         public virtual ICollection<FilmMemberAward> FilmMemberAward { get; set; }
