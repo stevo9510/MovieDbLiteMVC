@@ -43,6 +43,10 @@ namespace MovieDbLite.MVC.Models
         {
             modelBuilder.Entity<Award>(entity =>
             {
+                entity.HasIndex(e => new { e.AwardShowId, e.AwardName })
+                    .HasName("UX_Award_AwardShowId_AwardName")
+                    .IsUnique();
+
                 entity.Property(e => e.AwardName)
                     .IsRequired()
                     .HasMaxLength(50)
@@ -61,6 +65,10 @@ namespace MovieDbLite.MVC.Models
 
             modelBuilder.Entity<AwardShow>(entity =>
             {
+                entity.HasIndex(e => e.ShowName)
+                    .HasName("UX_AwardShow_ShowName")
+                    .IsUnique();
+
                 entity.Property(e => e.Description)
                     .HasMaxLength(200)
                     .IsUnicode(false);
@@ -73,6 +81,10 @@ namespace MovieDbLite.MVC.Models
 
             modelBuilder.Entity<AwardShowInstance>(entity =>
             {
+                entity.HasIndex(e => new { e.AwardShowId, e.Year })
+                    .HasName("UX_AwardShowInstance_AwardShowId_Year")
+                    .IsUnique();
+
                 entity.Property(e => e.DateHosted).HasColumnType("date");
 
                 entity.Property(e => e.Year)
@@ -113,6 +125,8 @@ namespace MovieDbLite.MVC.Models
 
             modelBuilder.Entity<FilmMember>(entity =>
             {
+                entity.HasIndex(e => e.PreferredFullName);
+
                 entity.Property(e => e.Biography).IsUnicode(false);
 
                 entity.Property(e => e.DateOfBirth).HasColumnType("date");
@@ -155,6 +169,10 @@ namespace MovieDbLite.MVC.Models
 
             modelBuilder.Entity<FilmRole>(entity =>
             {
+                entity.HasIndex(e => e.RoleName)
+                    .HasName("UX_FilmRole_RoleName")
+                    .IsUnique();
+
                 entity.Property(e => e.Id).ValueGeneratedNever();
 
                 entity.Property(e => e.Description)
@@ -169,6 +187,10 @@ namespace MovieDbLite.MVC.Models
 
             modelBuilder.Entity<Genre>(entity =>
             {
+                entity.HasIndex(e => e.DisplayName)
+                    .HasName("UX_Genre_DisplayName")
+                    .IsUnique();
+
                 entity.Property(e => e.Id).ValueGeneratedNever();
 
                 entity.Property(e => e.Description)
@@ -183,6 +205,10 @@ namespace MovieDbLite.MVC.Models
 
             modelBuilder.Entity<Language>(entity =>
             {
+                entity.HasIndex(e => e.Name)
+                    .HasName("UX_Language_Name")
+                    .IsUnique();
+
                 entity.Property(e => e.Id).ValueGeneratedNever();
 
                 entity.Property(e => e.Name)
@@ -193,6 +219,8 @@ namespace MovieDbLite.MVC.Models
 
             modelBuilder.Entity<Movie>(entity =>
             {
+                entity.HasIndex(e => e.Title);
+
                 entity.Property(e => e.AverageUserRating).HasColumnType("decimal(5, 2)");
 
                 entity.Property(e => e.Description)
@@ -282,6 +310,10 @@ namespace MovieDbLite.MVC.Models
 
             modelBuilder.Entity<MovieUserReview>(entity =>
             {
+                entity.HasIndex(e => new { e.Rating, e.MovieId, e.UserId })
+                    .HasName("UX_MovieUserReview_MovieId_UserId")
+                    .IsUnique();
+
                 entity.Property(e => e.DatePosted).HasColumnType("datetime");
 
                 entity.Property(e => e.Review).HasColumnType("text");
@@ -318,6 +350,10 @@ namespace MovieDbLite.MVC.Models
 
             modelBuilder.Entity<RestrictionRating>(entity =>
             {
+                entity.HasIndex(e => e.Code)
+                    .HasName("UX_RestrictionRating_Code")
+                    .IsUnique();
+
                 entity.Property(e => e.Id).ValueGeneratedNever();
 
                 entity.Property(e => e.Code)
@@ -338,6 +374,9 @@ namespace MovieDbLite.MVC.Models
 
             modelBuilder.Entity<User>(entity =>
             {
+                entity.HasIndex(e => e.UserName)
+                    .HasName("UX_User_UserName");
+
                 entity.Property(e => e.EmailAddress)
                     .IsRequired()
                     .HasMaxLength(255)

@@ -10,7 +10,7 @@ using MovieDbLite.MVC.Models;
 namespace MovieDbLite.MVC.Migrations
 {
     [DbContext(typeof(MovieDbLiteContext))]
-    [Migration("20200321091749_Initial")]
+    [Migration("20200321094323_Initial")]
     partial class Initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -44,7 +44,9 @@ namespace MovieDbLite.MVC.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("AwardShowId");
+                    b.HasIndex("AwardShowId", "AwardName")
+                        .IsUnique()
+                        .HasName("UX_Award_AwardShowId_AwardName");
 
                     b.ToTable("Award");
                 });
@@ -68,6 +70,10 @@ namespace MovieDbLite.MVC.Migrations
                         .IsUnicode(false);
 
                     b.HasKey("Id");
+
+                    b.HasIndex("ShowName")
+                        .IsUnique()
+                        .HasName("UX_AwardShow_ShowName");
 
                     b.ToTable("AwardShow");
                 });
@@ -94,7 +100,9 @@ namespace MovieDbLite.MVC.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("AwardShowId");
+                    b.HasIndex("AwardShowId", "Year")
+                        .IsUnique()
+                        .HasName("UX_AwardShowInstance_AwardShowId_Year");
 
                     b.ToTable("AwardShowInstance");
                 });
@@ -183,6 +191,8 @@ namespace MovieDbLite.MVC.Migrations
 
                     b.HasKey("Id");
 
+                    b.HasIndex("PreferredFullName");
+
                     b.ToTable("FilmMember");
                 });
 
@@ -203,6 +213,10 @@ namespace MovieDbLite.MVC.Migrations
                         .IsUnicode(false);
 
                     b.HasKey("Id");
+
+                    b.HasIndex("RoleName")
+                        .IsUnique()
+                        .HasName("UX_FilmRole_RoleName");
 
                     b.ToTable("FilmRole");
                 });
@@ -225,6 +239,10 @@ namespace MovieDbLite.MVC.Migrations
 
                     b.HasKey("Id");
 
+                    b.HasIndex("DisplayName")
+                        .IsUnique()
+                        .HasName("UX_Genre_DisplayName");
+
                     b.ToTable("Genre");
                 });
 
@@ -240,6 +258,10 @@ namespace MovieDbLite.MVC.Migrations
                         .IsUnicode(false);
 
                     b.HasKey("Id");
+
+                    b.HasIndex("Name")
+                        .IsUnique()
+                        .HasName("UX_Language_Name");
 
                     b.ToTable("Language");
                 });
@@ -285,6 +307,8 @@ namespace MovieDbLite.MVC.Migrations
                     b.HasIndex("LanguageId");
 
                     b.HasIndex("RestrictionRatingId");
+
+                    b.HasIndex("Title");
 
                     b.ToTable("Movie");
                 });
@@ -375,6 +399,10 @@ namespace MovieDbLite.MVC.Migrations
 
                     b.HasIndex("UserId");
 
+                    b.HasIndex("Rating", "MovieId", "UserId")
+                        .IsUnique()
+                        .HasName("UX_MovieUserReview_MovieId_UserId");
+
                     b.ToTable("MovieUserReview");
                 });
 
@@ -424,6 +452,10 @@ namespace MovieDbLite.MVC.Migrations
 
                     b.HasKey("Id");
 
+                    b.HasIndex("Code")
+                        .IsUnique()
+                        .HasName("UX_RestrictionRating_Code");
+
                     b.ToTable("RestrictionRating");
                 });
 
@@ -453,6 +485,9 @@ namespace MovieDbLite.MVC.Migrations
                         .IsUnicode(false);
 
                     b.HasKey("Id");
+
+                    b.HasIndex("UserName")
+                        .HasName("UX_User_UserName");
 
                     b.ToTable("User");
                 });
