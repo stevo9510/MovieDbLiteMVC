@@ -1,15 +1,17 @@
 ﻿using Microsoft.EntityFrameworkCore.Migrations;
 
-namespace MovieDbLiteMvc2.Migrations
+namespace MovieDbLite.MVC.Migrations
 {
-    public partial class InitialCreate : Migration
+    public partial class Initial : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
+
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
         {
+
         }
     }
 }
