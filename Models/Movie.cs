@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 
 namespace MovieDbLite.MVC.Models
 {
@@ -7,7 +8,7 @@ namespace MovieDbLite.MVC.Models
     {
         public Movie()
         {
-            FilmMemberAward = new HashSet<FilmMemberAward>();
+            AwardWinner = new HashSet<AwardWinner>();
             MovieCastMember = new HashSet<MovieCastMember>();
             MovieCrewMember = new HashSet<MovieCrewMember>();
             MovieGenre = new HashSet<MovieGenre>();
@@ -17,6 +18,7 @@ namespace MovieDbLite.MVC.Models
         public long Id { get; set; }
         public string Title { get; set; }
         public string Description { get; set; }
+        [DataType(DataType.Date)]
         public DateTime? ReleaseDate { get; set; }
         public short? RestrictionRatingId { get; set; }
         public long DirectorFilmMemberId { get; set; }
@@ -26,7 +28,7 @@ namespace MovieDbLite.MVC.Models
 
         public virtual Language Language { get; set; }
         public virtual RestrictionRating RestrictionRating { get; set; }
-        public virtual ICollection<FilmMemberAward> FilmMemberAward { get; set; }
+        public virtual ICollection<AwardWinner> AwardWinner { get; set; }
         public virtual ICollection<MovieCastMember> MovieCastMember { get; set; }
         public virtual ICollection<MovieCrewMember> MovieCrewMember { get; set; }
         public virtual ICollection<MovieGenre> MovieGenre { get; set; }

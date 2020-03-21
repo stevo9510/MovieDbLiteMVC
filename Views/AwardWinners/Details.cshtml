@@ -1,4 +1,4 @@
-﻿@model MovieDbLite.MVC.Models.FilmMemberAward
+﻿@model MovieDbLite.MVC.Models.AwardWinner
 
 @{
     ViewData["Title"] = "Details";
@@ -8,21 +8,9 @@
 <h1>Details</h1>
 
 <div>
-    <h4>FilmMemberAward</h4>
+    <h4>AwardWinner</h4>
     <hr />
     <dl class="row">
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Year)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Year)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.DateReceived)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.DateReceived)
-        </dd>
         <dt class = "col-sm-2">
             @Html.DisplayNameFor(model => model.Award)
         </dt>

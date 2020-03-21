@@ -1,4 +1,4 @@
-﻿@model MovieDbLite.MVC.Models.FilmMemberAward
+﻿@model MovieDbLite.MVC.Models.AwardShowInstance
 
 @{
     ViewData["Title"] = "Create";
@@ -7,23 +7,15 @@
 
 <h1>Create</h1>
 
-<h4>FilmMemberAward</h4>
+<h4>AwardShowInstance</h4>
 <hr />
 <div class="row">
     <div class="col-md-4">
         <form asp-action="Create">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group">
-                <label asp-for="FilmMemberId" class="control-label"></label>
-                <select asp-for="FilmMemberId" class ="form-control" asp-items="ViewBag.FilmMemberId"></select>
-            </div>
-            <div class="form-group">
-                <label asp-for="AwardId" class="control-label"></label>
-                <select asp-for="AwardId" class ="form-control" asp-items="ViewBag.AwardId"></select>
-            </div>
-            <div class="form-group">
-                <label asp-for="MovieId" class="control-label"></label>
-                <select asp-for="MovieId" class ="form-control" asp-items="ViewBag.MovieId"></select>
+                <label asp-for="AwardShowId" class="control-label"></label>
+                <select asp-for="AwardShowId" class ="form-control" asp-items="ViewBag.AwardShowId"></select>
             </div>
             <div class="form-group">
                 <label asp-for="Year" class="control-label"></label>
@@ -31,9 +23,9 @@
                 <span asp-validation-for="Year" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="DateReceived" class="control-label"></label>
-                <input asp-for="DateReceived" class="form-control" />
-                <span asp-validation-for="DateReceived" class="text-danger"></span>
+                <label asp-for="DateHosted" class="control-label"></label>
+                <input asp-for="DateHosted" class="form-control" />
+                <span asp-validation-for="DateHosted" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <input type="submit" value="Create" class="btn btn-primary" />

@@ -1,4 +1,4 @@
-﻿@model IEnumerable<MovieDbLite.MVC.Models.FilmMemberAward>
+﻿@model IEnumerable<MovieDbLite.MVC.Models.AwardWinner>
 
 @{
     ViewData["Title"] = "Index";
@@ -14,12 +14,6 @@
     <thead>
         <tr>
             <th>
-                @Html.DisplayNameFor(model => model.Year)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.DateReceived)
-            </th>
-            <th>
                 @Html.DisplayNameFor(model => model.Award)
             </th>
             <th>
@@ -34,12 +28,6 @@
     <tbody>
 @foreach (var item in Model) {
         <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.Year)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.DateReceived)
-            </td>
             <td>
                 @Html.DisplayFor(modelItem => item.Award.AwardName)
             </td>

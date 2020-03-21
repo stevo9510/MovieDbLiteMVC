@@ -16,8 +16,8 @@ namespace MovieDbLite.MVC.Models
         public virtual DbSet<Award> Award { get; set; }
         public virtual DbSet<AwardShow> AwardShow { get; set; }
         public virtual DbSet<AwardShowInstance> AwardShowInstance { get; set; }
+        public virtual DbSet<AwardWinner> AwardWinner { get; set; }
         public virtual DbSet<FilmMember> FilmMember { get; set; }
-        public virtual DbSet<FilmMemberAward> FilmMemberAward { get; set; }
         public virtual DbSet<FilmRole> FilmRole { get; set; }
         public virtual DbSet<Genre> Genre { get; set; }
         public virtual DbSet<Language> Language { get; set; }
@@ -88,6 +88,29 @@ namespace MovieDbLite.MVC.Models
                     .HasConstraintName("FK_AwardShowInstance_AwardShow");
             });
 
+            modelBuilder.Entity<AwardWinner>(entity =>
+            {
+                entity.HasKey(e => new { e.AwardShowInstanceId, e.AwardId, e.FilmMemberId });
+
+                entity.HasOne(d => d.Award)
+                    .WithMany(p => p.AwardWinner)
+                    .HasForeignKey(d => d.AwardId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_AwardWinner_Award");
+
+                entity.HasOne(d => d.FilmMember)
+                    .WithMany(p => p.AwardWinner)
+                    .HasForeignKey(d => d.FilmMemberId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_AwardWinner_FilmMember");
+
+                entity.HasOne(d => d.Movie)
+                    .WithMany(p => p.AwardWinner)
+                    .HasForeignKey(d => d.MovieId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_AwardWinner_Movie");
+            });
+
             modelBuilder.Entity<FilmMember>(entity =>
             {
                 entity.Property(e => e.Biography).IsUnicode(false);
@@ -128,37 +151,6 @@ namespace MovieDbLite.MVC.Models
                 entity.Property(e => e.Suffix)
                     .HasMaxLength(5)
                     .IsUnicode(false);
-            });
-
-            modelBuilder.Entity<FilmMemberAward>(entity =>
-            {
-                entity.HasKey(e => new { e.FilmMemberId, e.AwardId, e.MovieId });
-
-                entity.Property(e => e.DateReceived).HasColumnType("date");
-
-                entity.Property(e => e.Year)
-                    .IsRequired()
-                    .HasMaxLength(4)
-                    .IsUnicode(false)
-                    .IsFixedLength();
-
-                entity.HasOne(d => d.Award)
-                    .WithMany(p => p.FilmMemberAward)
-                    .HasForeignKey(d => d.AwardId)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK_FilmMemberAward_Award");
-
-                entity.HasOne(d => d.FilmMember)
-                    .WithMany(p => p.FilmMemberAward)
-                    .HasForeignKey(d => d.FilmMemberId)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK_FilmMemberAward_FilmMember");
-
-                entity.HasOne(d => d.Movie)
-                    .WithMany(p => p.FilmMemberAward)
-                    .HasForeignKey(d => d.MovieId)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK_FilmMemberAward_Movie");
             });
 
             modelBuilder.Entity<FilmRole>(entity =>

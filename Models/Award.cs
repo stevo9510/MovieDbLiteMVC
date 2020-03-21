@@ -6,7 +6,7 @@ namespace MovieDbLite.MVC.Models
     {
         public Award()
         {
-            FilmMemberAward = new HashSet<FilmMemberAward>();
+            AwardWinner = new HashSet<AwardWinner>();
         }
 
         public int Id { get; set; }
@@ -15,6 +15,6 @@ namespace MovieDbLite.MVC.Models
         public string Description { get; set; }
 
         public virtual AwardShow AwardShow { get; set; }
-        public virtual ICollection<FilmMemberAward> FilmMemberAward { get; set; }
+        public virtual ICollection<AwardWinner> AwardWinner { get; set; }
     }
 }
