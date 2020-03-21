@@ -8,8 +8,8 @@ namespace MovieDbLite.MVC.Models
         public Movie()
         {
             FilmMemberAward = new HashSet<FilmMemberAward>();
-            MovieActor = new HashSet<MovieActor>();
-            MovieFilmMember = new HashSet<MovieFilmMember>();
+            MovieCastMember = new HashSet<MovieCastMember>();
+            MovieCrewMember = new HashSet<MovieCrewMember>();
             MovieGenre = new HashSet<MovieGenre>();
             MovieUserReview = new HashSet<MovieUserReview>();
         }
@@ -27,8 +27,8 @@ namespace MovieDbLite.MVC.Models
         public virtual Language Language { get; set; }
         public virtual RestrictionRating RestrictionRating { get; set; }
         public virtual ICollection<FilmMemberAward> FilmMemberAward { get; set; }
-        public virtual ICollection<MovieActor> MovieActor { get; set; }
-        public virtual ICollection<MovieFilmMember> MovieFilmMember { get; set; }
+        public virtual ICollection<MovieCastMember> MovieCastMember { get; set; }
+        public virtual ICollection<MovieCrewMember> MovieCrewMember { get; set; }
         public virtual ICollection<MovieGenre> MovieGenre { get; set; }
         public virtual ICollection<MovieUserReview> MovieUserReview { get; set; }
     }

@@ -1,4 +1,4 @@
-﻿@model MovieDbLite.MVC.Models.MovieActor
+﻿@model MovieDbLite.MVC.Models.MovieCastMember
 
 @{
     ViewData["Title"] = "Create";
@@ -7,7 +7,7 @@
 
 <h1>Create</h1>
 
-<h4>MovieActor</h4>
+<h4>Movie Cast Members</h4>
 <hr />
 <div class="row">
     <div class="col-md-4">
@@ -22,9 +22,9 @@
                 <select asp-for="ActorFilmMemberId" class ="form-control" asp-items="ViewBag.ActorFilmMemberId"></select>
             </div>
             <div class="form-group">
-                <label asp-for="RoleName" class="control-label"></label>
-                <input asp-for="RoleName" class="form-control" />
-                <span asp-validation-for="RoleName" class="text-danger"></span>
+                <label asp-for="CharacterName" class="control-label"></label>
+                <input asp-for="CharacterName" class="form-control" />
+                <span asp-validation-for="CharacterName" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="Sequence" class="control-label"></label>

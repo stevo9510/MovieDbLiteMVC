@@ -6,13 +6,13 @@ namespace MovieDbLite.MVC.Models
     {
         public FilmRole()
         {
-            MovieFilmMember = new HashSet<MovieFilmMember>();
+            MovieCrewMember = new HashSet<MovieCrewMember>();
         }
 
         public int Id { get; set; }
         public string RoleName { get; set; }
         public string Description { get; set; }
 
-        public virtual ICollection<MovieFilmMember> MovieFilmMember { get; set; }
+        public virtual ICollection<MovieCrewMember> MovieCrewMember { get; set; }
     }
 }

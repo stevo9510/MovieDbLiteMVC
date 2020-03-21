@@ -7,23 +7,23 @@ using System.Threading.Tasks;
 
 namespace MovieDbLite.MVC.Controllers
 {
-    public class MovieActorsController : Controller
+    public class MovieCastMembersController : Controller
     {
         private readonly MovieDbLiteContext _context;
 
-        public MovieActorsController(MovieDbLiteContext context)
+        public MovieCastMembersController(MovieDbLiteContext context)
         {
             _context = context;
         }
 
-        // GET: MovieActors
+        // GET: MovieCastMembers
         public async Task<IActionResult> Index()
         {
-            var movieDbLiteContext = _context.MovieActor.Include(m => m.ActorFilmMember).Include(m => m.Movie);
+            var movieDbLiteContext = _context.MovieCastMember.Include(m => m.ActorFilmMember).Include(m => m.Movie);
             return View(await movieDbLiteContext.ToListAsync());
         }
 
-        // GET: MovieActors/Details/5
+        // GET: MovieCastMembers/Details/5
         public async Task<IActionResult> Details(long? id)
         {
             if (id == null)
@@ -31,19 +31,19 @@ namespace MovieDbLite.MVC.Controllers
                 return NotFound();
             }
 
-            var movieActor = await _context.MovieActor
+            var movieCastMember = await _context.MovieCastMember
                 .Include(m => m.ActorFilmMember)
                 .Include(m => m.Movie)
                 .FirstOrDefaultAsync(m => m.MovieId == id);
-            if (movieActor == null)
+            if (movieCastMember == null)
             {
                 return NotFound();
             }
 
-            return View(movieActor);
+            return View(movieCastMember);
         }
 
-        // GET: MovieActors/Create
+        // GET: MovieCastMembers/Create
         public IActionResult Create()
         {
             ViewData["ActorFilmMemberId"] = new SelectList(_context.FilmMember, "Id", "FirstName");
@@ -51,25 +51,25 @@ namespace MovieDbLite.MVC.Controllers
             return View();
         }
 
-        // POST: MovieActors/Create
+        // POST: MovieCastMembers/Create
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("MovieId,ActorFilmMemberId,RoleName,Sequence")] MovieActor movieActor)
+        public async Task<IActionResult> Create([Bind("MovieId,ActorFilmMemberId,CharacterName,Sequence")] MovieCastMember movieCastMember)
         {
             if (ModelState.IsValid)
             {
-                _context.Add(movieActor);
+                _context.Add(movieCastMember);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["ActorFilmMemberId"] = new SelectList(_context.FilmMember, "Id", "FirstName", movieActor.ActorFilmMemberId);
-            ViewData["MovieId"] = new SelectList(_context.Movie, "Id", "Title", movieActor.MovieId);
-            return View(movieActor);
+            ViewData["ActorFilmMemberId"] = new SelectList(_context.FilmMember, "Id", "FirstName", movieCastMember.ActorFilmMemberId);
+            ViewData["MovieId"] = new SelectList(_context.Movie, "Id", "Title", movieCastMember.MovieId);
+            return View(movieCastMember);
         }
 
-        // GET: MovieActors/Edit/5
+        // GET: MovieCastMembers/Edit/5
         public async Task<IActionResult> Edit(long? id)
         {
             if (id == null)
@@ -77,24 +77,24 @@ namespace MovieDbLite.MVC.Controllers
                 return NotFound();
             }
 
-            var movieActor = await _context.MovieActor.FindAsync(id);
-            if (movieActor == null)
+            var movieCastMember = await _context.MovieCastMember.FindAsync(id);
+            if (movieCastMember == null)
             {
                 return NotFound();
             }
-            ViewData["ActorFilmMemberId"] = new SelectList(_context.FilmMember, "Id", "FirstName", movieActor.ActorFilmMemberId);
-            ViewData["MovieId"] = new SelectList(_context.Movie, "Id", "Title", movieActor.MovieId);
-            return View(movieActor);
+            ViewData["ActorFilmMemberId"] = new SelectList(_context.FilmMember, "Id", "FirstName", movieCastMember.ActorFilmMemberId);
+            ViewData["MovieId"] = new SelectList(_context.Movie, "Id", "Title", movieCastMember.MovieId);
+            return View(movieCastMember);
         }
 
-        // POST: MovieActors/Edit/5
+        // POST: MovieCastMembers/Edit/5
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(long id, [Bind("MovieId,ActorFilmMemberId,RoleName,Sequence")] MovieActor movieActor)
+        public async Task<IActionResult> Edit(long id, [Bind("MovieId,ActorFilmMemberId,CharacterName,Sequence")] MovieCastMember movieCastMember)
         {
-            if (id != movieActor.MovieId)
+            if (id != movieCastMember.MovieId)
             {
                 return NotFound();
             }
@@ -103,12 +103,12 @@ namespace MovieDbLite.MVC.Controllers
             {
                 try
                 {
-                    _context.Update(movieActor);
+                    _context.Update(movieCastMember);
                     await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!MovieActorExists(movieActor.MovieId))
+                    if (!MovieCastMemberExists(movieCastMember.MovieId))
                     {
                         return NotFound();
                     }
@@ -119,12 +119,12 @@ namespace MovieDbLite.MVC.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["ActorFilmMemberId"] = new SelectList(_context.FilmMember, "Id", "FirstName", movieActor.ActorFilmMemberId);
-            ViewData["MovieId"] = new SelectList(_context.Movie, "Id", "Title", movieActor.MovieId);
-            return View(movieActor);
+            ViewData["ActorFilmMemberId"] = new SelectList(_context.FilmMember, "Id", "FirstName", movieCastMember.ActorFilmMemberId);
+            ViewData["MovieId"] = new SelectList(_context.Movie, "Id", "Title", movieCastMember.MovieId);
+            return View(movieCastMember);
         }
 
-        // GET: MovieActors/Delete/5
+        // GET: MovieCastMembers/Delete/5
         public async Task<IActionResult> Delete(long? id)
         {
             if (id == null)
@@ -132,32 +132,32 @@ namespace MovieDbLite.MVC.Controllers
                 return NotFound();
             }
 
-            var movieActor = await _context.MovieActor
+            var movieCastMember = await _context.MovieCastMember
                 .Include(m => m.ActorFilmMember)
                 .Include(m => m.Movie)
                 .FirstOrDefaultAsync(m => m.MovieId == id);
-            if (movieActor == null)
+            if (movieCastMember == null)
             {
                 return NotFound();
             }
 
-            return View(movieActor);
+            return View(movieCastMember);
         }
 
-        // POST: MovieActors/Delete/5
+        // POST: MovieCastMembers/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(long id)
         {
-            var movieActor = await _context.MovieActor.FindAsync(id);
-            _context.MovieActor.Remove(movieActor);
+            var movieCastMember = await _context.MovieCastMember.FindAsync(id);
+            _context.MovieCastMember.Remove(movieCastMember);
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
-        private bool MovieActorExists(long id)
+        private bool MovieCastMemberExists(long id)
         {
-            return _context.MovieActor.Any(e => e.MovieId == id);
+            return _context.MovieCastMember.Any(e => e.MovieId == id);
         }
     }
 }

@@ -1,6 +1,6 @@
 ﻿namespace MovieDbLite.MVC.Models
 {
-    public partial class MovieFilmMember
+    public partial class MovieCrewMember
     {
         public long MovieId { get; set; }
         public long FilmMemberId { get; set; }

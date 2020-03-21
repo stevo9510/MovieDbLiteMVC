@@ -9,8 +9,8 @@ namespace MovieDbLite.MVC.Models
         public FilmMember()
         {
             FilmMemberAward = new HashSet<FilmMemberAward>();
-            MovieActor = new HashSet<MovieActor>();
-            MovieFilmMember = new HashSet<MovieFilmMember>();
+            MovieCastMember = new HashSet<MovieCastMember>();
+            MovieCrewMember = new HashSet<MovieCrewMember>();
         }
 
         public long Id { get; set; }
@@ -30,7 +30,7 @@ namespace MovieDbLite.MVC.Models
         public string Biography { get; set; }
 
         public virtual ICollection<FilmMemberAward> FilmMemberAward { get; set; }
-        public virtual ICollection<MovieActor> MovieActor { get; set; }
-        public virtual ICollection<MovieFilmMember> MovieFilmMember { get; set; }
+        public virtual ICollection<MovieCastMember> MovieCastMember { get; set; }
+        public virtual ICollection<MovieCrewMember> MovieCrewMember { get; set; }
     }
 }
