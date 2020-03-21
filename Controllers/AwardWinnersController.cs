@@ -5,7 +5,7 @@ using MovieDbLite.MVC.Models;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace MovieDbLite.MVC
+namespace MovieDbLite.MVC.Controllers
 {
     public class AwardWinnersController : Controller
     {
