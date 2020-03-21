@@ -72,7 +72,8 @@ namespace MovieDbLite.MVC.Models
 
             modelBuilder.Entity<FilmMember>(entity =>
             {
-                entity.Property(e => e.Biography).HasColumnType("text");
+                entity.Property(e => e.Biography)
+                    .IsUnicode(false);
 
                 entity.Property(e => e.DateOfBirth).HasColumnType("date");
 
@@ -99,6 +100,7 @@ namespace MovieDbLite.MVC.Models
                     .IsUnicode(false);
 
                 entity.Property(e => e.PreferredFullName)
+                    .IsRequired()
                     .HasMaxLength(150)
                     .IsUnicode(false);
 
@@ -185,7 +187,7 @@ namespace MovieDbLite.MVC.Models
                 entity.Property(e => e.Description).HasColumnType("text");
 
                 entity.Property(e => e.ReleaseDate).HasColumnType("date");
-
+                
                 entity.Property(e => e.Title)
                     .IsRequired()
                     .HasMaxLength(200)
@@ -200,15 +202,20 @@ namespace MovieDbLite.MVC.Models
                     .WithMany(p => p.Movie)
                     .HasForeignKey(d => d.RestrictionRatingId)
                     .HasConstraintName("FK_Movie_RestrictionRating");
+
+                entity.Property(e => e.AverageUserRating)
+                    .HasColumnType("decimal(5,2)");
+
             });
 
             modelBuilder.Entity<MovieActor>(entity =>
             {
                 entity.HasKey(e => new { e.MovieId, e.ActorFilmMemberId });
 
-                entity.ToTable("Movie_Actor");
+                entity.ToTable("MovieCastMember");
 
                 entity.Property(e => e.RoleName)
+                    .HasColumnName("CharacterName")
                     .HasMaxLength(150)
                     .IsUnicode(false);
 
@@ -216,36 +223,38 @@ namespace MovieDbLite.MVC.Models
                     .WithMany(p => p.MovieActor)
                     .HasForeignKey(d => d.ActorFilmMemberId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK_Movie_Actor_FilmMember");
+                    .HasConstraintName("FK_MovieCastMember_FilmMember");
 
                 entity.HasOne(d => d.Movie)
                     .WithMany(p => p.MovieActor)
                     .HasForeignKey(d => d.MovieId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK_Movie_Actor_Movie");
+                    .HasConstraintName("FK_MovieCastMember_Movie");
             });
 
             modelBuilder.Entity<MovieFilmMember>(entity =>
             {
                 entity.HasKey(e => new { e.MovieId, e.FilmMemberId, e.FilmRoleId });
 
+                entity.ToTable("MovieCrewMember");
+
                 entity.HasOne(d => d.FilmMember)
                     .WithMany(p => p.MovieFilmMember)
                     .HasForeignKey(d => d.FilmMemberId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK_MovieFilmMember_FilmMember");
+                    .HasConstraintName("FK_MovieCrewMember_FilmMember");
 
                 entity.HasOne(d => d.FilmRole)
                     .WithMany(p => p.MovieFilmMember)
                     .HasForeignKey(d => d.FilmRoleId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK_MovieFilmMember_FilmRole");
+                    .HasConstraintName("FK_MovieCrewMember_FilmRole");
 
                 entity.HasOne(d => d.Movie)
                     .WithMany(p => p.MovieFilmMember)
                     .HasForeignKey(d => d.MovieId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK_MovieFilmMember_Movie");
+                    .HasConstraintName("FK_MovieCrewMember_Movie");
             });
 
             modelBuilder.Entity<MovieGenre>(entity =>
@@ -289,6 +298,8 @@ namespace MovieDbLite.MVC.Models
             modelBuilder.Entity<MovieUserReviewHelpful>(entity =>
             {
                 entity.HasKey(e => new { e.MovieUserReviewId, e.UserId });
+
+                entity.Property(e => e.Helpful).HasColumnName("IsHelpful");
 
                 entity.HasOne(d => d.MovieUserReview)
                     .WithMany(p => p.MovieUserReviewHelpful)

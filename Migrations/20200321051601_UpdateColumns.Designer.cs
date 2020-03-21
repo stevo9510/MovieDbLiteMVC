@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using MovieDbLite.MVC.Models;
 
 namespace MovieDbLiteMvc2.Migrations
 {
     [DbContext(typeof(MovieDbLiteContext))]
-    partial class MovieDbLiteContextModelSnapshot : ModelSnapshot
+    [Migration("20200321051601_UpdateColumns")]
+    partial class UpdateColumns
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -227,9 +229,6 @@ namespace MovieDbLiteMvc2.Migrations
                         .HasColumnType("bigint")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<decimal?>("AverageUserRating")
-                        .HasColumnType("decimal(5,2)");
-
                     b.Property<string>("Description")
                         .HasColumnType("text");
 
@@ -272,7 +271,6 @@ namespace MovieDbLiteMvc2.Migrations
                         .HasColumnType("bigint");
 
                     b.Property<string>("RoleName")
-                        .HasColumnName("CharacterName")
                         .HasColumnType("varchar(150)")
                         .HasMaxLength(150)
                         .IsUnicode(false);
@@ -284,7 +282,7 @@ namespace MovieDbLiteMvc2.Migrations
 
                     b.HasIndex("ActorFilmMemberId");
 
-                    b.ToTable("MovieCastMember");
+                    b.ToTable("Movie_Actor");
                 });
 
             modelBuilder.Entity("MovieDbLite.MVC.Models.MovieFilmMember", b =>
@@ -304,7 +302,7 @@ namespace MovieDbLiteMvc2.Migrations
 
                     b.HasIndex("FilmRoleId");
 
-                    b.ToTable("MovieCrewMember");
+                    b.ToTable("MovieFilmMember");
                 });
 
             modelBuilder.Entity("MovieDbLite.MVC.Models.MovieGenre", b =>
@@ -362,7 +360,6 @@ namespace MovieDbLiteMvc2.Migrations
                         .HasColumnType("int");
 
                     b.Property<bool>("Helpful")
-                        .HasColumnName("IsHelpful")
                         .HasColumnType("bit");
 
                     b.HasKey("MovieUserReviewId", "UserId");
@@ -481,13 +478,13 @@ namespace MovieDbLiteMvc2.Migrations
                     b.HasOne("MovieDbLite.MVC.Models.FilmMember", "ActorFilmMember")
                         .WithMany("MovieActor")
                         .HasForeignKey("ActorFilmMemberId")
-                        .HasConstraintName("FK_MovieCastMember_FilmMember")
+                        .HasConstraintName("FK_Movie_Actor_FilmMember")
                         .IsRequired();
 
                     b.HasOne("MovieDbLite.MVC.Models.Movie", "Movie")
                         .WithMany("MovieActor")
                         .HasForeignKey("MovieId")
-                        .HasConstraintName("FK_MovieCastMember_Movie")
+                        .HasConstraintName("FK_Movie_Actor_Movie")
                         .IsRequired();
                 });
 
@@ -496,19 +493,19 @@ namespace MovieDbLiteMvc2.Migrations
                     b.HasOne("MovieDbLite.MVC.Models.FilmMember", "FilmMember")
                         .WithMany("MovieFilmMember")
                         .HasForeignKey("FilmMemberId")
-                        .HasConstraintName("FK_MovieCrewMember_FilmMember")
+                        .HasConstraintName("FK_MovieFilmMember_FilmMember")
                         .IsRequired();
 
                     b.HasOne("MovieDbLite.MVC.Models.FilmRole", "FilmRole")
                         .WithMany("MovieFilmMember")
                         .HasForeignKey("FilmRoleId")
-                        .HasConstraintName("FK_MovieCrewMember_FilmRole")
+                        .HasConstraintName("FK_MovieFilmMember_FilmRole")
                         .IsRequired();
 
                     b.HasOne("MovieDbLite.MVC.Models.Movie", "Movie")
                         .WithMany("MovieFilmMember")
                         .HasForeignKey("MovieId")
-                        .HasConstraintName("FK_MovieCrewMember_Movie")
+                        .HasConstraintName("FK_MovieFilmMember_Movie")
                         .IsRequired();
                 });
 

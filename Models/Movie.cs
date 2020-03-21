@@ -22,6 +22,7 @@ namespace MovieDbLite.MVC.Models
         public long DirectorFilmMemberId { get; set; }
         public int? DurationInMinutes { get; set; }
         public int? LanguageId { get; set; }
+        public decimal? AverageUserRating { get; set; }
 
         public virtual Language Language { get; set; }
         public virtual RestrictionRating RestrictionRating { get; set; }

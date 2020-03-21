@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using MovieDbLite.MVC.Models;
 
 namespace MovieDbLiteMvc2.Migrations
 {
     [DbContext(typeof(MovieDbLiteContext))]
-    partial class MovieDbLiteContextModelSnapshot : ModelSnapshot
+    [Migration("20200321053311_SmallRenamesAndNewColumn")]
+    partial class SmallRenamesAndNewColumn
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
