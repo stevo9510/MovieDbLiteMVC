@@ -29,6 +29,7 @@ namespace MovieDbLite.MVC.Models
         public virtual DbSet<MovieUserReviewHelpful> MovieUserReviewHelpful { get; set; }
         public virtual DbSet<RestrictionRating> RestrictionRating { get; set; }
         public virtual DbSet<User> User { get; set; }
+        public virtual DbSet<VwAwardWinnerInfo> VwAwardWinnerInfo { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
@@ -391,6 +392,41 @@ namespace MovieDbLite.MVC.Models
                     .IsRequired()
                     .HasMaxLength(25)
                     .IsUnicode(false);
+            });
+
+            modelBuilder.Entity<VwAwardWinnerInfo>(entity =>
+            {
+                entity.HasNoKey();
+
+                entity.ToView("vw_AwardWinnerInfo");
+
+                entity.Property(e => e.AwardName)
+                    .IsRequired()
+                    .HasMaxLength(50)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.DateHosted).HasColumnType("date");
+
+                entity.Property(e => e.PreferredFullName)
+                    .IsRequired()
+                    .HasMaxLength(150)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.ShowName)
+                    .IsRequired()
+                    .HasMaxLength(50)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.Title)
+                    .IsRequired()
+                    .HasMaxLength(200)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.Year)
+                    .IsRequired()
+                    .HasMaxLength(4)
+                    .IsUnicode(false)
+                    .IsFixedLength();
             });
 
             OnModelCreatingPartial(modelBuilder);
