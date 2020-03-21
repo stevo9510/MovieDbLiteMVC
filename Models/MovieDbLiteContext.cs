@@ -184,7 +184,9 @@ namespace MovieDbLite.MVC.Models
 
             modelBuilder.Entity<Movie>(entity =>
             {
-                entity.Property(e => e.Description).HasColumnType("text");
+                entity.Property(e => e.Description)
+                    .IsUnicode(false)
+                    .HasMaxLength(500);
 
                 entity.Property(e => e.ReleaseDate).HasColumnType("date");
                 
@@ -205,7 +207,6 @@ namespace MovieDbLite.MVC.Models
 
                 entity.Property(e => e.AverageUserRating)
                     .HasColumnType("decimal(5,2)");
-
             });
 
             modelBuilder.Entity<MovieCastMember>(entity =>
