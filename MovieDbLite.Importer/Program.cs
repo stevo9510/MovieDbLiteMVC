@@ -1,6 +1,7 @@
-﻿using MovieDbLite.TheMovieDbOrg.Models;
+﻿using Newtonsoft.Json;
 using System;
 using System.Net.Http;
+using System.Text;
 
 namespace MovieDbLite.Importer
 {
@@ -19,34 +20,29 @@ namespace MovieDbLite.Importer
             string apiKey = Environment.GetEnvironmentVariable("TheMovieDbApiKey", EnvironmentVariableTarget.User);
             string apiParam = $"api_key={apiKey}";
 
-            Welcome movieResults = GetMovieResults(movieDbClient, apiParam);
+            TheMovieDbOrg.Models.SearchResults.Welcome movieResults = GetMovieResults(movieDbClient, apiParam);
             
             long movieId = movieResults.Results[0].Id;
             string movieJson = movieDbClient.GetAsync($"movie/{movieId}?{apiParam}").Result.Content.ReadAsStringAsync().Result;
 
-            // Test hitting the 
+            var movie = TheMovieDbOrg.Models.Movies.Welcome.FromJson(movieJson);
+            string json = TheMovieDbOrg.Models.Movies.Serialize.ToJson(movie);
+            var json2 = JsonConvert.DeserializeObject<TheMovieDbOrg.Models.Movies.Welcome>(movieJson);
+            
+            using var localHttpClient = new HttpClient
+            {
+                BaseAddress = new Uri("https://localhost:44368/")
+            };
 
-            //using var localHttpClient = new HttpClient
-            //{
-            //    BaseAddress = new Uri("https://localhost:44368/")
-            //};
-            //var testGenre = new Genre()
-            //{
-            //    Id = 1000,
-            //    DisplayName = "Testing",
-            //    Description = "Delete this later"
-            //};
-            ////var usersResultText = localHttpClient.GetAsync("Users").Result.Content.ReadAsStringAsync().Result;
-            //string json = JsonConvert.SerializeObject(testGenre);
-            //var content = new StringContent(json, Encoding.UTF8, "application/json");
-            //var result = localHttpClient.PostAsync("Genres/Create", content).Result;
+            var content = new StringContent(json, Encoding.UTF8, "application/json");
+            var result = localHttpClient.PostAsync("api/TheMovieDbApi", content).Result;
         }
 
-        private static Welcome GetMovieResults(HttpClient httpClient, string apiParam)
+        private static TheMovieDbOrg.Models.SearchResults.Welcome GetMovieResults(HttpClient httpClient, string apiParam)
         {
             string json = httpClient.GetAsync($"search/movie?{apiParam}&query=fight%20club")
                 .Result.Content.ReadAsStringAsync().Result;
-            var movieResults = Welcome.FromJson(json);
+            var movieResults = TheMovieDbOrg.Models.SearchResults.Welcome.FromJson(json);
             return movieResults;
         }
     }

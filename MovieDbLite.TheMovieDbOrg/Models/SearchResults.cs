@@ -3,7 +3,7 @@ using Newtonsoft.Json.Converters;
 using System;
 using System.Globalization;
 
-namespace MovieDbLite.TheMovieDbOrg.Models
+namespace MovieDbLite.TheMovieDbOrg.Models.SearchResults
 {
     public partial class Welcome
     {
