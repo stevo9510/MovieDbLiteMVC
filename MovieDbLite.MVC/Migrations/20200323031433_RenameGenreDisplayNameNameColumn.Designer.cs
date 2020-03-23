@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using MovieDbLite.MVC.Models;
 
-namespace MovieDbLiteMvc.Migrations
+namespace MovieDbLite.MVC.Migrations
 {
     [DbContext(typeof(MovieDbLiteContext))]
-    partial class MovieDbLiteContextModelSnapshot : ModelSnapshot
+    [Migration("20200323031433_RenameGenreDisplayNameNameColumn")]
+    partial class RenameGenreDisplayNameNameColumn
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -240,7 +242,7 @@ namespace MovieDbLiteMvc.Migrations
 
                     b.HasIndex("DisplayName")
                         .IsUnique()
-                        .HasName("UX_Genre_GenreName");
+                        .HasName("UX_Genre_DisplayName");
 
                     b.ToTable("Genre");
                 });

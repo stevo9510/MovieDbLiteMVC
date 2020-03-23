@@ -18,7 +18,7 @@ namespace MovieDbLite.MVC.Controllers
         // GET: Genres
         public async Task<IActionResult> Index()
         {
-            return View(await _context.Genre.OrderBy(g => g.DisplayName).ToListAsync());
+            return View(await _context.Genre.OrderBy(g => g.GenreName).ToListAsync());
         }
 
         // GET: Genres/Details/5
@@ -50,7 +50,7 @@ namespace MovieDbLite.MVC.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,DisplayName,Description")] Genre genre)
+        public async Task<IActionResult> Create([Bind("Id,GenreName,Description")] Genre genre)
         {
             if (ModelState.IsValid)
             {
@@ -82,7 +82,7 @@ namespace MovieDbLite.MVC.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,DisplayName,Description")] Genre genre)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,GenreName,Description")] Genre genre)
         {
             if (id != genre.Id)
             {

@@ -10,7 +10,7 @@ namespace MovieDbLite.MVC.Models
         }
 
         public int Id { get; set; }
-        public string DisplayName { get; set; }
+        public string GenreName { get; set; }
         public string Description { get; set; }
 
         public virtual ICollection<MovieGenre> MovieGenre { get; set; }

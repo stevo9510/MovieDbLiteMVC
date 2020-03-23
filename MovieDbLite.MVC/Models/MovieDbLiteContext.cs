@@ -188,8 +188,8 @@ namespace MovieDbLite.MVC.Models
 
             modelBuilder.Entity<Genre>(entity =>
             {
-                entity.HasIndex(e => e.DisplayName)
-                    .HasName("UX_Genre_DisplayName")
+                entity.HasIndex(e => e.GenreName)
+                    .HasName("UX_Genre_GenreName")
                     .IsUnique();
 
                 entity.Property(e => e.Id).ValueGeneratedNever();
@@ -198,7 +198,7 @@ namespace MovieDbLite.MVC.Models
                     .HasMaxLength(500)
                     .IsUnicode(false);
 
-                entity.Property(e => e.DisplayName)
+                entity.Property(e => e.GenreName)
                     .IsRequired()
                     .HasMaxLength(25)
                     .IsUnicode(false);
