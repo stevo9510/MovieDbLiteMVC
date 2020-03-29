@@ -29,6 +29,7 @@ namespace MovieDbLite.MVC.Models
         public virtual DbSet<MovieUserReviewHelpful> MovieUserReviewHelpful { get; set; }
         public virtual DbSet<RestrictionRating> RestrictionRating { get; set; }
         public virtual DbSet<User> User { get; set; }
+        public virtual DbSet<UserRole> UserRole { get; set; }
         public virtual DbSet<VwAwardWinnerInfo> VwAwardWinnerInfo { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
@@ -389,6 +390,31 @@ namespace MovieDbLite.MVC.Models
                     .IsUnicode(false);
 
                 entity.Property(e => e.UserName)
+                    .IsRequired()
+                    .HasMaxLength(25)
+                    .IsUnicode(false);
+
+                entity.HasOne(d => d.UserRole)
+                    .WithMany(p => p.User)
+                    .HasForeignKey(d => d.UserRoleId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_User_UserRole");
+            });
+
+            modelBuilder.Entity<UserRole>(entity =>
+            {
+                entity.HasIndex(e => e.RoleName)
+                    .HasName("UX_UserRole_RoleName")
+                    .IsUnique();
+
+                entity.Property(e => e.Id).ValueGeneratedNever();
+
+                entity.Property(e => e.Description)
+                    .IsRequired()
+                    .HasMaxLength(500)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.RoleName)
                     .IsRequired()
                     .HasMaxLength(25)
                     .IsUnicode(false);

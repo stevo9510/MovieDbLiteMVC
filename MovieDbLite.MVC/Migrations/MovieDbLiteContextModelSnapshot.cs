@@ -229,16 +229,15 @@ namespace MovieDbLiteMvc.Migrations
                         .HasMaxLength(500)
                         .IsUnicode(false);
 
-                    b.Property<string>("DisplayName")
+                    b.Property<string>("GenreName")
                         .IsRequired()
-                        .HasColumnName("GenreName")
                         .HasColumnType("varchar(25)")
                         .HasMaxLength(25)
                         .IsUnicode(false);
 
                     b.HasKey("Id");
 
-                    b.HasIndex("DisplayName")
+                    b.HasIndex("GenreName")
                         .IsUnique()
                         .HasName("UX_Genre_GenreName");
 
@@ -483,12 +482,43 @@ namespace MovieDbLiteMvc.Migrations
                         .HasMaxLength(25)
                         .IsUnicode(false);
 
+                    b.Property<int>("UserRoleId")
+                        .HasColumnType("int");
+
                     b.HasKey("Id");
 
                     b.HasIndex("UserName")
                         .HasName("UX_User_UserName");
 
+                    b.HasIndex("UserRoleId");
+
                     b.ToTable("User");
+                });
+
+            modelBuilder.Entity("MovieDbLite.MVC.Models.UserRole", b =>
+                {
+                    b.Property<int>("Id")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Description")
+                        .IsRequired()
+                        .HasColumnType("varchar(500)")
+                        .HasMaxLength(500)
+                        .IsUnicode(false);
+
+                    b.Property<string>("RoleName")
+                        .IsRequired()
+                        .HasColumnType("varchar(25)")
+                        .HasMaxLength(25)
+                        .IsUnicode(false);
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("RoleName")
+                        .IsUnique()
+                        .HasName("UX_UserRole_RoleName");
+
+                    b.ToTable("UserRole");
                 });
 
             modelBuilder.Entity("MovieDbLite.MVC.Models.Award", b =>
@@ -621,6 +651,15 @@ namespace MovieDbLiteMvc.Migrations
                         .WithMany("MovieUserReviewHelpful")
                         .HasForeignKey("UserId")
                         .HasConstraintName("FK_MovieUserReviewHelpful_User")
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("MovieDbLite.MVC.Models.User", b =>
+                {
+                    b.HasOne("MovieDbLite.MVC.Models.UserRole", "UserRole")
+                        .WithMany("User")
+                        .HasForeignKey("UserRoleId")
+                        .HasConstraintName("FK_User_UserRole")
                         .IsRequired();
                 });
 #pragma warning restore 612, 618
