@@ -93,10 +93,7 @@ namespace MovieDbLite.MVC.Models
                 entity.Property(e => e.DateHosted).HasColumnType("date");
 
                 entity.Property(e => e.Year)
-                    .IsRequired()
-                    .HasMaxLength(4)
-                    .IsUnicode(false)
-                    .IsFixedLength();
+                    .IsRequired();
 
                 entity.HasOne(d => d.AwardShow)
                     .WithMany(p => p.AwardShowInstance)
