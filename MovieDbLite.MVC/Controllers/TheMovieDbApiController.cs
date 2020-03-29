@@ -42,6 +42,8 @@ namespace MovieDbLite.MVC.Controllers
             movie.DirectorFilmMemberId = 3; // TODO: This will need to be looked up later...
             movie.ReleaseDate = movieDbMovie.ReleaseDate.DateTime;
 
+            // TODO: Implement language support.
+            //movie.MovieLanguage.Add(new MovieLanguage() { LanguageIsoCode = movieDbMovie.lan})
             _context.Add(movie);
 
             await _context.SaveChangesAsync();

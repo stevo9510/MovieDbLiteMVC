@@ -244,6 +244,28 @@ namespace MovieDbLiteMvc.Migrations
                     b.ToTable("Genre");
                 });
 
+            modelBuilder.Entity("MovieDbLite.MVC.Models.ImageType", b =>
+                {
+                    b.Property<int>("Id")
+                        .HasColumnType("int");
+
+                    b.Property<string>("ImageExtension")
+                        .IsRequired()
+                        .HasColumnType("varchar(10)")
+                        .HasMaxLength(10)
+                        .IsUnicode(false);
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("varchar(25)")
+                        .HasMaxLength(25)
+                        .IsUnicode(false);
+
+                    b.HasKey("Id");
+
+                    b.ToTable("ImageType");
+                });
+
             modelBuilder.Entity("MovieDbLite.MVC.Models.Language", b =>
                 {
                     b.Property<string>("LanguageIsoCode")
@@ -362,6 +384,46 @@ namespace MovieDbLiteMvc.Migrations
                     b.HasIndex("GenreId");
 
                     b.ToTable("Movie_Genre");
+                });
+
+            modelBuilder.Entity("MovieDbLite.MVC.Models.MovieImage", b =>
+                {
+                    b.Property<long>("Id")
+                        .HasColumnType("bigint");
+
+                    b.Property<DateTime>("DateUploaded")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Description")
+                        .HasColumnType("varchar(500)")
+                        .HasMaxLength(500)
+                        .IsUnicode(false);
+
+                    b.Property<byte[]>("FileContents")
+                        .IsRequired()
+                        .HasColumnType("varbinary(max)");
+
+                    b.Property<string>("ImageName")
+                        .IsRequired()
+                        .HasColumnType("varchar(100)")
+                        .HasMaxLength(100)
+                        .IsUnicode(false);
+
+                    b.Property<int>("ImageTypeId")
+                        .HasColumnType("int");
+
+                    b.Property<long>("MovieId")
+                        .HasColumnType("bigint");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ImageTypeId");
+
+                    b.HasIndex("MovieId", "ImageName")
+                        .IsUnique()
+                        .HasName("UX_MovieImage_MovieId_ImageName");
+
+                    b.ToTable("MovieImage");
                 });
 
             modelBuilder.Entity("MovieDbLite.MVC.Models.MovieLanguage", b =>
@@ -629,6 +691,21 @@ namespace MovieDbLiteMvc.Migrations
                         .WithMany("MovieGenre")
                         .HasForeignKey("MovieId")
                         .HasConstraintName("FK_Movie_Genre_Movie")
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("MovieDbLite.MVC.Models.MovieImage", b =>
+                {
+                    b.HasOne("MovieDbLite.MVC.Models.ImageType", "ImageType")
+                        .WithMany("MovieImage")
+                        .HasForeignKey("ImageTypeId")
+                        .HasConstraintName("FK_MovieImage_ImageType")
+                        .IsRequired();
+
+                    b.HasOne("MovieDbLite.MVC.Models.Movie", "Movie")
+                        .WithMany("MovieImage")
+                        .HasForeignKey("MovieId")
+                        .HasConstraintName("FK_MovieImage_Movie")
                         .IsRequired();
                 });
 

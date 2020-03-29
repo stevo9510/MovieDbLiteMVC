@@ -20,11 +20,13 @@ namespace MovieDbLite.MVC.Models
         public virtual DbSet<FilmMember> FilmMember { get; set; }
         public virtual DbSet<FilmRole> FilmRole { get; set; }
         public virtual DbSet<Genre> Genre { get; set; }
+        public virtual DbSet<ImageType> ImageType { get; set; }
         public virtual DbSet<Language> Language { get; set; }
         public virtual DbSet<Movie> Movie { get; set; }
         public virtual DbSet<MovieCastMember> MovieCastMember { get; set; }
         public virtual DbSet<MovieCrewMember> MovieCrewMember { get; set; }
         public virtual DbSet<MovieGenre> MovieGenre { get; set; }
+        public virtual DbSet<MovieImage> MovieImage { get; set; }
         public virtual DbSet<MovieLanguage> MovieLanguage { get; set; }
         public virtual DbSet<MovieUserReview> MovieUserReview { get; set; }
         public virtual DbSet<MovieUserReviewHelpful> MovieUserReviewHelpful { get; set; }
@@ -206,6 +208,21 @@ namespace MovieDbLite.MVC.Models
                     .IsUnicode(false);
             });
 
+            modelBuilder.Entity<ImageType>(entity =>
+            {
+                entity.Property(e => e.Id).ValueGeneratedNever();
+
+                entity.Property(e => e.ImageExtension)
+                    .IsRequired()
+                    .HasMaxLength(10)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.Name)
+                    .IsRequired()
+                    .HasMaxLength(25)
+                    .IsUnicode(false);
+            });
+
             modelBuilder.Entity<Language>(entity =>
             {
                 entity.HasKey(e => e.LanguageIsoCode);
@@ -306,6 +323,38 @@ namespace MovieDbLite.MVC.Models
                     .HasForeignKey(d => d.MovieId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_Movie_Genre_Movie");
+            });
+
+            modelBuilder.Entity<MovieImage>(entity =>
+            {
+                entity.HasIndex(e => new { e.MovieId, e.ImageName })
+                    .HasName("UX_MovieImage_MovieId_ImageName")
+                    .IsUnique();
+
+                entity.Property(e => e.Id).ValueGeneratedNever();
+
+                entity.Property(e => e.Description)
+                    .HasMaxLength(500)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.FileContents).IsRequired();
+
+                entity.Property(e => e.ImageName)
+                    .IsRequired()
+                    .HasMaxLength(100)
+                    .IsUnicode(false);
+
+                entity.HasOne(d => d.ImageType)
+                    .WithMany(p => p.MovieImage)
+                    .HasForeignKey(d => d.ImageTypeId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_MovieImage_ImageType");
+
+                entity.HasOne(d => d.Movie)
+                    .WithMany(p => p.MovieImage)
+                    .HasForeignKey(d => d.MovieId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_MovieImage_Movie");
             });
 
             modelBuilder.Entity<MovieLanguage>(entity =>
