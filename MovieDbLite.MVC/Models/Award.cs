@@ -10,7 +10,7 @@ namespace MovieDbLite.MVC.Models
         }
 
         public int Id { get; set; }
-        public int AwardShowId { get; set; }
+        public short AwardShowId { get; set; }
         public string AwardName { get; set; }
         public string Description { get; set; }
 

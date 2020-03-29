@@ -6,6 +6,17 @@
     <AssemblyName>MovieDbLite.MVC</AssemblyName>
   </PropertyGroup>
 
+  <ItemGroup>
+    <Compile Remove="Views\Languages\**" />
+    <Compile Remove="Views\Movies\**" />
+    <Content Remove="Views\Languages\**" />
+    <Content Remove="Views\Movies\**" />
+    <EmbeddedResource Remove="Views\Languages\**" />
+    <EmbeddedResource Remove="Views\Movies\**" />
+    <None Remove="Views\Languages\**" />
+    <None Remove="Views\Movies\**" />
+  </ItemGroup>
+
 
   <ItemGroup>
     <PackageReference Include="BCrypt.Net-Core" Version="1.6.0" />
@@ -25,6 +36,20 @@
 
   <ItemGroup>
     <Folder Include="SQL\" />
+  </ItemGroup>
+
+
+  <ItemGroup>
+    <None Include="Views\Languages\Create.cshtml" />
+    <None Include="Views\Languages\Delete.cshtml" />
+    <None Include="Views\Languages\Details.cshtml" />
+    <None Include="Views\Languages\Edit.cshtml" />
+    <None Include="Views\Languages\Index.cshtml" />
+    <None Include="Views\Movies\Create.cshtml" />
+    <None Include="Views\Movies\Delete.cshtml" />
+    <None Include="Views\Movies\Details.cshtml" />
+    <None Include="Views\Movies\Edit.cshtml" />
+    <None Include="Views\Movies\Index.cshtml" />
   </ItemGroup>
 
 

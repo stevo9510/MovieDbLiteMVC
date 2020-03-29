@@ -10,7 +10,7 @@ using MovieDbLite.MVC.Models;
 namespace MovieDbLite.MVC.Migrations
 {
     [DbContext(typeof(MovieDbLiteContext))]
-    [Migration("20200329070224_Rebaseline")]
+    [Migration("20200329075346_Rebaseline")]
     partial class Rebaseline
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -34,8 +34,8 @@ namespace MovieDbLite.MVC.Migrations
                         .HasMaxLength(50)
                         .IsUnicode(false);
 
-                    b.Property<int>("AwardShowId")
-                        .HasColumnType("int");
+                    b.Property<short>("AwardShowId")
+                        .HasColumnType("smallint");
 
                     b.Property<string>("Description")
                         .HasColumnType("varchar(200)")
@@ -53,9 +53,9 @@ namespace MovieDbLite.MVC.Migrations
 
             modelBuilder.Entity("MovieDbLite.MVC.Models.AwardShow", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<short>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
+                        .HasColumnType("smallint")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<string>("Description")
@@ -85,8 +85,8 @@ namespace MovieDbLite.MVC.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<int>("AwardShowId")
-                        .HasColumnType("int");
+                    b.Property<short>("AwardShowId")
+                        .HasColumnType("smallint");
 
                     b.Property<DateTime>("DateHosted")
                         .HasColumnType("date");
@@ -198,8 +198,8 @@ namespace MovieDbLite.MVC.Migrations
 
             modelBuilder.Entity("MovieDbLite.MVC.Models.FilmRole", b =>
                 {
-                    b.Property<int>("Id")
-                        .HasColumnType("int");
+                    b.Property<short>("Id")
+                        .HasColumnType("smallint");
 
                     b.Property<string>("Description")
                         .HasColumnType("varchar(200)")
@@ -223,8 +223,8 @@ namespace MovieDbLite.MVC.Migrations
 
             modelBuilder.Entity("MovieDbLite.MVC.Models.Genre", b =>
                 {
-                    b.Property<int>("Id")
-                        .HasColumnType("int");
+                    b.Property<short>("Id")
+                        .HasColumnType("smallint");
 
                     b.Property<string>("Description")
                         .HasColumnType("varchar(500)")
@@ -248,20 +248,19 @@ namespace MovieDbLite.MVC.Migrations
 
             modelBuilder.Entity("MovieDbLite.MVC.Models.Language", b =>
                 {
-                    b.Property<int>("Id")
-                        .HasColumnType("int");
+                    b.Property<string>("LanguageIsoCode")
+                        .HasColumnType("char(2)")
+                        .IsFixedLength(true)
+                        .HasMaxLength(2)
+                        .IsUnicode(false);
 
-                    b.Property<string>("Name")
+                    b.Property<string>("LanguageName")
                         .IsRequired()
                         .HasColumnType("varchar(50)")
                         .HasMaxLength(50)
                         .IsUnicode(false);
 
-                    b.HasKey("Id");
-
-                    b.HasIndex("Name")
-                        .IsUnique()
-                        .HasName("UX_Language_Name");
+                    b.HasKey("LanguageIsoCode");
 
                     b.ToTable("Language");
                 });
@@ -277,17 +276,15 @@ namespace MovieDbLite.MVC.Migrations
                         .HasColumnType("decimal(5, 2)");
 
                     b.Property<string>("Description")
+                        .IsRequired()
                         .HasColumnType("varchar(500)")
                         .HasMaxLength(500)
                         .IsUnicode(false);
 
-                    b.Property<long>("DirectorFilmMemberId")
+                    b.Property<long?>("DirectorFilmMemberId")
                         .HasColumnType("bigint");
 
                     b.Property<int?>("DurationInMinutes")
-                        .HasColumnType("int");
-
-                    b.Property<int?>("LanguageId")
                         .HasColumnType("int");
 
                     b.Property<DateTime?>("ReleaseDate")
@@ -298,13 +295,11 @@ namespace MovieDbLite.MVC.Migrations
 
                     b.Property<string>("Title")
                         .IsRequired()
-                        .HasColumnType("varchar(200)")
-                        .HasMaxLength(200)
+                        .HasColumnType("varchar(150)")
+                        .HasMaxLength(150)
                         .IsUnicode(false);
 
                     b.HasKey("Id");
-
-                    b.HasIndex("LanguageId");
 
                     b.HasIndex("RestrictionRatingId");
 
@@ -344,8 +339,8 @@ namespace MovieDbLite.MVC.Migrations
                     b.Property<long>("FilmMemberId")
                         .HasColumnType("bigint");
 
-                    b.Property<int>("FilmRoleId")
-                        .HasColumnType("int");
+                    b.Property<short>("FilmRoleId")
+                        .HasColumnType("smallint");
 
                     b.HasKey("MovieId", "FilmMemberId", "FilmRoleId");
 
@@ -361,14 +356,32 @@ namespace MovieDbLite.MVC.Migrations
                     b.Property<long>("MovieId")
                         .HasColumnType("bigint");
 
-                    b.Property<int>("GenreId")
-                        .HasColumnType("int");
+                    b.Property<short>("GenreId")
+                        .HasColumnType("smallint");
 
                     b.HasKey("MovieId", "GenreId");
 
                     b.HasIndex("GenreId");
 
                     b.ToTable("Movie_Genre");
+                });
+
+            modelBuilder.Entity("MovieDbLite.MVC.Models.MovieLanguage", b =>
+                {
+                    b.Property<long>("MovieId")
+                        .HasColumnType("bigint");
+
+                    b.Property<string>("LanguageIsoCode")
+                        .HasColumnType("char(2)")
+                        .IsFixedLength(true)
+                        .HasMaxLength(2)
+                        .IsUnicode(false);
+
+                    b.HasKey("MovieId", "LanguageIsoCode");
+
+                    b.HasIndex("LanguageIsoCode");
+
+                    b.ToTable("Movie_Language");
                 });
 
             modelBuilder.Entity("MovieDbLite.MVC.Models.MovieUserReview", b =>
@@ -484,8 +497,8 @@ namespace MovieDbLite.MVC.Migrations
                         .HasMaxLength(25)
                         .IsUnicode(false);
 
-                    b.Property<int>("UserRoleId")
-                        .HasColumnType("int");
+                    b.Property<short>("UserRoleId")
+                        .HasColumnType("smallint");
 
                     b.HasKey("Id");
 
@@ -499,8 +512,8 @@ namespace MovieDbLite.MVC.Migrations
 
             modelBuilder.Entity("MovieDbLite.MVC.Models.UserRole", b =>
                 {
-                    b.Property<int>("Id")
-                        .HasColumnType("int");
+                    b.Property<short>("Id")
+                        .HasColumnType("smallint");
 
                     b.Property<string>("Description")
                         .IsRequired()
@@ -564,11 +577,6 @@ namespace MovieDbLite.MVC.Migrations
 
             modelBuilder.Entity("MovieDbLite.MVC.Models.Movie", b =>
                 {
-                    b.HasOne("MovieDbLite.MVC.Models.Language", "Language")
-                        .WithMany("Movie")
-                        .HasForeignKey("LanguageId")
-                        .HasConstraintName("FK_Movie_Language");
-
                     b.HasOne("MovieDbLite.MVC.Models.RestrictionRating", "RestrictionRating")
                         .WithMany("Movie")
                         .HasForeignKey("RestrictionRatingId")
@@ -623,6 +631,21 @@ namespace MovieDbLite.MVC.Migrations
                         .WithMany("MovieGenre")
                         .HasForeignKey("MovieId")
                         .HasConstraintName("FK_Movie_Genre_Movie")
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("MovieDbLite.MVC.Models.MovieLanguage", b =>
+                {
+                    b.HasOne("MovieDbLite.MVC.Models.Language", "LanguageIsoCodeNavigation")
+                        .WithMany("MovieLanguage")
+                        .HasForeignKey("LanguageIsoCode")
+                        .HasConstraintName("FK_Movie_Language_Language")
+                        .IsRequired();
+
+                    b.HasOne("MovieDbLite.MVC.Models.Movie", "Movie")
+                        .WithMany("MovieLanguage")
+                        .HasForeignKey("MovieId")
+                        .HasConstraintName("FK_Movie_Language_Movie")
                         .IsRequired();
                 });
 

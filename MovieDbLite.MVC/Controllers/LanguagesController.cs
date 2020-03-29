@@ -22,7 +22,7 @@ namespace MovieDbLite.MVC.Controllers
         }
 
         // GET: Languages/Details/5
-        public async Task<IActionResult> Details(int? id)
+        public async Task<IActionResult> Details(string id)
         {
             if (id == null)
             {
@@ -30,7 +30,7 @@ namespace MovieDbLite.MVC.Controllers
             }
 
             var language = await _context.Language
-                .FirstOrDefaultAsync(m => m.Id == id);
+                .FirstOrDefaultAsync(m => m.LanguageIsoCode == id);
             if (language == null)
             {
                 return NotFound();
@@ -50,7 +50,7 @@ namespace MovieDbLite.MVC.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Name")] Language language)
+        public async Task<IActionResult> Create([Bind("LanguageIsoCode,LanguageName")] Language language)
         {
             if (ModelState.IsValid)
             {
@@ -62,7 +62,7 @@ namespace MovieDbLite.MVC.Controllers
         }
 
         // GET: Languages/Edit/5
-        public async Task<IActionResult> Edit(int? id)
+        public async Task<IActionResult> Edit(string id)
         {
             if (id == null)
             {
@@ -82,9 +82,9 @@ namespace MovieDbLite.MVC.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Name")] Language language)
+        public async Task<IActionResult> Edit(string id, [Bind("LanguageIsoCode,LanguageName")] Language language)
         {
-            if (id != language.Id)
+            if (id != language.LanguageIsoCode)
             {
                 return NotFound();
             }
@@ -98,7 +98,7 @@ namespace MovieDbLite.MVC.Controllers
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!LanguageExists(language.Id))
+                    if (!LanguageExists(language.LanguageIsoCode))
                     {
                         return NotFound();
                     }
@@ -113,7 +113,7 @@ namespace MovieDbLite.MVC.Controllers
         }
 
         // GET: Languages/Delete/5
-        public async Task<IActionResult> Delete(int? id)
+        public async Task<IActionResult> Delete(string id)
         {
             if (id == null)
             {
@@ -121,7 +121,7 @@ namespace MovieDbLite.MVC.Controllers
             }
 
             var language = await _context.Language
-                .FirstOrDefaultAsync(m => m.Id == id);
+                .FirstOrDefaultAsync(m => m.LanguageIsoCode == id);
             if (language == null)
             {
                 return NotFound();
@@ -133,7 +133,7 @@ namespace MovieDbLite.MVC.Controllers
         // POST: Languages/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteConfirmed(int id)
+        public async Task<IActionResult> DeleteConfirmed(string id)
         {
             var language = await _context.Language.FindAsync(id);
             _context.Language.Remove(language);
@@ -141,9 +141,9 @@ namespace MovieDbLite.MVC.Controllers
             return RedirectToAction(nameof(Index));
         }
 
-        private bool LanguageExists(int id)
+        private bool LanguageExists(string id)
         {
-            return _context.Language.Any(e => e.Id == id);
+            return _context.Language.Any(e => e.LanguageIsoCode == id);
         }
     }
 }

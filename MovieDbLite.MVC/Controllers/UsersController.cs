@@ -104,8 +104,8 @@ namespace MovieDbLite.MVC.Controllers
                     HashUsersPassword(user);
 
                     // Set all users added via this form to user role.  Admins must be added via database.
-                    user.UserRoleId = (int)DbEnum.UserRole.User; 
-                    
+                    user.UserRoleId = (int)DbEnum.UserRole.User;
+
                     _context.Update(user);
                     await _context.SaveChangesAsync();
                 }

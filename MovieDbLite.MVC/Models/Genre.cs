@@ -9,7 +9,7 @@ namespace MovieDbLite.MVC.Models
             MovieGenre = new HashSet<MovieGenre>();
         }
 
-        public int Id { get; set; }
+        public short Id { get; set; }
         public string GenreName { get; set; }
         public string Description { get; set; }
 

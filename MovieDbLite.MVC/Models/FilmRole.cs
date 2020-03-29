@@ -9,7 +9,7 @@ namespace MovieDbLite.MVC.Models
             MovieCrewMember = new HashSet<MovieCrewMember>();
         }
 
-        public int Id { get; set; }
+        public short Id { get; set; }
         public string RoleName { get; set; }
         public string Description { get; set; }
 

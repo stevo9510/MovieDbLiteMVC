@@ -10,7 +10,7 @@ namespace MovieDbLite.MVC.Models
             AwardShowInstance = new HashSet<AwardShowInstance>();
         }
 
-        public int Id { get; set; }
+        public short Id { get; set; }
         public string ShowName { get; set; }
         public string Description { get; set; }
 

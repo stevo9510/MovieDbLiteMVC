@@ -37,7 +37,6 @@ namespace MovieDbLite.MVC.Controllers
         {
             var movie = new Movie();
             movie.Title = movieDbMovie.Title;
-            movie.LanguageId = 1;
             movie.Description = movieDbMovie.Overview.Substring(0, Math.Min(movieDbMovie.Overview.Length, 500));
             movie.DurationInMinutes = (int)movieDbMovie.Runtime;
             movie.DirectorFilmMemberId = 3; // TODO: This will need to be looked up later...

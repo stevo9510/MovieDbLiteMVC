@@ -19,7 +19,7 @@ namespace MovieDbLite.MVC.Controllers
         // GET: Movies
         public async Task<IActionResult> Index()
         {
-            var movieDbLiteContext = _context.Movie.Include(m => m.Language).Include(m => m.RestrictionRating);
+            var movieDbLiteContext = _context.Movie.Include(m => m.RestrictionRating);
             return View(await movieDbLiteContext.ToListAsync());
         }
 
@@ -32,7 +32,6 @@ namespace MovieDbLite.MVC.Controllers
             }
 
             var movie = await _context.Movie
-                .Include(m => m.Language)
                 .Include(m => m.RestrictionRating)
                 .FirstOrDefaultAsync(m => m.Id == id);
             if (movie == null)
@@ -46,7 +45,6 @@ namespace MovieDbLite.MVC.Controllers
         // GET: Movies/Create
         public IActionResult Create()
         {
-            ViewData["LanguageId"] = new SelectList(_context.Language, "Id", "Name");
             ViewData["RestrictionRatingId"] = new SelectList(_context.RestrictionRating, "Id", "Code");
             return View();
         }
@@ -56,7 +54,7 @@ namespace MovieDbLite.MVC.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Title,Description,ReleaseDate,RestrictionRatingId,DirectorFilmMemberId,DurationInMinutes,LanguageId")] Movie movie)
+        public async Task<IActionResult> Create([Bind("Id,Title,Description,ReleaseDate,RestrictionRatingId,DirectorFilmMemberId,DurationInMinutes,AverageUserRating")] Movie movie)
         {
             if (ModelState.IsValid)
             {
@@ -64,7 +62,6 @@ namespace MovieDbLite.MVC.Controllers
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["LanguageId"] = new SelectList(_context.Language, "Id", "Name", movie.LanguageId);
             ViewData["RestrictionRatingId"] = new SelectList(_context.RestrictionRating, "Id", "Code", movie.RestrictionRatingId);
             return View(movie);
         }
@@ -82,7 +79,6 @@ namespace MovieDbLite.MVC.Controllers
             {
                 return NotFound();
             }
-            ViewData["LanguageId"] = new SelectList(_context.Language, "Id", "Name", movie.LanguageId);
             ViewData["RestrictionRatingId"] = new SelectList(_context.RestrictionRating, "Id", "Code", movie.RestrictionRatingId);
             return View(movie);
         }
@@ -92,7 +88,7 @@ namespace MovieDbLite.MVC.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(long id, [Bind("Id,Title,Description,ReleaseDate,RestrictionRatingId,DirectorFilmMemberId,DurationInMinutes,LanguageId")] Movie movie)
+        public async Task<IActionResult> Edit(long id, [Bind("Id,Title,Description,ReleaseDate,RestrictionRatingId,DirectorFilmMemberId,DurationInMinutes,AverageUserRating")] Movie movie)
         {
             if (id != movie.Id)
             {
@@ -119,7 +115,6 @@ namespace MovieDbLite.MVC.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["LanguageId"] = new SelectList(_context.Language, "Id", "Name", movie.LanguageId);
             ViewData["RestrictionRatingId"] = new SelectList(_context.RestrictionRating, "Id", "Code", movie.RestrictionRatingId);
             return View(movie);
         }
@@ -133,7 +128,6 @@ namespace MovieDbLite.MVC.Controllers
             }
 
             var movie = await _context.Movie
-                .Include(m => m.Language)
                 .Include(m => m.RestrictionRating)
                 .FirstOrDefaultAsync(m => m.Id == id);
             if (movie == null)

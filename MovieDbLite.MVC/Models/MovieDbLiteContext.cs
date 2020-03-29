@@ -25,6 +25,7 @@ namespace MovieDbLite.MVC.Models
         public virtual DbSet<MovieCastMember> MovieCastMember { get; set; }
         public virtual DbSet<MovieCrewMember> MovieCrewMember { get; set; }
         public virtual DbSet<MovieGenre> MovieGenre { get; set; }
+        public virtual DbSet<MovieLanguage> MovieLanguage { get; set; }
         public virtual DbSet<MovieUserReview> MovieUserReview { get; set; }
         public virtual DbSet<MovieUserReviewHelpful> MovieUserReviewHelpful { get; set; }
         public virtual DbSet<RestrictionRating> RestrictionRating { get; set; }
@@ -207,13 +208,14 @@ namespace MovieDbLite.MVC.Models
 
             modelBuilder.Entity<Language>(entity =>
             {
-                entity.HasIndex(e => e.Name)
-                    .HasName("UX_Language_Name")
-                    .IsUnique();
+                entity.HasKey(e => e.LanguageIsoCode);
 
-                entity.Property(e => e.Id).ValueGeneratedNever();
+                entity.Property(e => e.LanguageIsoCode)
+                    .HasMaxLength(2)
+                    .IsUnicode(false)
+                    .IsFixedLength();
 
-                entity.Property(e => e.Name)
+                entity.Property(e => e.LanguageName)
                     .IsRequired()
                     .HasMaxLength(50)
                     .IsUnicode(false);
@@ -226,6 +228,7 @@ namespace MovieDbLite.MVC.Models
                 entity.Property(e => e.AverageUserRating).HasColumnType("decimal(5, 2)");
 
                 entity.Property(e => e.Description)
+                    .IsRequired()
                     .HasMaxLength(500)
                     .IsUnicode(false);
 
@@ -233,13 +236,8 @@ namespace MovieDbLite.MVC.Models
 
                 entity.Property(e => e.Title)
                     .IsRequired()
-                    .HasMaxLength(200)
+                    .HasMaxLength(150)
                     .IsUnicode(false);
-
-                entity.HasOne(d => d.Language)
-                    .WithMany(p => p.Movie)
-                    .HasForeignKey(d => d.LanguageId)
-                    .HasConstraintName("FK_Movie_Language");
 
                 entity.HasOne(d => d.RestrictionRating)
                     .WithMany(p => p.Movie)
@@ -308,6 +306,30 @@ namespace MovieDbLite.MVC.Models
                     .HasForeignKey(d => d.MovieId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_Movie_Genre_Movie");
+            });
+
+            modelBuilder.Entity<MovieLanguage>(entity =>
+            {
+                entity.HasKey(e => new { e.MovieId, e.LanguageIsoCode });
+
+                entity.ToTable("Movie_Language");
+
+                entity.Property(e => e.LanguageIsoCode)
+                    .HasMaxLength(2)
+                    .IsUnicode(false)
+                    .IsFixedLength();
+
+                entity.HasOne(d => d.LanguageIsoCodeNavigation)
+                    .WithMany(p => p.MovieLanguage)
+                    .HasForeignKey(d => d.LanguageIsoCode)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_Movie_Language_Language");
+
+                entity.HasOne(d => d.Movie)
+                    .WithMany(p => p.MovieLanguage)
+                    .HasForeignKey(d => d.MovieId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_Movie_Language_Movie");
             });
 
             modelBuilder.Entity<MovieUserReview>(entity =>
