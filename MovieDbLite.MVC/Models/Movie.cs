@@ -26,6 +26,7 @@ namespace MovieDbLite.MVC.Models
         public decimal? AverageUserRating { get; set; }
 
         public virtual RestrictionRating RestrictionRating { get; set; }
+        public virtual FilmMember DirectorFilmMember { get; set; }
         public virtual ICollection<AwardWinner> AwardWinner { get; set; }
         public virtual ICollection<MovieCastMember> MovieCastMember { get; set; }
         public virtual ICollection<MovieCrewMember> MovieCrewMember { get; set; }

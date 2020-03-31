@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using MovieDbLite.MVC.Models;
 
-namespace MovieDbLiteMvc.Migrations
+namespace MovieDbLite.MVC.Migrations
 {
     [DbContext(typeof(MovieDbLiteContext))]
-    partial class MovieDbLiteContextModelSnapshot : ModelSnapshot
+    [Migration("20200330003138_ChangeReviewType")]
+    partial class ChangeReviewType
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -174,8 +176,8 @@ namespace MovieDbLiteMvc.Migrations
                         .IsUnicode(false);
 
                     b.Property<string>("Prefix")
-                        .HasColumnType("varchar(10)")
-                        .HasMaxLength(10)
+                        .HasColumnType("varchar(5)")
+                        .HasMaxLength(5)
                         .IsUnicode(false);
 
                     b.Property<string>("Suffix")
@@ -316,8 +318,6 @@ namespace MovieDbLiteMvc.Migrations
                         .IsUnicode(false);
 
                     b.HasKey("Id");
-
-                    b.HasIndex("DirectorFilmMemberId");
 
                     b.HasIndex("RestrictionRatingId");
 
@@ -637,11 +637,6 @@ namespace MovieDbLiteMvc.Migrations
 
             modelBuilder.Entity("MovieDbLite.MVC.Models.Movie", b =>
                 {
-                    b.HasOne("MovieDbLite.MVC.Models.FilmMember", "DirectorFilmMember")
-                        .WithMany("DirectorMovies")
-                        .HasForeignKey("DirectorFilmMemberId")
-                        .HasConstraintName("FK_Movie_DirectorFilmMember");
-
                     b.HasOne("MovieDbLite.MVC.Models.RestrictionRating", "RestrictionRating")
                         .WithMany("Movie")
                         .HasForeignKey("RestrictionRatingId")

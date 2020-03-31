@@ -161,7 +161,7 @@ namespace MovieDbLite.MVC.Models
                     .IsUnicode(false);
 
                 entity.Property(e => e.Prefix)
-                    .HasMaxLength(5)
+                    .HasMaxLength(10)
                     .IsUnicode(false);
 
                 entity.Property(e => e.Suffix)
@@ -257,6 +257,11 @@ namespace MovieDbLite.MVC.Models
                     .WithMany(p => p.Movie)
                     .HasForeignKey(d => d.RestrictionRatingId)
                     .HasConstraintName("FK_Movie_RestrictionRating");
+
+                entity.HasOne(d => d.DirectorFilmMember)
+                    .WithMany(p => p.DirectorMovies)
+                    .HasForeignKey(d => d.DirectorFilmMemberId)
+                    .HasConstraintName("FK_Movie_DirectorFilmMember");
             });
 
             modelBuilder.Entity<MovieCastMember>(entity =>
@@ -386,7 +391,9 @@ namespace MovieDbLite.MVC.Models
 
                 entity.Property(e => e.DatePosted).HasColumnType("datetime");
 
-                entity.Property(e => e.Review).HasColumnType("text");
+                entity.Property(e => e.Review)
+                    .HasMaxLength(8000)
+                    .IsUnicode(false);
 
                 entity.HasOne(d => d.Movie)
                     .WithMany(p => p.MovieUserReview)

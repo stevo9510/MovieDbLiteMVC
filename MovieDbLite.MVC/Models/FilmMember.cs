@@ -30,5 +30,6 @@ namespace MovieDbLite.MVC.Models
         public virtual ICollection<AwardWinner> AwardWinner { get; set; }
         public virtual ICollection<MovieCastMember> MovieCastMember { get; set; }
         public virtual ICollection<MovieCrewMember> MovieCrewMember { get; set; }
+        public virtual ICollection<Movie> DirectorMovies { get; set; }
     }
 }
