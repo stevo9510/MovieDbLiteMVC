@@ -345,7 +345,7 @@ namespace MovieDbLite.MVC.Models
                     .IsRequired()
                     .HasMaxLength(100)
                     .IsUnicode(false);
-
+                
                 entity.HasOne(d => d.ImageType)
                     .WithMany(p => p.MovieImage)
                     .HasForeignKey(d => d.ImageTypeId)
@@ -388,8 +388,6 @@ namespace MovieDbLite.MVC.Models
                 entity.HasIndex(e => new { e.Rating, e.MovieId, e.UserId })
                     .HasName("UX_MovieUserReview_MovieId_UserId")
                     .IsUnique();
-
-                entity.Property(e => e.DatePosted).HasColumnType("datetime");
 
                 entity.Property(e => e.Review)
                     .HasMaxLength(8000)
