@@ -46,7 +46,7 @@ namespace MovieDbLite.MVC.Controllers
         // GET: MovieGenres/Create
         public IActionResult Create()
         {
-            ViewData["GenreId"] = new SelectList(_context.Genre, "Id", "DisplayName");
+            ViewData["GenreId"] = new SelectList(_context.Genre, "Id", "GenreName");
             ViewData["MovieId"] = new SelectList(_context.Movie, "Id", "Title");
             return View();
         }
@@ -64,7 +64,7 @@ namespace MovieDbLite.MVC.Controllers
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["GenreId"] = new SelectList(_context.Genre, "Id", "DisplayName", movieGenre.GenreId);
+            ViewData["GenreId"] = new SelectList(_context.Genre, "Id", "GenreName", movieGenre.GenreId);
             ViewData["MovieId"] = new SelectList(_context.Movie, "Id", "Title", movieGenre.MovieId);
             return View(movieGenre);
         }
@@ -82,7 +82,7 @@ namespace MovieDbLite.MVC.Controllers
             {
                 return NotFound();
             }
-            ViewData["GenreId"] = new SelectList(_context.Genre, "Id", "DisplayName", movieGenre.GenreId);
+            ViewData["GenreId"] = new SelectList(_context.Genre, "Id", "GenreName", movieGenre.GenreId);
             ViewData["MovieId"] = new SelectList(_context.Movie, "Id", "Title", movieGenre.MovieId);
             return View(movieGenre);
         }
@@ -119,7 +119,7 @@ namespace MovieDbLite.MVC.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["GenreId"] = new SelectList(_context.Genre, "Id", "DisplayName", movieGenre.GenreId);
+            ViewData["GenreId"] = new SelectList(_context.Genre, "Id", "GenreName", movieGenre.GenreId);
             ViewData["MovieId"] = new SelectList(_context.Movie, "Id", "Title", movieGenre.MovieId);
             return View(movieGenre);
         }
