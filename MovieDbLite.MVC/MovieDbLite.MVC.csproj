@@ -40,16 +40,16 @@
 
 
   <ItemGroup>
-    <None Include="Views\Languages\Create.cshtml" />
-    <None Include="Views\Languages\Delete.cshtml" />
-    <None Include="Views\Languages\Details.cshtml" />
-    <None Include="Views\Languages\Edit.cshtml" />
-    <None Include="Views\Languages\Index.cshtml" />
-    <None Include="Views\Movies\Create.cshtml" />
-    <None Include="Views\Movies\Delete.cshtml" />
-    <None Include="Views\Movies\Details.cshtml" />
-    <None Include="Views\Movies\Edit.cshtml" />
-    <None Include="Views\Movies\Index.cshtml" />
+    <Content Include="Views\Languages\Create.cshtml" />
+    <Content Include="Views\Languages\Delete.cshtml" />
+    <Content Include="Views\Languages\Details.cshtml" />
+    <Content Include="Views\Languages\Edit.cshtml" />
+    <Content Include="Views\Languages\Index.cshtml" />
+    <Content Include="Views\Movies\Create.cshtml" />
+    <Content Include="Views\Movies\Delete.cshtml" />
+    <Content Include="Views\Movies\Details.cshtml" />
+    <Content Include="Views\Movies\Edit.cshtml" />
+    <Content Include="Views\Movies\Index.cshtml" />
   </ItemGroup>
 
 

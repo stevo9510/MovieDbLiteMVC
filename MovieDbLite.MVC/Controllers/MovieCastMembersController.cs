@@ -70,14 +70,14 @@ namespace MovieDbLite.MVC.Controllers
         }
 
         // GET: MovieCastMembers/Edit/5
-        public async Task<IActionResult> Edit(long? id)
+        public async Task<IActionResult> Edit(long? movieId, long? actorFilmMemberId)
         {
-            if (id == null)
+            if (actorFilmMemberId == null || movieId == null)
             {
                 return NotFound();
             }
 
-            var movieCastMember = await _context.MovieCastMember.FindAsync(id);
+            var movieCastMember = await _context.MovieCastMember.FindAsync(movieId, actorFilmMemberId);
             if (movieCastMember == null)
             {
                 return NotFound();
