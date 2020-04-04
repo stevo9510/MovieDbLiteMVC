@@ -1,11 +1,11 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Rendering;
-using Microsoft.Data.SqlClient;
-using Microsoft.EntityFrameworkCore;
-using MovieDbLite.MVC.Models;
-using System.Data;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.EntityFrameworkCore;
+using MovieDbLite.MVC.Models;
 
 namespace MovieDbLite.MVC.Controllers
 {
@@ -21,7 +21,7 @@ namespace MovieDbLite.MVC.Controllers
         // GET: AwardWinners
         public async Task<IActionResult> Index()
         {
-            var movieDbLiteContext = _context.AwardWinner.Include(a => a.Award).Include(a => a.FilmMember).Include(a => a.Movie);
+            var movieDbLiteContext = _context.AwardWinner.Include(a => a.Award).Include(a => a.AwardShowInstance).Include(a => a.FilmMember).Include(a => a.Movie);
             return View(await movieDbLiteContext.ToListAsync());
         }
 
@@ -35,6 +35,7 @@ namespace MovieDbLite.MVC.Controllers
 
             var awardWinner = await _context.AwardWinner
                 .Include(a => a.Award)
+                .Include(a => a.AwardShowInstance)
                 .Include(a => a.FilmMember)
                 .Include(a => a.Movie)
                 .FirstOrDefaultAsync(m => m.AwardShowInstanceId == id);
@@ -50,8 +51,9 @@ namespace MovieDbLite.MVC.Controllers
         public IActionResult Create()
         {
             ViewData["AwardId"] = new SelectList(_context.Award, "Id", "AwardName");
-            ViewData["FilmMemberId"] = new SelectList(_context.FilmMember, "Id", "FirstName");
-            ViewData["MovieId"] = new SelectList(_context.Movie, "Id", "Title");
+            ViewData["AwardShowInstanceId"] = new SelectList(_context.AwardShowInstance.Include(f => f.AwardShow), "Id", nameof(AwardShowInstance.FriendlyName));
+            ViewData["FilmMemberId"] = new SelectList(_context.FilmMember, "Id", nameof(FilmMember.PreferredFullName));
+            ViewData["MovieId"] = new SelectList(_context.Movie, "Id", nameof(Movie.Title));
             return View();
         }
 
@@ -64,19 +66,14 @@ namespace MovieDbLite.MVC.Controllers
         {
             if (ModelState.IsValid)
             {
-                //_context.Add(awardWinner);
-
-                using (var sqlConn = new SqlConnection(_context.Database.GetDbConnection().ConnectionString))
-                {
-                    await InsertMovieAwardWinner(sqlConn, awardWinner.AwardShowInstanceId, awardWinner.AwardId, awardWinner.FilmMemberId, awardWinner.MovieId);
-                }
-
-                //await _context.SaveChangesAsync();
+                _context.Add(awardWinner);
+                await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
             ViewData["AwardId"] = new SelectList(_context.Award, "Id", "AwardName", awardWinner.AwardId);
+            ViewData["AwardShowInstanceId"] = new SelectList(_context.AwardShowInstance, "Id", "Id", awardWinner.AwardShowInstanceId);
             ViewData["FilmMemberId"] = new SelectList(_context.FilmMember, "Id", "FirstName", awardWinner.FilmMemberId);
-            ViewData["MovieId"] = new SelectList(_context.Movie, "Id", "Title", awardWinner.MovieId);
+            ViewData["MovieId"] = new SelectList(_context.Movie, "Id", "Description", awardWinner.MovieId);
             return View(awardWinner);
         }
 
@@ -94,8 +91,9 @@ namespace MovieDbLite.MVC.Controllers
                 return NotFound();
             }
             ViewData["AwardId"] = new SelectList(_context.Award, "Id", "AwardName", awardWinner.AwardId);
+            ViewData["AwardShowInstanceId"] = new SelectList(_context.AwardShowInstance, "Id", "Id", awardWinner.AwardShowInstanceId);
             ViewData["FilmMemberId"] = new SelectList(_context.FilmMember, "Id", "FirstName", awardWinner.FilmMemberId);
-            ViewData["MovieId"] = new SelectList(_context.Movie, "Id", "Title", awardWinner.MovieId);
+            ViewData["MovieId"] = new SelectList(_context.Movie, "Id", "Description", awardWinner.MovieId);
             return View(awardWinner);
         }
 
@@ -132,8 +130,9 @@ namespace MovieDbLite.MVC.Controllers
                 return RedirectToAction(nameof(Index));
             }
             ViewData["AwardId"] = new SelectList(_context.Award, "Id", "AwardName", awardWinner.AwardId);
+            ViewData["AwardShowInstanceId"] = new SelectList(_context.AwardShowInstance, "Id", "Id", awardWinner.AwardShowInstanceId);
             ViewData["FilmMemberId"] = new SelectList(_context.FilmMember, "Id", "FirstName", awardWinner.FilmMemberId);
-            ViewData["MovieId"] = new SelectList(_context.Movie, "Id", "Title", awardWinner.MovieId);
+            ViewData["MovieId"] = new SelectList(_context.Movie, "Id", "Description", awardWinner.MovieId);
             return View(awardWinner);
         }
 
@@ -147,6 +146,7 @@ namespace MovieDbLite.MVC.Controllers
 
             var awardWinner = await _context.AwardWinner
                 .Include(a => a.Award)
+                .Include(a => a.AwardShowInstance)
                 .Include(a => a.FilmMember)
                 .Include(a => a.Movie)
                 .FirstOrDefaultAsync(m => m.AwardShowInstanceId == id);
@@ -173,30 +173,5 @@ namespace MovieDbLite.MVC.Controllers
         {
             return _context.AwardWinner.Any(e => e.AwardShowInstanceId == id);
         }
-
-
-        private async Task InsertMovieAwardWinner(SqlConnection sqlConn, int awardShowInstanceId, int awardId, 
-            long filmMemberId, long movieId)
-        {
-            // Specify the stored procedure to call, as well as the connection object
-            using var sqlCommand = new SqlCommand("usp_InsertAwardWinner", sqlConn)
-            {
-                CommandType = CommandType.StoredProcedure
-            };
-
-            // Parameterize the arguments (to prevent SQL Injection)
-            sqlCommand.Parameters.Add(new SqlParameter("@AwardShowInstanceId", awardShowInstanceId));
-            sqlCommand.Parameters.Add(new SqlParameter("@AwardId", awardId));
-            sqlCommand.Parameters.Add(new SqlParameter("@FilmMemberId", filmMemberId));
-            sqlCommand.Parameters.Add(new SqlParameter("@MovieId", movieId));
-
-            await sqlConn.OpenAsync();
-
-            // Executes the stored procedure here
-            await sqlCommand.ExecuteNonQueryAsync();
-
-            await sqlConn.CloseAsync();
-        }
-
     }
 }

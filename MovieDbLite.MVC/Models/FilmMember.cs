@@ -9,6 +9,7 @@ namespace MovieDbLite.MVC.Models
         public FilmMember()
         {
             AwardWinner = new HashSet<AwardWinner>();
+            DirectorMovies = new HashSet<Movie>();
             MovieCastMember = new HashSet<MovieCastMember>();
             MovieCrewMember = new HashSet<MovieCrewMember>();
         }
@@ -28,8 +29,8 @@ namespace MovieDbLite.MVC.Models
         public string Biography { get; set; }
 
         public virtual ICollection<AwardWinner> AwardWinner { get; set; }
+        public virtual ICollection<Movie> DirectorMovies { get; set; }
         public virtual ICollection<MovieCastMember> MovieCastMember { get; set; }
         public virtual ICollection<MovieCrewMember> MovieCrewMember { get; set; }
-        public virtual ICollection<Movie> DirectorMovies { get; set; }
     }
 }

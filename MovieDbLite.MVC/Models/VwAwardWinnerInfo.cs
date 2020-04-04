@@ -6,9 +6,9 @@ namespace MovieDbLite.MVC.Models
     {
         public int AwardId { get; set; }
         public string AwardName { get; set; }
-        public int AwardShowId { get; set; }
+        public short AwardShowId { get; set; }
         public string ShowName { get; set; }
-        public string Year { get; set; }
+        public short Year { get; set; }
         public long MovieId { get; set; }
         public string Title { get; set; }
         public long FilmMemberId { get; set; }

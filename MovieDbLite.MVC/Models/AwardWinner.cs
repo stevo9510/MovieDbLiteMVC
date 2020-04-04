@@ -8,6 +8,7 @@
         public long MovieId { get; set; }
 
         public virtual Award Award { get; set; }
+        public virtual AwardShowInstance AwardShowInstance { get; set; }
         public virtual FilmMember FilmMember { get; set; }
         public virtual Movie Movie { get; set; }
     }

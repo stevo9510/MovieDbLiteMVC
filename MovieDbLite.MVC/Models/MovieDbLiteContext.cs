@@ -40,7 +40,7 @@ namespace MovieDbLite.MVC.Models
             if (!optionsBuilder.IsConfigured)
             {
 #warning To protect potentially sensitive information in your connection string, you should move it out of source code. See http://go.microsoft.com/fwlink/?LinkId=723263 for guidance on storing connection strings.
-                optionsBuilder.UseSqlServer("Server=.\\SQLExpress;Database=MovieDbLite;Trusted_Connection=True;");
+                optionsBuilder.UseSqlServer("Server=(LocalDb)\\MSSQLLocalDB;Database=MovieDbLite;Trusted_Connection=True;");
             }
         }
 
@@ -92,9 +92,6 @@ namespace MovieDbLite.MVC.Models
 
                 entity.Property(e => e.DateHosted).HasColumnType("date");
 
-                entity.Property(e => e.Year)
-                    .IsRequired();
-
                 entity.HasOne(d => d.AwardShow)
                     .WithMany(p => p.AwardShowInstance)
                     .HasForeignKey(d => d.AwardShowId)
@@ -111,6 +108,12 @@ namespace MovieDbLite.MVC.Models
                     .HasForeignKey(d => d.AwardId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_AwardWinner_Award");
+
+                entity.HasOne(d => d.AwardShowInstance)
+                    .WithMany(p => p.AwardWinner)
+                    .HasForeignKey(d => d.AwardShowInstanceId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_AwardWinner_AwardShowInstanceId");
 
                 entity.HasOne(d => d.FilmMember)
                     .WithMany(p => p.AwardWinner)
@@ -253,15 +256,15 @@ namespace MovieDbLite.MVC.Models
                     .HasMaxLength(150)
                     .IsUnicode(false);
 
-                entity.HasOne(d => d.RestrictionRating)
-                    .WithMany(p => p.Movie)
-                    .HasForeignKey(d => d.RestrictionRatingId)
-                    .HasConstraintName("FK_Movie_RestrictionRating");
-
                 entity.HasOne(d => d.DirectorFilmMember)
                     .WithMany(p => p.DirectorMovies)
                     .HasForeignKey(d => d.DirectorFilmMemberId)
                     .HasConstraintName("FK_Movie_DirectorFilmMember");
+
+                entity.HasOne(d => d.RestrictionRating)
+                    .WithMany(p => p.Movie)
+                    .HasForeignKey(d => d.RestrictionRatingId)
+                    .HasConstraintName("FK_Movie_RestrictionRating");
             });
 
             modelBuilder.Entity<MovieCastMember>(entity =>
@@ -269,6 +272,7 @@ namespace MovieDbLite.MVC.Models
                 entity.HasKey(e => new { e.MovieId, e.ActorFilmMemberId });
 
                 entity.Property(e => e.CharacterName)
+                    .IsRequired()
                     .HasMaxLength(150)
                     .IsUnicode(false);
 
@@ -345,7 +349,7 @@ namespace MovieDbLite.MVC.Models
                     .IsRequired()
                     .HasMaxLength(100)
                     .IsUnicode(false);
-                
+
                 entity.HasOne(d => d.ImageType)
                     .WithMany(p => p.MovieImage)
                     .HasForeignKey(d => d.ImageTypeId)
@@ -518,14 +522,8 @@ namespace MovieDbLite.MVC.Models
 
                 entity.Property(e => e.Title)
                     .IsRequired()
-                    .HasMaxLength(200)
+                    .HasMaxLength(150)
                     .IsUnicode(false);
-
-                entity.Property(e => e.Year)
-                    .IsRequired()
-                    .HasMaxLength(4)
-                    .IsUnicode(false)
-                    .IsFixedLength();
             });
 
             OnModelCreatingPartial(modelBuilder);

@@ -2,7 +2,6 @@
 
 @{
     ViewData["Title"] = "Index";
-    Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
 <h1>Index</h1>
@@ -15,6 +14,9 @@
         <tr>
             <th>
                 @Html.DisplayNameFor(model => model.Award)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.AwardShowInstance)
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.FilmMember)
@@ -32,10 +34,13 @@
                 @Html.DisplayFor(modelItem => item.Award.AwardName)
             </td>
             <td>
+                @Html.DisplayFor(modelItem => item.AwardShowInstance.Id)
+            </td>
+            <td>
                 @Html.DisplayFor(modelItem => item.FilmMember.FirstName)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.Movie.Title)
+                @Html.DisplayFor(modelItem => item.Movie.Description)
             </td>
             <td>
                 @Html.ActionLink("Edit", "Edit", new { /* id=item.PrimaryKey */ }) |
