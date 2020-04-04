@@ -56,7 +56,7 @@ namespace MovieDbLite.MVC.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("MovieUserReviewId,UserId,Helpful")] MovieUserReviewHelpful movieUserReviewHelpful)
+        public async Task<IActionResult> Create([Bind("MovieUserReviewId,UserId,IsHelpful")] MovieUserReviewHelpful movieUserReviewHelpful)
         {
             if (ModelState.IsValid)
             {
@@ -92,7 +92,7 @@ namespace MovieDbLite.MVC.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(long id, [Bind("MovieUserReviewId,UserId,Helpful")] MovieUserReviewHelpful movieUserReviewHelpful)
+        public async Task<IActionResult> Edit(long id, [Bind("MovieUserReviewId,UserId,IsHelpful")] MovieUserReviewHelpful movieUserReviewHelpful)
         {
             if (id != movieUserReviewHelpful.MovieUserReviewId)
             {
