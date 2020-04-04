@@ -16,6 +16,21 @@ namespace MovieDbLite.MVC.Controllers
             _context = context;
         }
 
+        // POST: AwardShowInstances/Create
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Create(AwardShowInstance awardShowInstance)
+        {
+            if (ModelState.IsValid)
+            {
+                _context.Add(awardShowInstance);
+                await _context.SaveChangesAsync();
+                return RedirectToAction(nameof(Index));
+            }
+            ViewData["AwardShowId"] = new SelectList(_context.AwardShow, "Id", "ShowName", awardShowInstance.AwardShowId);
+            return View(awardShowInstance);
+        }
+
         // GET: AwardShowInstances
         public async Task<IActionResult> Index()
         {
@@ -47,23 +62,6 @@ namespace MovieDbLite.MVC.Controllers
         {
             ViewData["AwardShowId"] = new SelectList(_context.AwardShow, "Id", "ShowName");
             return View();
-        }
-
-        // POST: AwardShowInstances/Create
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,AwardShowId,Year,DateHosted")] AwardShowInstance awardShowInstance)
-        {
-            if (ModelState.IsValid)
-            {
-                _context.Add(awardShowInstance);
-                await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
-            }
-            ViewData["AwardShowId"] = new SelectList(_context.AwardShow, "Id", "ShowName", awardShowInstance.AwardShowId);
-            return View(awardShowInstance);
         }
 
         // GET: AwardShowInstances/Edit/5

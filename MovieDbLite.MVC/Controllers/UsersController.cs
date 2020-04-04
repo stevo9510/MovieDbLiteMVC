@@ -54,7 +54,7 @@ namespace MovieDbLite.MVC.Controllers
         {
             if (ModelState.IsValid)
             {
-                HashUsersPassword(user);
+                user.HashedPassword = HashUsersPassword(user.HashedPassword);
 
                 // Set all users added via this form to user role.  Admins must be added via database.
                 user.UserRoleId = (int)DbEnum.UserRole.User;
@@ -101,7 +101,7 @@ namespace MovieDbLite.MVC.Controllers
             {
                 try
                 {
-                    HashUsersPassword(user);
+                    user.HashedPassword = HashUsersPassword(user.HashedPassword);
 
                     // Set all users added via this form to user role.  Admins must be added via database.
                     user.UserRoleId = (int)DbEnum.UserRole.User;
@@ -154,12 +154,11 @@ namespace MovieDbLite.MVC.Controllers
             return RedirectToAction(nameof(Index));
         }
 
-        private static void HashUsersPassword(User user)
+        private static string HashUsersPassword(string unhashedPassword)
         {
             const int workFactor = 15;
-            // Actually do hash
-            var hashedPassword = BCrypt.Net.BCrypt.HashPassword(user.HashedPassword, workFactor);
-            user.HashedPassword = hashedPassword;
+            string hashedPassword = BCrypt.Net.BCrypt.HashPassword(unhashedPassword, workFactor);
+            return hashedPassword;
         }
 
         private bool UserExists(int id)

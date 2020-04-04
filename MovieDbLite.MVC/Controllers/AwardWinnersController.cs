@@ -1,7 +1,9 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
 using MovieDbLite.MVC.Models;
+using System.Data;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -62,8 +64,14 @@ namespace MovieDbLite.MVC.Controllers
         {
             if (ModelState.IsValid)
             {
-                _context.Add(awardWinner);
-                await _context.SaveChangesAsync();
+                //_context.Add(awardWinner);
+
+                using (var sqlConn = new SqlConnection(_context.Database.GetDbConnection().ConnectionString))
+                {
+                    await InsertMovieAwardWinner(sqlConn, awardWinner.AwardShowInstanceId, awardWinner.AwardId, awardWinner.FilmMemberId, awardWinner.MovieId);
+                }
+
+                //await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
             ViewData["AwardId"] = new SelectList(_context.Award, "Id", "AwardName", awardWinner.AwardId);
@@ -165,5 +173,30 @@ namespace MovieDbLite.MVC.Controllers
         {
             return _context.AwardWinner.Any(e => e.AwardShowInstanceId == id);
         }
+
+
+        private async Task InsertMovieAwardWinner(SqlConnection sqlConn, int awardShowInstanceId, int awardId, 
+            long filmMemberId, long movieId)
+        {
+            // Specify the stored procedure to call, as well as the connection object
+            using var sqlCommand = new SqlCommand("usp_InsertAwardWinner", sqlConn)
+            {
+                CommandType = CommandType.StoredProcedure
+            };
+
+            // Parameterize the arguments (to prevent SQL Injection)
+            sqlCommand.Parameters.Add(new SqlParameter("@AwardShowInstanceId", awardShowInstanceId));
+            sqlCommand.Parameters.Add(new SqlParameter("@AwardId", awardId));
+            sqlCommand.Parameters.Add(new SqlParameter("@FilmMemberId", filmMemberId));
+            sqlCommand.Parameters.Add(new SqlParameter("@MovieId", movieId));
+
+            await sqlConn.OpenAsync();
+
+            // Executes the stored procedure here
+            await sqlCommand.ExecuteNonQueryAsync();
+
+            await sqlConn.CloseAsync();
+        }
+
     }
 }
