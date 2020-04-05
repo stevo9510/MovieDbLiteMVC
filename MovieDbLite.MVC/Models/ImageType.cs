@@ -9,7 +9,7 @@ namespace MovieDbLite.MVC.Models
             MovieImage = new HashSet<MovieImage>();
         }
 
-        public int Id { get; set; }
+        public short Id { get; set; }
         public string ImageExtension { get; set; }
         public string Name { get; set; }
 

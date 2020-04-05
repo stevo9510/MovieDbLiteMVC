@@ -242,8 +242,8 @@ namespace MovieDbLiteMvc.Migrations
 
             modelBuilder.Entity("MovieDbLite.MVC.Models.ImageType", b =>
                 {
-                    b.Property<int>("Id")
-                        .HasColumnType("int");
+                    b.Property<short>("Id")
+                        .HasColumnType("smallint");
 
                     b.Property<string>("ImageExtension")
                         .IsRequired()
@@ -335,6 +335,7 @@ namespace MovieDbLiteMvc.Migrations
                         .HasColumnType("bigint");
 
                     b.Property<string>("CharacterName")
+                        .IsRequired()
                         .HasColumnType("varchar(150)")
                         .HasMaxLength(150)
                         .IsUnicode(false);
@@ -407,8 +408,8 @@ namespace MovieDbLiteMvc.Migrations
                         .HasMaxLength(100)
                         .IsUnicode(false);
 
-                    b.Property<int>("ImageTypeId")
-                        .HasColumnType("int");
+                    b.Property<short>("ImageTypeId")
+                        .HasColumnType("smallint");
 
                     b.Property<long>("MovieId")
                         .HasColumnType("bigint");
@@ -620,6 +621,12 @@ namespace MovieDbLiteMvc.Migrations
                         .WithMany("AwardWinner")
                         .HasForeignKey("AwardId")
                         .HasConstraintName("FK_AwardWinner_Award")
+                        .IsRequired();
+
+                    b.HasOne("MovieDbLite.MVC.Models.AwardShowInstance", "AwardShowInstance")
+                        .WithMany("AwardWinner")
+                        .HasForeignKey("AwardShowInstanceId")
+                        .HasConstraintName("FK_AwardWinner_AwardShowInstanceId")
                         .IsRequired();
 
                     b.HasOne("MovieDbLite.MVC.Models.FilmMember", "FilmMember")

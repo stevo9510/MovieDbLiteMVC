@@ -10,8 +10,8 @@ using MovieDbLite.MVC.Models;
 namespace MovieDbLite.MVC.Migrations
 {
     [DbContext(typeof(MovieDbLiteContext))]
-    [Migration("20200331024549_DateTime2Col")]
-    partial class DateTime2Col
+    [Migration("20200405065620_Rebaseline")]
+    partial class Rebaseline
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -244,8 +244,8 @@ namespace MovieDbLite.MVC.Migrations
 
             modelBuilder.Entity("MovieDbLite.MVC.Models.ImageType", b =>
                 {
-                    b.Property<int>("Id")
-                        .HasColumnType("int");
+                    b.Property<short>("Id")
+                        .HasColumnType("smallint");
 
                     b.Property<string>("ImageExtension")
                         .IsRequired()
@@ -337,6 +337,7 @@ namespace MovieDbLite.MVC.Migrations
                         .HasColumnType("bigint");
 
                     b.Property<string>("CharacterName")
+                        .IsRequired()
                         .HasColumnType("varchar(150)")
                         .HasMaxLength(150)
                         .IsUnicode(false);
@@ -409,8 +410,8 @@ namespace MovieDbLite.MVC.Migrations
                         .HasMaxLength(100)
                         .IsUnicode(false);
 
-                    b.Property<int>("ImageTypeId")
-                        .HasColumnType("int");
+                    b.Property<short>("ImageTypeId")
+                        .HasColumnType("smallint");
 
                     b.Property<long>("MovieId")
                         .HasColumnType("bigint");
@@ -622,6 +623,12 @@ namespace MovieDbLite.MVC.Migrations
                         .WithMany("AwardWinner")
                         .HasForeignKey("AwardId")
                         .HasConstraintName("FK_AwardWinner_Award")
+                        .IsRequired();
+
+                    b.HasOne("MovieDbLite.MVC.Models.AwardShowInstance", "AwardShowInstance")
+                        .WithMany("AwardWinner")
+                        .HasForeignKey("AwardShowInstanceId")
+                        .HasConstraintName("FK_AwardWinner_AwardShowInstanceId")
                         .IsRequired();
 
                     b.HasOne("MovieDbLite.MVC.Models.FilmMember", "FilmMember")

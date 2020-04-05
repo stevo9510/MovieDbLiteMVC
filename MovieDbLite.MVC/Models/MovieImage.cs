@@ -7,7 +7,7 @@ namespace MovieDbLite.MVC.Models
         public long Id { get; set; }
         public long MovieId { get; set; }
         public string ImageName { get; set; }
-        public int ImageTypeId { get; set; }
+        public short ImageTypeId { get; set; }
         public string Description { get; set; }
         public byte[] FileContents { get; set; }
         public DateTime DateUploaded { get; set; }
