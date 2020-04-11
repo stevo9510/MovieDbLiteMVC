@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using MovieDbLite.MVC.Models;
+using System;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -101,6 +102,11 @@ namespace MovieDbLite.MVC.Controllers
             {
                 try
                 {
+                    if(await _context.User.AnyAsync(u => u.Id == id && u.UserName != user.UserName))
+                    {
+                        throw new InvalidOperationException("User name cannot be changed");
+                    }
+
                     user.HashedPassword = HashUsersPassword(user.HashedPassword);
 
                     // Set all users added via this form to user role.  Admins must be added via database.

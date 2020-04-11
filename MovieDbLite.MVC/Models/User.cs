@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 
 namespace MovieDbLite.MVC.Models
 {
@@ -14,6 +15,8 @@ namespace MovieDbLite.MVC.Models
         public short UserRoleId { get; set; }
         public string UserName { get; set; }
         public string EmailAddress { get; set; }
+        [DataType(DataType.Password)]
+        [Display(Name = "Password")]
         public string HashedPassword { get; set; }
 
         public virtual UserRole UserRole { get; set; }
