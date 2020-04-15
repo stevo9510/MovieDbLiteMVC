@@ -18,6 +18,11 @@ namespace MovieDbLite.MVC.Controllers
         {
             return View();
         }
+        
+        public IActionResult Search(string searchString)
+        {
+            return View();
+        }
 
         public IActionResult Privacy()
         {

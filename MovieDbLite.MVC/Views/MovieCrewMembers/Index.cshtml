@@ -29,7 +29,7 @@
 @foreach (var item in Model) {
         <tr>
             <td>
-                @Html.DisplayFor(modelItem => item.FilmMember.FirstName)
+                @Html.DisplayFor(modelItem => item.FilmMember.PreferredFullName)
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.FilmRole.RoleName)
