@@ -1,8 +1,12 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
 using MovieDbLite.MVC.Models;
 using MovieDbLite.TheMovieDbOrg.Models.Movies;
 using System;
+using System.Collections.Generic;
+using System.Data;
+using System.Data.SqlTypes;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -39,8 +43,14 @@ namespace MovieDbLite.MVC.Controllers
             await SetMovieLanguages(dbOrgMovie, movie);
 
             _context.Add(movie);
-
             await _context.SaveChangesAsync();
+
+            #region (Commented Out) Insert With Stored Procedure Instead
+
+            //using var sqlConn = new SqlConnection(_context.Database.GetDbConnection().ConnectionString);
+            //await InsertMovieWithStoredProcedureAsync(sqlConn, movie);
+
+            #endregion
         }
 
         private async Task<short?> GetRestrictionRating(DbOrgMovie dbOrgMovie)
@@ -84,6 +94,63 @@ namespace MovieDbLite.MVC.Controllers
                     LanguageIsoCode = language.LanguageIsoCode
                 });
             }
+        }
+
+        private async Task<long> InsertMovieWithStoredProcedureAsync(SqlConnection sqlConn, Movie movie)
+        {
+            // Specify the stored procedure to call, as well as the connection object
+            using var sqlCommand = new SqlCommand("usp_InsertMovieDetails", sqlConn)
+            {
+                CommandType = CommandType.StoredProcedure
+            };
+
+            DataTable dtLanguages = ToDataTable("LanguageIsoCode", movie.MovieLanguage.Select(s => s.LanguageIsoCode));
+            DataTable dtGenres = ToDataTable("GenreId", movie.MovieGenre.Select(s => s.GenreId));
+
+            // Parameterize the arguments (to prevent SQL Injection)
+            sqlCommand.Parameters.AddWithValue("@Title", movie.Title);
+            sqlCommand.Parameters.AddWithValue("@Description", movie.Description);
+            sqlCommand.Parameters.AddWithValue("@ReleaseDate", movie.ReleaseDate ?? SqlDateTime.Null);
+            sqlCommand.Parameters.AddWithValue("@RestrictionRatingId", movie.RestrictionRatingId ?? SqlInt16.Null);
+            sqlCommand.Parameters.AddWithValue("@DirectorFilmMemberId", movie.DirectorFilmMemberId ?? SqlInt64.Null);
+            sqlCommand.Parameters.AddWithValue("@DurationInMinutes", movie.DurationInMinutes ?? SqlInt32.Null);
+            sqlCommand.Parameters.Add(new SqlParameter("@LanguageIsoCodes", dtLanguages)
+            {
+                SqlDbType = SqlDbType.Structured
+            });
+            sqlCommand.Parameters.Add(new SqlParameter("@GenreIds", dtGenres)
+            {
+                SqlDbType = SqlDbType.Structured
+            });
+            var movieIdOutputParam = new SqlParameter("@MovieId", SqlDbType.BigInt)
+            {
+                Direction = ParameterDirection.Output
+            };
+            sqlCommand.Parameters.Add(movieIdOutputParam);
+
+            await sqlConn.OpenAsync();
+
+            // Executes the stored procedure here
+            await sqlCommand.ExecuteNonQueryAsync();
+
+            await sqlConn.CloseAsync();
+
+            return long.Parse(movieIdOutputParam.Value.ToString());
+        }
+
+        private static DataTable ToDataTable<T>(string columnName, IEnumerable<T> coll)
+        {
+            DataTable dt = new DataTable();
+            dt.Columns.Add(columnName, typeof(T));
+
+            foreach (T item in coll)
+            {
+                DataRow dr = dt.NewRow();
+                dr[columnName] = item;
+                dt.Rows.Add(dr);
+            }
+
+            return dt;
         }
 
     }
