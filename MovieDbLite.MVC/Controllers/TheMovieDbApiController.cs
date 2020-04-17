@@ -42,13 +42,17 @@ namespace MovieDbLite.MVC.Controllers
             await SetMovieGenres(dbOrgMovie, movie);
             await SetMovieLanguages(dbOrgMovie, movie);
 
-            _context.Add(movie);
-            await _context.SaveChangesAsync();
+            #region Insert With Stored Procedure
 
-            #region (Commented Out) Insert With Stored Procedure Instead
+            using var sqlConn = new SqlConnection(_context.Database.GetDbConnection().ConnectionString);
+            await InsertMovieWithStoredProcedureAsync(sqlConn, movie);
 
-            //using var sqlConn = new SqlConnection(_context.Database.GetDbConnection().ConnectionString);
-            //await InsertMovieWithStoredProcedureAsync(sqlConn, movie);
+            #endregion
+
+            #region Insert with Entity Framework (Commented out)
+
+            //_context.Add(movie);
+            //await _context.SaveChangesAsync();
 
             #endregion
         }
