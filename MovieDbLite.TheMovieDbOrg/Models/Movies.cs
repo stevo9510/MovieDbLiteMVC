@@ -5,7 +5,8 @@ using System.Globalization;
 
 namespace MovieDbLite.TheMovieDbOrg.Models.Movies
 {
-    public partial class Welcome
+    [JsonObject("Welcome")]
+    public partial class DbOrgMovie
     {
         [JsonProperty("adult")]
         public bool Adult { get; set; }
@@ -81,6 +82,9 @@ namespace MovieDbLite.TheMovieDbOrg.Models.Movies
 
         [JsonProperty("vote_count")]
         public long VoteCount { get; set; }
+
+        [JsonProperty("releases")]
+        public Releases Releases { get; set; }
     }
 
     public partial class Genre
@@ -125,14 +129,35 @@ namespace MovieDbLite.TheMovieDbOrg.Models.Movies
         public string Name { get; set; }
     }
 
-    public partial class Welcome
+    public partial class Releases
     {
-        public static Welcome FromJson(string json) => JsonConvert.DeserializeObject<Welcome>(json, Converter.Settings);
+        [JsonProperty("countries")]
+        public Country[] Countries { get; set; }
+    }
+
+    public partial class Country
+    {
+        [JsonProperty("certification")]
+        public string Certification { get; set; }
+
+        [JsonProperty("iso_3166_1")]
+        public string Iso3166_1 { get; set; }
+
+        [JsonProperty("primary")]
+        public bool Primary { get; set; }
+
+        [JsonProperty("release_date")]
+        public DateTimeOffset ReleaseDate { get; set; }
+    }
+
+    public partial class DbOrgMovie
+    {
+        public static DbOrgMovie FromJson(string json) => JsonConvert.DeserializeObject<DbOrgMovie>(json, Converter.Settings);
     }
 
     public static class Serialize
     {
-        public static string ToJson(this Welcome self) => JsonConvert.SerializeObject(self, Converter.Settings);
+        public static string ToJson(this DbOrgMovie self) => JsonConvert.SerializeObject(self, Converter.Settings);
     }
 
     internal static class Converter

@@ -1,7 +1,9 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using MovieDbLite.MVC.Models;
+using MovieDbLite.TheMovieDbOrg.Models.Movies;
 using System;
-using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace MovieDbLite.MVC.Controllers
@@ -17,48 +19,72 @@ namespace MovieDbLite.MVC.Controllers
             _context = context;
         }
 
-        // GET: api/TheMovieDbApi
-        [HttpGet]
-        public IEnumerable<string> Get()
-        {
-            return new string[] { "value1", "value2" };
-        }
-
-        // GET: api/TheMovieDbApi/5
-        [HttpGet("{id}", Name = "Get")]
-        public string Get(int id)
-        {
-            return "value";
-        }
-
         // POST: api/TheMovieDbApi
         [HttpPost]
-        public async Task Post([FromBody] MovieDbLite.TheMovieDbOrg.Models.Movies.Welcome movieDbMovie)
+        public async Task Post([FromBody] DbOrgMovie dbOrgMovie)
         {
             var movie = new Movie();
-            movie.Title = movieDbMovie.Title;
-            movie.Description = movieDbMovie.Overview.Substring(0, Math.Min(movieDbMovie.Overview.Length, 500));
-            movie.DurationInMinutes = (int)movieDbMovie.Runtime;
-            movie.DirectorFilmMemberId = 3; // TODO: This will need to be looked up later...
-            movie.ReleaseDate = movieDbMovie.ReleaseDate.DateTime;
 
-            // TODO: Implement language support.
-            //movie.MovieLanguage.Add(new MovieLanguage() { LanguageIsoCode = movieDbMovie.lan})
+            // Set basic details (easy)
+            movie.Title = dbOrgMovie.Title;
+            movie.Description = dbOrgMovie.Overview.Substring(0, Math.Min(dbOrgMovie.Overview.Length, 500));
+            movie.DurationInMinutes = (int)dbOrgMovie.Runtime;
+            movie.ReleaseDate = dbOrgMovie.ReleaseDate.DateTime;
+
+            // Set Restriction Rating.  Use certification of first US Release in TheMovieDbOrg results.
+            movie.RestrictionRatingId = await GetRestrictionRating(dbOrgMovie);
+            
+            // Set Genre/Language lists by reference
+            await SetMovieGenres(dbOrgMovie, movie);
+            await SetMovieLanguages(dbOrgMovie, movie);
+
             _context.Add(movie);
 
             await _context.SaveChangesAsync();
         }
 
-        // PUT: api/TheMovieDbApi/5
-        [HttpPut("{id}")]
-        public void Put(int id, [FromBody] string value)
+        private async Task<short?> GetRestrictionRating(DbOrgMovie dbOrgMovie)
         {
+            string restrictionRatingCode =
+                dbOrgMovie.Releases.Countries.Where(c => c.Iso3166_1 == "US") // Get US releases
+                    .OrderBy(c => c.ReleaseDate) // Get First Release (Assumes it is Theatrical Release)
+                    .Select(r => r.Certification)
+                    .FirstOrDefault();
+
+            RestrictionRating restrictionRating = await _context.RestrictionRating.Where(r => r.Code == restrictionRatingCode).FirstOrDefaultAsync();
+
+            return restrictionRating?.Id;
         }
 
-        // DELETE: api/ApiWithActions/5
-        [HttpDelete("{id}")]
-        public void Delete(int id)
+        private async Task SetMovieGenres(DbOrgMovie dbOrgMovie, Movie movie)
         {
+            // match genre names between two databases to get ones that exist in both
+            var dbOrgMovieGenreNames = dbOrgMovie.Genres.Select(g => g.Name).ToList();
+            var matchedGenres = _context.Genre.Where(genre => dbOrgMovieGenreNames.Contains(genre.GenreName));
+
+            foreach (Models.Genre genre in await matchedGenres.ToListAsync())
+            {
+                movie.MovieGenre.Add(new MovieGenre()
+                {
+                    GenreId = genre.Id
+                });
+            }
         }
+
+        private async Task SetMovieLanguages(DbOrgMovie dbOrgMovie, Movie movie)
+        {
+            // match languages iso codes between two databases to get ones that exist in both
+            var dbOrgLanguages = dbOrgMovie.SpokenLanguages.Select(l => l.Iso639_1).ToList();
+            var matchedLanguages = _context.Language.Where(l => dbOrgLanguages.Contains(l.LanguageIsoCode));
+
+            foreach (var language in await matchedLanguages.ToListAsync())
+            {
+                movie.MovieLanguage.Add(new MovieLanguage()
+                {
+                    LanguageIsoCode = language.LanguageIsoCode
+                });
+            }
+        }
+
     }
 }

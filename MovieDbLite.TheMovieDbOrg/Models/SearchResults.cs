@@ -5,7 +5,8 @@ using System.Globalization;
 
 namespace MovieDbLite.TheMovieDbOrg.Models.SearchResults
 {
-    public partial class Welcome
+    [JsonObject("Welcome")]
+    public partial class DbOrgMovieResults
     {
         [JsonProperty("page")]
         public long Page { get; set; }
@@ -65,14 +66,14 @@ namespace MovieDbLite.TheMovieDbOrg.Models.SearchResults
         public double VoteAverage { get; set; }
     }
 
-    public partial class Welcome
+    public partial class DbOrgMovieResults
     {
-        public static Welcome FromJson(string json) => JsonConvert.DeserializeObject<Welcome>(json, Converter.Settings);
+        public static DbOrgMovieResults FromJson(string json) => JsonConvert.DeserializeObject<DbOrgMovieResults>(json, Converter.Settings);
     }
 
     public static class Serialize
     {
-        public static string ToJson(this Welcome self) => JsonConvert.SerializeObject(self, Converter.Settings);
+        public static string ToJson(this DbOrgMovieResults self) => JsonConvert.SerializeObject(self, Converter.Settings);
     }
 
     internal static class Converter

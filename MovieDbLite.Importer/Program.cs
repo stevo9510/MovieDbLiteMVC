@@ -1,49 +1,40 @@
-﻿using Newtonsoft.Json;
+﻿using MovieDbLite.TheMovieDbOrg.Models.Movies;
+using MovieDbLite.TheMovieDbOrg.Models.SearchResults;
 using System;
-using System.Net.Http;
-using System.Text;
+using System.Threading.Tasks;
 
 namespace MovieDbLite.Importer
 {
     class Program
     {
-
-        private const string TheMovieDbUrl = "https://api.themoviedb.org/3/";
-
-
-        static void Main(string[] args)
+        private static async Task Main(string[] args)
         {
-            using var movieDbClient = new HttpClient
+            var theMovieDbApiClient = new TheMovieDbApiClient();
+            var movieDbLiteApiClient = new MovieDbLiteApiClient();    
+
+            string movieName = "The Dark Knight";
+            if(args.Length > 0)
             {
-                BaseAddress = new Uri(TheMovieDbUrl)
-            };
-            string apiKey = Environment.GetEnvironmentVariable("TheMovieDbApiKey", EnvironmentVariableTarget.User);
-            string apiParam = $"api_key={apiKey}";
+                // if passed via CLI, use over default
+                movieName = args[0];
+            }
 
-            TheMovieDbOrg.Models.SearchResults.Welcome movieResults = GetMovieResults(movieDbClient, apiParam);
-            
-            long movieId = movieResults.Results[0].Id;
-            string movieJson = movieDbClient.GetAsync($"movie/{movieId}?{apiParam}").Result.Content.ReadAsStringAsync().Result;
-
-            var movie = TheMovieDbOrg.Models.Movies.Welcome.FromJson(movieJson);
-            string json = TheMovieDbOrg.Models.Movies.Serialize.ToJson(movie);
-            var json2 = JsonConvert.DeserializeObject<TheMovieDbOrg.Models.Movies.Welcome>(movieJson);
-            
-            using var localHttpClient = new HttpClient
+            DbOrgMovieResults movieResults = await theMovieDbApiClient.GetMovieResults(movieName);
+            if(movieResults.Results.Length == 0)
             {
-                BaseAddress = new Uri("https://localhost:44368/")
-            };
+                throw new Exception("No movie results were found from the search");
+            }
 
-            var content = new StringContent(json, Encoding.UTF8, "application/json");
-            var result = localHttpClient.PostAsync("api/TheMovieDbApi", content).Result;
+            // For these purposes, get the top-most movie id based on the search.  Ignore other results.
+            long topMostMovieId = movieResults.Results[0].Id;
+
+            DbOrgMovie movie = await theMovieDbApiClient.GetMovie(topMostMovieId);
+
+            await movieDbLiteApiClient.AddNewMovie(movie);
+
+            theMovieDbApiClient.Dispose();
+            movieDbLiteApiClient.Dispose();
         }
 
-        private static TheMovieDbOrg.Models.SearchResults.Welcome GetMovieResults(HttpClient httpClient, string apiParam)
-        {
-            string json = httpClient.GetAsync($"search/movie?{apiParam}&query=fight%20club")
-                .Result.Content.ReadAsStringAsync().Result;
-            var movieResults = TheMovieDbOrg.Models.SearchResults.Welcome.FromJson(json);
-            return movieResults;
-        }
     }
 }
