@@ -2,10 +2,13 @@
 using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
 using MovieDbLite.MVC.Models;
+using System;
 using System.Collections.Generic;
 using System.Data;
-using System.Threading.Tasks;
 using System.Linq;
+using System.Linq.Expressions;
+using System.Threading.Tasks;
+
 namespace MovieDbLite.MVC.Controllers
 {
     public class MovieDetailsController : Controller
@@ -17,8 +20,22 @@ namespace MovieDbLite.MVC.Controllers
             _context = context;
         }
 
+        public async Task<IActionResult> Details(long id)
+        {
+            MovieDetailsViewModel viewModel = await GetMovieAsync(m => m.Id == id);
+            return View("Search", viewModel);
+        }
+
+        // GET: MovieDetails/Search/{movieTitle}
         public async Task<IActionResult> Search(string movieTitle)
         {
+            MovieDetailsViewModel viewModel = await GetMovieAsync(m => m.Title == movieTitle);
+            return View(viewModel);
+        }
+
+        private async Task<MovieDetailsViewModel> GetMovieAsync(Expression<Func<Movie, bool>> movieSearchPredicate)
+        {
+            // TODO: Make this support more than one search result in future, and showing results page
             Movie movieGeneralDetails = await _context.Movie
                 .Include(m => m.DirectorFilmMember)
                 .Include(m => m.RestrictionRating)
@@ -26,10 +43,8 @@ namespace MovieDbLite.MVC.Controllers
                 .ThenInclude(mg => mg.Genre)
                 .Include(m => m.MovieLanguage)
                 .ThenInclude(ml => ml.LanguageIsoCodeNavigation)
-                .FirstOrDefaultAsync(m => m.Title == movieTitle);
-
+                .FirstOrDefaultAsync(movieSearchPredicate);
             using var sqlConn = new SqlConnection(_context.Database.GetDbConnection().ConnectionString);
-
             DataTable dtMovieCastAndCrew = GetMovieCastAndCrew(sqlConn, movieGeneralDetails.Id);
             List<MovieCastMemberDetail> castMembers = GetCastMembers(dtMovieCastAndCrew);
             List<MovieCrewMemberDetail> crewMembers = GetCrewMembers(dtMovieCastAndCrew);
@@ -48,8 +63,8 @@ namespace MovieDbLite.MVC.Controllers
                 Title = movieGeneralDetails.Title,
                 Description = movieGeneralDetails.Description,
                 ReleaseDate = movieGeneralDetails.ReleaseDate,
-                RestrictionRating = movieGeneralDetails.RestrictionRating.Code,
-                DirectorName = movieGeneralDetails.DirectorFilmMember.PreferredFullName,
+                RestrictionRating = movieGeneralDetails.RestrictionRating?.Code,
+                DirectorName = movieGeneralDetails.DirectorFilmMember?.PreferredFullName,
                 Duration = $"{movieGeneralDetails.DurationInMinutes} mins",
                 AverageUserRating = movieGeneralDetails.AverageUserRating,
                 Languages = string.Join(',', movieGeneralDetails.MovieLanguage.Select(l => l.LanguageIsoCodeNavigation.LanguageName)),
@@ -59,7 +74,8 @@ namespace MovieDbLite.MVC.Controllers
                 MovieCrewMembers = crewMembers,
                 AwardDetails = awardInformation,
             };
-            return View(viewModel);
+
+            return viewModel;
         }
 
         public DataTable GetMovieCastAndCrew(SqlConnection sqlConn, long movieId)
