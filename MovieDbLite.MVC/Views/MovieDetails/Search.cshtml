@@ -7,7 +7,7 @@
 
 <h1>@Html.DisplayFor(model => model.Title) <span style="font-size: .6em">@(Model.ReleaseDate.HasValue ? $"({Model.ReleaseDate.Value.Year})" : "")</span></h1>
 <h5>
-    <span style="border: solid darkgray 2px;"> &nbsp;@Model.RestrictionRating&nbsp;</span>&nbsp&nbsp|&nbsp&nbsp @Model.Duration &nbsp&nbsp| &nbsp&nbsp @Model.Genres &nbsp&nbsp|&nbsp&nbsp @Model.Languages &nbsp&nbsp| &nbsp&nbsp @Html.DisplayFor(model => model.ReleaseDate)
+    <span style="margin-left: 1px; border: solid darkgray 1px;"> &nbsp;@Model.RestrictionRating&nbsp;</span>&nbsp&nbsp|&nbsp&nbsp @Model.Duration &nbsp&nbsp| &nbsp&nbsp @Model.Genres &nbsp&nbsp|&nbsp&nbsp @Model.Languages &nbsp&nbsp|&nbsp&nbsp @Html.DisplayFor(model => model.ReleaseDate)
 </h5>
 
 @if (Model.AverageUserRating.HasValue)
@@ -15,7 +15,7 @@
 <div data-toggle="tooltip" title="Actual Rating: @Model.AverageUserRating">
     @for (int i = 1; i <= Math.Round(Model.AverageUserRating.Value, MidpointRounding.AwayFromZero); i++)
         {
-    <span class="fa fa-star" style="font-size: larger; color: darkblue"></span>
+    <span class="fa fa-star" style="font-size: larger; color: goldenrod"></span>
         }
     @for (int i = (int)Math.Round(Model.AverageUserRating.Value, MidpointRounding.AwayFromZero) + 1; i <= 10; i++)
         {
