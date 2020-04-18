@@ -36,12 +36,15 @@ else
         @Html.DisplayFor(model => model.Description)
     </p>
 
-    <p><span style="font-weight: bold;">Directed By:</span>&nbsp;@Html.DisplayFor(model => model.DirectorName)</p>
+    @if (Model.DirectorFilmMemberId.HasValue)
+    {
+        <p><span style="font-weight: bold;">Directed By:</span>&nbsp;<a asp-controller="FilmMemberDetails" asp-action="Index" asp-route-id="@Model.DirectorFilmMemberId">@Html.DisplayFor(model => model.DirectorName)</a></p>
+    }
 
-    @if(Model.AwardDetails.Count > 0)
+    @if (Model.AwardDetails.Count > 0)
     {
         int awardsCount = Model.AwardDetails.Select(a => a.AwardId).Distinct().Count();
-    <p><span class="fa fa-award" style="color: darkgoldenrod; font-size: x-large"></span> &nbsp;<a href="#awards">@awardsCount Awards Won</a></p>
+        <p><span class="fa fa-award" style="color: darkgoldenrod; font-size: x-large"></span> &nbsp;<a href="#awards">@awardsCount Awards Won</a></p>
     }
 
     <h4>Movie Cast</h4>
@@ -49,13 +52,13 @@ else
     <div class="list-group">
         @foreach (var castMember in Model.MovieCastMembers.OrderBy(m => m.Sequence))
         {
-        <a asp-controller="FilmMemberDetails" asp-action="Index" asp-route-id="@castMember.FilmMemberId" class="list-group-item list-group-item-action">
-            <div class="d-flex w-100 justify-content-between">
-                <h5 class="mb-1">@castMember.Name</h5>
-                <small>@castMember.Sequence</small>
-            </div>
-            <p class="mb-1">@castMember.CharacterName</p>
-        </a>
+            <a asp-controller="FilmMemberDetails" asp-action="Index" asp-route-id="@castMember.FilmMemberId" class="list-group-item list-group-item-action">
+                <div class="d-flex w-100 justify-content-between">
+                    <h5 class="mb-1">@castMember.Name</h5>
+                    <small>@castMember.Sequence</small>
+                </div>
+                <p class="mb-1">@castMember.CharacterName</p>
+            </a>
         }
     </div>
     <br />
@@ -64,30 +67,30 @@ else
     <div class="list-group">
         @foreach (var crewMember in Model.MovieCrewMembers.OrderBy(m => m.RoleName))
         {
-        <a asp-controller="FilmMemberDetails" asp-action="Index" asp-route-id="@crewMember.FilmMemberId" class="list-group-item list-group-item-action">
-            <div class="d-flex w-100 justify-content-between">
-                <h5 class="mb-1">@crewMember.Name</h5>
-            </div>
-            <p class="mb-1">@crewMember.RoleName</p>
-        </a>
+            <a asp-controller="FilmMemberDetails" asp-action="Index" asp-route-id="@crewMember.FilmMemberId" class="list-group-item list-group-item-action">
+                <div class="d-flex w-100 justify-content-between">
+                    <h5 class="mb-1">@crewMember.Name</h5>
+                </div>
+                <p class="mb-1">@crewMember.RoleName</p>
+            </a>
         }
     </div>
     <br />
     <a name="awards" />
     @if (Model.AwardDetails.Count > 0)
     {
-    <h4>Awards</h4>
-    <hr />
-    @foreach (var award in Model.AwardDetails)
+        <h4>Awards</h4>
+        <hr />
+        @foreach (var award in Model.AwardDetails)
         {
-    <a href="#" class="list-group-item list-group-item-action">
-        <div class="row">
-            <h5 class="col-md-6">@award.AwardName</h5>
-            <h6 class="col-md-4">@award.PreferredFullName</h6>
-            <small class="col-md-2 text-right">@award.Year </small>
-        </div>
-        <p class="mb-1">@award.ShowName</p>
-    </a>
+            <a href="#" class="list-group-item list-group-item-action">
+                <div class="row">
+                    <h5 class="col-md-6">@award.AwardName</h5>
+                    <h6 class="col-md-4">@award.PreferredFullName</h6>
+                    <small class="col-md-2 text-right">@award.Year </small>
+                </div>
+                <p class="mb-1">@award.ShowName</p>
+            </a>
         }
     }
 

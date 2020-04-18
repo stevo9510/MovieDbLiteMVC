@@ -11,6 +11,7 @@ namespace MovieDbLite.MVC.Models
         [Display(Name = "Release Date"), DataType(DataType.Date)]
         public DateTime? ReleaseDate { get; set; }
         public string RestrictionRating { get; set; }
+        public long? DirectorFilmMemberId { get; set; }
         public string DirectorName { get; set; }
         public string Duration { get; set; }
         public decimal? AverageUserRating { get; set; }

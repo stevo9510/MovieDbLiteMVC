@@ -69,6 +69,7 @@ namespace MovieDbLite.MVC.Controllers
                 Description = movieGeneralDetails.Description,
                 ReleaseDate = movieGeneralDetails.ReleaseDate,
                 RestrictionRating = movieGeneralDetails.RestrictionRating?.Code,
+                DirectorFilmMemberId = movieGeneralDetails.DirectorFilmMemberId,
                 DirectorName = movieGeneralDetails.DirectorFilmMember?.PreferredFullName,
                 Duration = $"{movieGeneralDetails.DurationInMinutes} mins",
                 AverageUserRating = movieGeneralDetails.AverageUserRating,
