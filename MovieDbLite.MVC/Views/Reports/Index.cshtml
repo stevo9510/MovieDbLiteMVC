@@ -5,19 +5,13 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h1>Index</h1>
+<h1>Award Winners Report</h1>
 
 <table class="table">
     <thead>
         <tr>
             <th>
-                @Html.DisplayNameFor(model => model.AwardId)
-            </th>
-            <th>
                 @Html.DisplayNameFor(model => model.AwardName)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.AwardShowId)
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.ShowName)
@@ -26,13 +20,7 @@
                 @Html.DisplayNameFor(model => model.Year)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.MovieId)
-            </th>
-            <th>
                 @Html.DisplayNameFor(model => model.Title)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.FilmMemberId)
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.PreferredFullName)
@@ -47,13 +35,7 @@
 @foreach (var item in Model) {
         <tr>
             <td>
-                @Html.DisplayFor(modelItem => item.AwardId)
-            </td>
-            <td>
                 @Html.DisplayFor(modelItem => item.AwardName)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.AwardShowId)
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.ShowName)
@@ -62,24 +44,13 @@
                 @Html.DisplayFor(modelItem => item.Year)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.MovieId)
-            </td>
-            <td>
                 @Html.DisplayFor(modelItem => item.Title)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.FilmMemberId)
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.PreferredFullName)
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.DateHosted)
-            </td>
-            <td>
-                @Html.ActionLink("Edit", "Edit", new { /* id=item.PrimaryKey */ }) |
-                @Html.ActionLink("Details", "Details", new { /* id=item.PrimaryKey */ }) |
-                @Html.ActionLink("Delete", "Delete", new { /* id=item.PrimaryKey */ })
             </td>
         </tr>
 }
