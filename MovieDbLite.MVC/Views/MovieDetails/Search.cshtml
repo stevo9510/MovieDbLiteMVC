@@ -7,27 +7,27 @@
 
 <h1>@Html.DisplayFor(model => model.Title) <span style="font-size: .6em">@(Model.ReleaseDate.HasValue ? $"({Model.ReleaseDate.Value.Year})" : "")</span></h1>
 <h5>
-    <span style="border: solid darkgray 1px">@Model.RestrictionRating</span>&nbsp&nbsp|&nbsp&nbsp @Model.Duration &nbsp&nbsp| &nbsp&nbsp @Model.Genres &nbsp&nbsp|&nbsp&nbsp @Model.Languages &nbsp&nbsp| &nbsp&nbsp @Html.DisplayFor(model => model.ReleaseDate)
+    <span style="border: solid darkgray 2px;"> &nbsp;@Model.RestrictionRating&nbsp;</span>&nbsp&nbsp|&nbsp&nbsp @Model.Duration &nbsp&nbsp| &nbsp&nbsp @Model.Genres &nbsp&nbsp|&nbsp&nbsp @Model.Languages &nbsp&nbsp| &nbsp&nbsp @Html.DisplayFor(model => model.ReleaseDate)
 </h5>
 
 @if (Model.AverageUserRating.HasValue)
 {
-    <div data-toggle="tooltip" title="Actual Rating: @Model.AverageUserRating">
-        @for (int i = 1; i <= Math.Round(Model.AverageUserRating.Value, MidpointRounding.AwayFromZero); i++)
+<div data-toggle="tooltip" title="Actual Rating: @Model.AverageUserRating">
+    @for (int i = 1; i <= Math.Round(Model.AverageUserRating.Value, MidpointRounding.AwayFromZero); i++)
         {
-            <span class="fa fa-star" style="font-size: larger; color: darkblue"></span>
+    <span class="fa fa-star" style="font-size: larger; color: darkblue"></span>
         }
-        @for (int i = (int)Math.Round(Model.AverageUserRating.Value, MidpointRounding.AwayFromZero) + 1; i <= 10; i++)
+    @for (int i = (int)Math.Round(Model.AverageUserRating.Value, MidpointRounding.AwayFromZero) + 1; i <= 10; i++)
         {
-            <span class="far fa-star"></span>
+    <span class="far fa-star"></span>
         }
-        &nbsp;
-        (@Model.NumberOfUserRatings User Ratings)
-    </div>
+    &nbsp;
+    (@Model.NumberOfUserRatings User Ratings)
+</div>
 }
 else
 {
-    <h4>No User Ratings Yet</h4>
+<h4>No User Ratings Yet</h4>
 }
 
 <div>
@@ -41,7 +41,7 @@ else
     @if(Model.AwardDetails.Count > 0)
     {
         int awardsCount = Model.AwardDetails.Select(a => a.AwardId).Distinct().Count();
-        <p><span class="fa fa-award" style="color: darkgoldenrod; font-size: x-large"></span> &nbsp;<a href="#awards">@awardsCount Awards Won</a></p>
+    <p><span class="fa fa-award" style="color: darkgoldenrod; font-size: x-large"></span> &nbsp;<a href="#awards">@awardsCount Awards Won</a></p>
     }
 
     <h4>Movie Cast</h4>
@@ -49,13 +49,13 @@ else
     <div class="list-group">
         @foreach (var castMember in Model.MovieCastMembers.OrderBy(m => m.Sequence))
         {
-            <a href="#" class="list-group-item list-group-item-action">
-                <div class="d-flex w-100 justify-content-between">
-                    <h5 class="mb-1">@castMember.Name</h5>
-                    <small>@castMember.Sequence</small>
-                </div>
-                <p class="mb-1">@castMember.CharacterName</p>
-            </a>
+        <a asp-controller="FilmMemberDetails" asp-action="Index" asp-route-id="@castMember.FilmMemberId" class="list-group-item list-group-item-action">
+            <div class="d-flex w-100 justify-content-between">
+                <h5 class="mb-1">@castMember.Name</h5>
+                <small>@castMember.Sequence</small>
+            </div>
+            <p class="mb-1">@castMember.CharacterName</p>
+        </a>
         }
     </div>
     <br />
@@ -64,30 +64,30 @@ else
     <div class="list-group">
         @foreach (var crewMember in Model.MovieCrewMembers.OrderBy(m => m.RoleName))
         {
-            <a href="#" class="list-group-item list-group-item-action">
-                <div class="d-flex w-100 justify-content-between">
-                    <h5 class="mb-1">@crewMember.Name</h5>
-                </div>
-                <p class="mb-1">@crewMember.RoleName</p>
-            </a>
+        <a asp-controller="FilmMemberDetails" asp-action="Index" asp-route-id="@crewMember.FilmMemberId" class="list-group-item list-group-item-action">
+            <div class="d-flex w-100 justify-content-between">
+                <h5 class="mb-1">@crewMember.Name</h5>
+            </div>
+            <p class="mb-1">@crewMember.RoleName</p>
+        </a>
         }
     </div>
     <br />
-    <a name="awards"/>
+    <a name="awards" />
     @if (Model.AwardDetails.Count > 0)
     {
-        <h4>Awards</h4>
-        <hr />
-        @foreach (var award in Model.AwardDetails)
+    <h4>Awards</h4>
+    <hr />
+    @foreach (var award in Model.AwardDetails)
         {
-            <a href="#" class="list-group-item list-group-item-action">
-                <div class="row">
-                    <h5 class="col-md-6">@award.AwardName</h5>
-                    <h6 class="col-md-4">@award.PreferredFullName</h6>
-                    <small class="col-md-2 text-right">@award.Year </small>
-                </div>
-                <p class="mb-1">@award.ShowName</p>
-            </a>
+    <a href="#" class="list-group-item list-group-item-action">
+        <div class="row">
+            <h5 class="col-md-6">@award.AwardName</h5>
+            <h6 class="col-md-4">@award.PreferredFullName</h6>
+            <small class="col-md-2 text-right">@award.Year </small>
+        </div>
+        <p class="mb-1">@award.ShowName</p>
+    </a>
         }
     }
 
