@@ -16,8 +16,9 @@ namespace MovieDbLite.MVC.Controllers
             _context = context;
         }
 
-        // GET: FilmMemberDetails/Details/5
-        public async Task<IActionResult> Details(long id)
+        // GET: FilmMemberDetails/5
+        [HttpGet("{controller}/{id}")]
+        public async Task<IActionResult> Index(long? id)
         {
             FilmMember filmMember =
                 await _context.FilmMember
