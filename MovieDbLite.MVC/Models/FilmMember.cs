@@ -20,6 +20,7 @@ namespace MovieDbLite.MVC.Models
         public string MiddleName { get; set; }
         public string LastName { get; set; }
         public string Suffix { get; set; }
+        [Display(Name = "Name")]
         public string PreferredFullName { get; set; }
         public string Gender { get; set; }
         [DataType(DataType.Date)]

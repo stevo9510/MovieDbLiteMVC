@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 
 namespace MovieDbLite.MVC.Models
 {
@@ -11,6 +12,7 @@ namespace MovieDbLite.MVC.Models
         }
 
         public short Id { get; set; }
+        [Display(Name = "Show")]
         public string ShowName { get; set; }
         public string Description { get; set; }
 

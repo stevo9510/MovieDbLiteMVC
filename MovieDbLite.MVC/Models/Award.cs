@@ -14,6 +14,15 @@ namespace MovieDbLite.MVC.Models
         public string AwardName { get; set; }
         public string Description { get; set; }
 
+        public string FriendlyName
+        {
+            get
+            {
+                string awardShowDetail = AwardShow != null ? $"({AwardShow.ShowName})" : "";
+                return $"{AwardName} {awardShowDetail}";
+            }
+        }
+
         public virtual AwardShow AwardShow { get; set; }
         public virtual ICollection<AwardWinner> AwardWinner { get; set; }
     }

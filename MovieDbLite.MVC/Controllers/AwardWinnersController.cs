@@ -21,7 +21,12 @@ namespace MovieDbLite.MVC.Controllers
         // GET: AwardWinners
         public async Task<IActionResult> Index()
         {
-            var movieDbLiteContext = _context.AwardWinner.Include(a => a.Award).Include(a => a.AwardShowInstance).Include(a => a.FilmMember).Include(a => a.Movie);
+            var movieDbLiteContext = _context.AwardWinner
+                .Include(a => a.Award)
+                .Include(a => a.AwardShowInstance)
+                    .ThenInclude(asi => asi.AwardShow)
+                .Include(a => a.FilmMember)
+                .Include(a => a.Movie);
             return View(await movieDbLiteContext.ToListAsync());
         }
 
@@ -50,8 +55,8 @@ namespace MovieDbLite.MVC.Controllers
         // GET: AwardWinners/Create
         public IActionResult Create()
         {
-            ViewData["AwardId"] = new SelectList(_context.Award, "Id", "AwardName");
-            ViewData["AwardShowInstanceId"] = new SelectList(_context.AwardShowInstance.Include(f => f.AwardShow), "Id", nameof(AwardShowInstance.FriendlyName));
+            ViewData["AwardId"] = new SelectList(_context.Award.OrderBy(a => a.AwardShowId), "Id", nameof(Award.FriendlyName));
+            ViewData["AwardShowInstanceId"] = new SelectList(_context.AwardShowInstance.Include(f => f.AwardShow).OrderBy(a => a.Year).ThenBy(a => a.AwardShowId), "Id", nameof(AwardShowInstance.FriendlyName));
             ViewData["FilmMemberId"] = new SelectList(_context.FilmMember, "Id", nameof(FilmMember.PreferredFullName));
             ViewData["MovieId"] = new SelectList(_context.Movie, "Id", nameof(Movie.Title));
             return View();

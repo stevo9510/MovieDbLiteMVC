@@ -16,10 +16,13 @@
                 @Html.DisplayNameFor(model => model.Award)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.AwardShowInstance)
+                @Html.DisplayNameFor(model => model.Award.AwardShow.ShowName)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.FilmMember)
+                @Html.DisplayNameFor(model => model.AwardShowInstance.Year)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.FilmMember.PreferredFullName)
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.Movie)
@@ -34,13 +37,16 @@
                 @Html.DisplayFor(modelItem => item.Award.AwardName)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.AwardShowInstance.Id)
+                @Html.DisplayFor(modelItem => item.Award.AwardShow.ShowName)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.FilmMember.FirstName)
+                @Html.DisplayFor(modelItem => item.AwardShowInstance.Year)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.Movie.Description)
+                @Html.DisplayFor(modelItem => item.FilmMember.PreferredFullName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Movie.Title)
             </td>
             <td>
                 @Html.ActionLink("Edit", "Edit", new { /* id=item.PrimaryKey */ }) |

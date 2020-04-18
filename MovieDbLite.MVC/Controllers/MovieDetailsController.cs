@@ -20,22 +20,24 @@ namespace MovieDbLite.MVC.Controllers
             _context = context;
         }
 
-        public async Task<IActionResult> Details(long id)
+        [HttpGet("{controller}/{id}")]
+        [ActionName("Index")]
+        public async Task<IActionResult> Index(long? id)
         {
             MovieDetailsViewModel viewModel = await GetMovieAsync(m => m.Id == id);
-            return View("Search", viewModel);
+            return View("Index", viewModel);
         }
 
         // GET: MovieDetails/Search/{movieTitle}
         public async Task<IActionResult> Search(string movieTitle)
         {
-            MovieDetailsViewModel viewModel = await GetMovieAsync(m => m.Title == movieTitle);
-            return View(viewModel);
+            // TODO: Make this support more than one search result in future, and showing results page
+            Movie movieFound = await _context.Movie.FirstOrDefaultAsync(m => m.Title == movieTitle);
+            return RedirectToAction("Index", new { id = movieFound.Id });
         }
 
         private async Task<MovieDetailsViewModel> GetMovieAsync(Expression<Func<Movie, bool>> movieSearchPredicate)
         {
-            // TODO: Make this support more than one search result in future, and showing results page
             Movie movieGeneralDetails = await _context.Movie
                 .Include(m => m.DirectorFilmMember)
                 .Include(m => m.RestrictionRating)
