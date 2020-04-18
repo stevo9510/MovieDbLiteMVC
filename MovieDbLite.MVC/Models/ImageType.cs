@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 
 namespace MovieDbLite.MVC.Models
 {
@@ -10,6 +11,7 @@ namespace MovieDbLite.MVC.Models
         }
 
         public short Id { get; set; }
+        [Display(Name = "Image Type")]
         public string ImageExtension { get; set; }
         public string Name { get; set; }
 

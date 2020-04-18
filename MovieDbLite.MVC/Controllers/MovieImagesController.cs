@@ -49,7 +49,7 @@ namespace MovieDbLite.MVC.Controllers
         // GET: MovieImages/Create
         public IActionResult Create()
         {
-            ViewData["MovieId"] = new SelectList(_context.Movie, "Id", "Description");
+            ViewData["MovieId"] = new SelectList(_context.Movie, "Id", "Title");
             return View();
         }
 
@@ -99,7 +99,7 @@ namespace MovieDbLite.MVC.Controllers
                 return NotFound();
             }
             ViewData["ImageTypeId"] = new SelectList(_context.ImageType, "Id", "ImageExtension", movieImage.ImageTypeId);
-            ViewData["MovieId"] = new SelectList(_context.Movie, "Id", "Description", movieImage.MovieId);
+            ViewData["MovieId"] = new SelectList(_context.Movie, "Id", "Title", movieImage.MovieId);
             return View(movieImage);
         }
 
@@ -136,7 +136,7 @@ namespace MovieDbLite.MVC.Controllers
                 return RedirectToAction(nameof(Index));
             }
             ViewData["ImageTypeId"] = new SelectList(_context.ImageType, "Id", "ImageExtension", movieImage.ImageTypeId);
-            ViewData["MovieId"] = new SelectList(_context.Movie, "Id", "Description", movieImage.MovieId);
+            ViewData["MovieId"] = new SelectList(_context.Movie, "Id", "Title", movieImage.MovieId);
             return View(movieImage);
         }
 
