@@ -8,7 +8,7 @@ namespace MovieDbLite.MVC.Models
     {
         public string Title { get; set; }
         public string Description { get; set; }
-        [DataType(DataType.Date)]
+        [Display(Name = "Release Date"), DataType(DataType.Date)]
         public DateTime? ReleaseDate { get; set; }
         public string RestrictionRating { get; set; }
         public string DirectorName { get; set; }
@@ -16,6 +16,7 @@ namespace MovieDbLite.MVC.Models
         public decimal? AverageUserRating { get; set; }
         public string Languages { get; set; }
         public string Genres { get; set; }
+        public int NumberOfUserRatings { get; set; }
         public byte[] Image { get; set; }
 
         public List<MovieCastMemberDetail> MovieCastMembers { get; set; }
@@ -27,6 +28,7 @@ namespace MovieDbLite.MVC.Models
     {
         public long FilmMemberId { get; set; }
         public string Name { get; set; }
+        [Display(Name = "Character")]
         public string CharacterName { get; set; }
         public int? Sequence { get; set; }
     }
@@ -35,14 +37,20 @@ namespace MovieDbLite.MVC.Models
     {
         public long FilmMemberId { get; set; }
         public string Name { get; set; }
+        [Display(Name = "Role Name")]
         public string RoleName { get; set; }
     }
 
     public class AwardInfo
     {
+        public int AwardId { get; set; }
+
+        [Display(Name = "Award")]
         public string AwardName { get; set; }
+        [Display(Name = "Award Show")]
         public string ShowName { get; set; }
         public short Year { get; set; }
+        [Display(Name = "Winner")]
         public string PreferredFullName { get; set; }
     }
 }

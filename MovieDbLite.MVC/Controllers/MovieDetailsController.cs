@@ -44,14 +44,19 @@ namespace MovieDbLite.MVC.Controllers
                 .Include(m => m.MovieLanguage)
                 .ThenInclude(ml => ml.LanguageIsoCodeNavigation)
                 .FirstOrDefaultAsync(movieSearchPredicate);
+
+            long movieId = movieGeneralDetails.Id;
+            int numberUserReviews = await _context.MovieUserReview.Where(m => m.MovieId == movieId).CountAsync();
+
             using var sqlConn = new SqlConnection(_context.Database.GetDbConnection().ConnectionString);
-            DataTable dtMovieCastAndCrew = GetMovieCastAndCrew(sqlConn, movieGeneralDetails.Id);
+            DataTable dtMovieCastAndCrew = GetMovieCastAndCrew(sqlConn, movieId);
             List<MovieCastMemberDetail> castMembers = GetCastMembers(dtMovieCastAndCrew);
             List<MovieCrewMemberDetail> crewMembers = GetCrewMembers(dtMovieCastAndCrew);
 
-            List<VwAwardWinnerInfo> awards = await _context.VwAwardWinnerInfo.Where(w => w.MovieId == movieGeneralDetails.Id).ToListAsync();
+            List<VwAwardWinnerInfo> awards = await _context.VwAwardWinnerInfo.Where(w => w.MovieId == movieId).ToListAsync();
             List<AwardInfo> awardInformation = awards.Select(a => new AwardInfo()
             {
+                AwardId = a.AwardId,
                 AwardName = a.AwardName,
                 PreferredFullName = a.PreferredFullName,
                 ShowName = a.ShowName,
@@ -67,9 +72,10 @@ namespace MovieDbLite.MVC.Controllers
                 DirectorName = movieGeneralDetails.DirectorFilmMember?.PreferredFullName,
                 Duration = $"{movieGeneralDetails.DurationInMinutes} mins",
                 AverageUserRating = movieGeneralDetails.AverageUserRating,
-                Languages = string.Join(',', movieGeneralDetails.MovieLanguage.Select(l => l.LanguageIsoCodeNavigation.LanguageName)),
-                Genres = string.Join(',', movieGeneralDetails.MovieGenre.Select(g => g.Genre.GenreName)),
+                Languages = string.Join(", ", movieGeneralDetails.MovieLanguage.Select(l => l.LanguageIsoCodeNavigation.LanguageName)),
+                Genres = string.Join(", ", movieGeneralDetails.MovieGenre.Select(g => g.Genre.GenreName)),
                 Image = null,
+                NumberOfUserRatings = numberUserReviews,
                 MovieCastMembers = castMembers,
                 MovieCrewMembers = crewMembers,
                 AwardDetails = awardInformation,

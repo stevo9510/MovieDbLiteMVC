@@ -5,63 +5,90 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h1>Details</h1>
+<h1>@Html.DisplayFor(model => model.Title) <span style="font-size: .6em">@(Model.ReleaseDate.HasValue ? $"({Model.ReleaseDate.Value.Year})" : "")</span></h1>
+<h5>
+    <span style="border: solid darkgray 1px">@Model.RestrictionRating</span>&nbsp&nbsp|&nbsp&nbsp @Model.Duration &nbsp&nbsp| &nbsp&nbsp @Model.Genres &nbsp&nbsp|&nbsp&nbsp @Model.Languages &nbsp&nbsp| &nbsp&nbsp @Html.DisplayFor(model => model.ReleaseDate)
+</h5>
+
+@if (Model.AverageUserRating.HasValue)
+{
+    <div data-toggle="tooltip" title="Actual Rating: @Model.AverageUserRating">
+        @for (int i = 1; i <= Math.Round(Model.AverageUserRating.Value, MidpointRounding.AwayFromZero); i++)
+        {
+            <span class="fa fa-star" style="font-size: larger; color: darkblue"></span>
+        }
+        @for (int i = (int)Math.Round(Model.AverageUserRating.Value, MidpointRounding.AwayFromZero) + 1; i <= 10; i++)
+        {
+            <span class="far fa-star"></span>
+        }
+        &nbsp;
+        (@Model.NumberOfUserRatings User Ratings)
+    </div>
+}
+else
+{
+    <h4>No User Ratings Yet</h4>
+}
 
 <div>
-    <h4>MovieDetailsViewModel</h4>
     <hr />
-    <dl class="row">
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Title)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Title)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Description)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Description)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.ReleaseDate)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.ReleaseDate)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.RestrictionRating)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.RestrictionRating)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.DirectorName)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.DirectorName)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Duration)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Duration)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.AverageUserRating)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.AverageUserRating)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Image)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Image)
-        </dd>
-    </dl>
-</div>
-<div>
-    @Html.ActionLink("Edit", "Edit", new { /* id = Model.PrimaryKey */ }) |
-    <a asp-action="Index">Back to List</a>
+    <p style="font-size: larger">
+        @Html.DisplayFor(model => model.Description)
+    </p>
+
+    <p><span style="font-weight: bold;">Directed By:</span>&nbsp;@Html.DisplayFor(model => model.DirectorName)</p>
+
+    @if(Model.AwardDetails.Count > 0)
+    {
+        int awardsCount = Model.AwardDetails.Select(a => a.AwardId).Distinct().Count();
+        <p><span class="fa fa-award" style="color: darkgoldenrod; font-size: x-large"></span> &nbsp;<a href="#awards">@awardsCount Awards Won</a></p>
+    }
+
+    <h4>Movie Cast</h4>
+    <hr />
+    <div class="list-group">
+        @foreach (var castMember in Model.MovieCastMembers.OrderBy(m => m.Sequence))
+        {
+            <a href="#" class="list-group-item list-group-item-action">
+                <div class="d-flex w-100 justify-content-between">
+                    <h5 class="mb-1">@castMember.Name</h5>
+                    <small>@castMember.Sequence</small>
+                </div>
+                <p class="mb-1">@castMember.CharacterName</p>
+            </a>
+        }
+    </div>
+    <br />
+    <h4>Movie Crew</h4>
+    <hr />
+    <div class="list-group">
+        @foreach (var crewMember in Model.MovieCrewMembers.OrderBy(m => m.RoleName))
+        {
+            <a href="#" class="list-group-item list-group-item-action">
+                <div class="d-flex w-100 justify-content-between">
+                    <h5 class="mb-1">@crewMember.Name</h5>
+                </div>
+                <p class="mb-1">@crewMember.RoleName</p>
+            </a>
+        }
+    </div>
+    <br />
+    <a name="awards"/>
+    @if (Model.AwardDetails.Count > 0)
+    {
+        <h4>Awards</h4>
+        <hr />
+        @foreach (var award in Model.AwardDetails)
+        {
+            <a href="#" class="list-group-item list-group-item-action">
+                <div class="row">
+                    <h5 class="col-md-6">@award.AwardName</h5>
+                    <h6 class="col-md-4">@award.PreferredFullName</h6>
+                    <small class="col-md-2 text-right">@award.Year </small>
+                </div>
+                <p class="mb-1">@award.ShowName</p>
+            </a>
+        }
+    }
+
 </div>
