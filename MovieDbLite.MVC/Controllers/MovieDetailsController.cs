@@ -63,6 +63,9 @@ namespace MovieDbLite.MVC.Controllers
                 Year = a.Year
             }).ToList();
 
+            MovieImage topImage = await _context.MovieImage.Include(m => m.ImageType).Where(m => m.MovieId == movieId)
+                .OrderByDescending(m => m.DateUploaded).FirstOrDefaultAsync();
+                
             var viewModel = new MovieDetailsViewModel()
             {
                 Title = movieGeneralDetails.Title,
@@ -75,7 +78,7 @@ namespace MovieDbLite.MVC.Controllers
                 AverageUserRating = movieGeneralDetails.AverageUserRating,
                 Languages = string.Join(", ", movieGeneralDetails.MovieLanguage.Select(l => l.LanguageIsoCodeNavigation.LanguageName)),
                 Genres = string.Join(", ", movieGeneralDetails.MovieGenre.Select(g => g.Genre.GenreName)),
-                Image = null,
+                Image = topImage,
                 NumberOfUserRatings = numberUserReviews,
                 MovieCastMembers = castMembers,
                 MovieCrewMembers = crewMembers,

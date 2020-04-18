@@ -337,8 +337,6 @@ namespace MovieDbLite.MVC.Models
                     .HasName("UX_MovieImage_MovieId_ImageName")
                     .IsUnique();
 
-                entity.Property(e => e.Id).ValueGeneratedNever();
-
                 entity.Property(e => e.Description)
                     .HasMaxLength(500)
                     .IsUnicode(false);

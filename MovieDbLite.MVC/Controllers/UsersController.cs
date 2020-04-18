@@ -102,7 +102,7 @@ namespace MovieDbLite.MVC.Controllers
             {
                 try
                 {
-                    if(await _context.User.AnyAsync(u => u.Id == id && u.UserName != user.UserName))
+                    if (await _context.User.AnyAsync(u => u.Id == id && u.UserName != user.UserName))
                     {
                         throw new InvalidOperationException("User name cannot be changed");
                     }

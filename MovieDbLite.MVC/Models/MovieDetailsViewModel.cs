@@ -18,7 +18,7 @@ namespace MovieDbLite.MVC.Models
         public string Languages { get; set; }
         public string Genres { get; set; }
         public int NumberOfUserRatings { get; set; }
-        public byte[] Image { get; set; }
+        public MovieImage Image { get; set; }
 
         public List<MovieCastMemberDetail> MovieCastMembers { get; set; }
         public List<MovieCrewMemberDetail> MovieCrewMembers { get; set; }

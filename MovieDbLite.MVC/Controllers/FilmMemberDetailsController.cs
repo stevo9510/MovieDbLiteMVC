@@ -79,7 +79,7 @@ namespace MovieDbLite.MVC.Controllers
                     MovieId = m.MovieId,
                     MovieTitle = m.Movie.Title,
                     FilmRoleId = m.FilmRoleId,
-                    RoleName = m.FilmRole.RoleName, 
+                    RoleName = m.FilmRole.RoleName,
                     CharacterName = null,
                     Year = (short?)m.Movie.ReleaseDate?.Year
                 });

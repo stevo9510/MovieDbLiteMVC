@@ -21,8 +21,8 @@ namespace MovieDbLite.MVC.Models
         public List<FilmMemberCredits> Credits { get; set; }
         public List<FilmMemberAwardInfo> Awards { get; set; }
 
-        public string ActualFullName 
-        { 
+        public string ActualFullName
+        {
             get
             {
                 return $"{FirstName + " "}{MiddleName + " "}{LastName + " "}{Suffix}";

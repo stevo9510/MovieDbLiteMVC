@@ -18,7 +18,7 @@ namespace MovieDbLite.MVC.Controllers
         {
             return View();
         }
-        
+
         public IActionResult Privacy()
         {
             return View();
