@@ -73,7 +73,7 @@ namespace MovieDbLite.MVC.Controllers
             {
                 using (var sqlConn = new SqlConnection(_context.Database.GetDbConnection().ConnectionString))
                 {
-                    await InsertMovieAwardWinner(sqlConn, awardWinner.AwardShowInstanceId, awardWinner.AwardId, awardWinner.FilmMemberId, awardWinner.MovieId);
+                    await InsertMovieAwardWinnerAsync(sqlConn, awardWinner.AwardShowInstanceId, awardWinner.AwardId, awardWinner.FilmMemberId, awardWinner.MovieId);
                 }
 
                 //await _context.SaveChangesAsync();
@@ -181,7 +181,7 @@ namespace MovieDbLite.MVC.Controllers
             return _context.AwardWinner.Any(e => e.AwardShowInstanceId == id);
         }
 
-        private async Task InsertMovieAwardWinner(SqlConnection sqlConn, int awardShowInstanceId, int awardId,
+        private async Task InsertMovieAwardWinnerAsync(SqlConnection sqlConn, int awardShowInstanceId, int awardId,
             long filmMemberId, long movieId)
         {
             // Specify the stored procedure to call, as well as the connection object

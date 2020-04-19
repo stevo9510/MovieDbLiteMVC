@@ -53,7 +53,7 @@
         @foreach (var credit in Model.Credits.Where(c => c.RoleName == role)
          .OrderByDescending(c => c.Year))
         {
-            <a asp-controller="MovieDetails" asp-action="Details" asp-route-id="@credit.MovieId"  class="list-group-item list-group-item-action">
+            <a asp-controller="MovieDetails" asp-action="Index" asp-route-id="@credit.MovieId"  class="list-group-item list-group-item-action">
                 <div class="d-flex w-100 justify-content-between">
                     <h5 class="mb-1">@credit.MovieTitle</h5>
                     <h6 class="mb-1">@credit.CharacterName</h6>
