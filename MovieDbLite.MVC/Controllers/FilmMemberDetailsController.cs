@@ -17,7 +17,6 @@ namespace MovieDbLite.MVC.Controllers
         }
 
         // GET: FilmMemberDetails/5
-        [HttpGet("{controller}/{id}")]
         public async Task<IActionResult> Index(long? id)
         {
             FilmMember filmMember =

@@ -20,7 +20,6 @@ namespace MovieDbLite.MVC.Controllers
             _context = context;
         }
 
-        [HttpGet("{controller}/{id}")]
         [ActionName("Index")]
         public async Task<IActionResult> Index(long? id)
         {
