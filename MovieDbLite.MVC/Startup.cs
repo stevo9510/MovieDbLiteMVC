@@ -27,7 +27,21 @@ namespace MovieDbLite.MVC
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddSwaggerDocument();
+            services.AddSwaggerDocument(config =>
+                {
+                    config.PostProcess = document =>
+                    {
+                        var info = document.Info;
+                        info.Version = "v1";
+                        info.Title = "MovieDbLite API";
+                        info.TermsOfService = "Not Applicable";
+                        info.Contact = new NSwag.OpenApiContact
+                        {
+                            Name = "Steven Anderson",
+                            Url = "https://www.github.com/stevo9510"
+                        };
+                    };
+                });
 
             services.AddDbContext<ApplicationDbContext>(options =>
                 options.UseSqlServer(

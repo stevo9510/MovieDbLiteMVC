@@ -23,6 +23,11 @@ namespace MovieDbLite.MVC.Controllers
             _context = context;
         }
 
+        /// <summary>
+        /// Write data from TheMovieDbOrg database into MovieDbLite
+        /// </summary>
+        /// <param name="dbOrgMovie"></param>
+        /// <returns></returns>
         // POST: api/TheMovieDbApi
         [HttpPost]
         public async Task Post([FromBody] DbOrgMovie dbOrgMovie)

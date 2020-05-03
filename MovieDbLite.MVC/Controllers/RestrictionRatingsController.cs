@@ -15,6 +15,10 @@ namespace MovieDbLite.MVC.Controllers
             _context = context;
         }
 
+        /// <summary>
+        /// Restriction Ratings Index Page
+        /// </summary>
+        /// <returns></returns>
         // GET: RestrictionRatings
         public async Task<IActionResult> Index()
         {
@@ -141,6 +145,11 @@ namespace MovieDbLite.MVC.Controllers
             return RedirectToAction(nameof(Index));
         }
 
+        /// <summary>
+        /// Used to check if a restriction rating already exists in database.
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
         private bool RestrictionRatingExists(short id)
         {
             return _context.RestrictionRating.Any(e => e.Id == id);
