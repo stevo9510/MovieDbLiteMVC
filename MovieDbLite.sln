@@ -7,7 +7,12 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MovieDbLite.MVC", "MovieDbL
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MovieDbLite.Importer", "MovieDbLite.Importer\MovieDbLite.Importer.csproj", "{68273579-4602-4829-9034-9EFD609DE336}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MovieDbLite.TheMovieDbOrg", "MovieDbLite.TheMovieDbOrg\MovieDbLite.TheMovieDbOrg.csproj", "{E3AA69FF-12AE-4332-AD07-52271A160437}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MovieDbLite.TheMovieDbOrg", "MovieDbLite.TheMovieDbOrg\MovieDbLite.TheMovieDbOrg.csproj", "{E3AA69FF-12AE-4332-AD07-52271A160437}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{1E7EA041-08F4-42AC-BE11-8F1A32FE6A9C}"
+	ProjectSection(SolutionItems) = preProject
+		.editorconfig = .editorconfig
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
