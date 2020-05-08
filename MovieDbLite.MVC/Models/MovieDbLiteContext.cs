@@ -58,7 +58,7 @@ namespace MovieDbLite.MVC.Models
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_Award_AwardShow");
             });
-
+            
             modelBuilder.Entity<AwardShow>(entity =>
             {
                 entity.HasIndex(e => e.ShowName)
@@ -73,6 +73,7 @@ namespace MovieDbLite.MVC.Models
                     .IsRequired()
                     .HasMaxLength(50)
                     .IsUnicode(false);
+
             });
 
             modelBuilder.Entity<AwardShowInstance>(entity =>

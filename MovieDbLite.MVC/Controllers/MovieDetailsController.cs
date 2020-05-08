@@ -55,7 +55,7 @@ namespace MovieDbLite.MVC.Controllers
             List<MovieCrewMemberDetail> crewMembers = GetCrewMembers(dtMovieCastAndCrew);
 
             List<VwAwardWinnerInfo> awards = await _context.VwAwardWinnerInfo.Where(w => w.MovieId == movieId).ToListAsync();
-            List<AwardInfo> awardInformation = awards.Select(a => new AwardInfo()
+            var awardInformation = awards.Select(a => new AwardInfo()
             {
                 AwardId = a.AwardId,
                 AwardName = a.AwardName,
@@ -118,10 +118,10 @@ namespace MovieDbLite.MVC.Controllers
 	            mFilmMember.FilmRoleId
             ";
 
-            using SqlCommand sqlCommand = new SqlCommand(command, sqlConn);
+            using var sqlCommand = new SqlCommand(command, sqlConn);
             sqlCommand.Parameters.AddWithValue("@MovieId", movieId);
-            using SqlDataAdapter myDataAdapter = new SqlDataAdapter(sqlCommand);
-            DataTable dtResult = new DataTable();
+            using var myDataAdapter = new SqlDataAdapter(sqlCommand);
+            var dtResult = new DataTable();
             myDataAdapter.Fill(dtResult);
             return dtResult;
         }

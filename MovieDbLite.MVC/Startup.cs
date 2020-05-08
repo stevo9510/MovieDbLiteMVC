@@ -8,6 +8,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using MovieDbLite.MVC.Data;
 using MovieDbLite.MVC.Models;
+using NSwag;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -31,7 +32,7 @@ namespace MovieDbLite.MVC
                 {
                     config.PostProcess = document =>
                     {
-                        var info = document.Info;
+                        OpenApiInfo info = document.Info;
                         info.Version = "v1";
                         info.Title = "MovieDbLite API";
                         info.TermsOfService = "Not Applicable";

@@ -14,6 +14,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		.editorconfig = .editorconfig
 	EndProjectSection
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MovieDbLite.MvcTest", "MovieDbLite.MvcTest\MovieDbLite.MvcTest.csproj", "{A835A637-9281-441E-BFF4-A1F0CD0B0C0D}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -32,6 +34,10 @@ Global
 		{E3AA69FF-12AE-4332-AD07-52271A160437}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{E3AA69FF-12AE-4332-AD07-52271A160437}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{E3AA69FF-12AE-4332-AD07-52271A160437}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A835A637-9281-441E-BFF4-A1F0CD0B0C0D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A835A637-9281-441E-BFF4-A1F0CD0B0C0D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A835A637-9281-441E-BFF4-A1F0CD0B0C0D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A835A637-9281-441E-BFF4-A1F0CD0B0C0D}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

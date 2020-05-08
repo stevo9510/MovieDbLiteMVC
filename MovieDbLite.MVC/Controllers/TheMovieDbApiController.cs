@@ -49,15 +49,15 @@ namespace MovieDbLite.MVC.Controllers
 
             #region Insert With Stored Procedure
 
-            using var sqlConn = new SqlConnection(_context.Database.GetDbConnection().ConnectionString);
-            await InsertMovieWithStoredProcedureAsync(sqlConn, movie);
+            //using var sqlConn = new SqlConnection(_context.Database.GetDbConnection().ConnectionString);
+            //await InsertMovieWithStoredProcedureAsync(sqlConn, movie);
 
             #endregion
 
             #region Insert with Entity Framework (Commented out)
 
-            //_context.Add(movie);
-            //await _context.SaveChangesAsync();
+            _context.Add(movie);
+            await _context.SaveChangesAsync();
 
             #endregion
         }
@@ -65,7 +65,7 @@ namespace MovieDbLite.MVC.Controllers
         private async Task<short?> GetRestrictionRating(DbOrgMovie dbOrgMovie)
         {
             string restrictionRatingCode =
-                dbOrgMovie.Releases.Countries.Where(c => c.Iso3166_1 == "US") // Get US releases
+                dbOrgMovie?.Releases?.Countries.Where(c => c.Iso3166_1 == "US") // Get US releases
                     .OrderBy(c => c.ReleaseDate) // Get First Release (Assumes it is Theatrical Release)
                     .Select(r => r.Certification)
                     .FirstOrDefault();
@@ -78,7 +78,7 @@ namespace MovieDbLite.MVC.Controllers
         private async Task SetMovieGenres(DbOrgMovie dbOrgMovie, Movie movie)
         {
             // match genre names between two databases to get ones that exist in both
-            var dbOrgMovieGenreNames = dbOrgMovie.Genres.Select(g => g.Name).ToList();
+            var dbOrgMovieGenreNames = dbOrgMovie?.Genres.Select(g => g.Name).ToList();
             var matchedGenres = _context.Genre.Where(genre => dbOrgMovieGenreNames.Contains(genre.GenreName));
 
             foreach (Models.Genre genre in await matchedGenres.ToListAsync())
@@ -93,10 +93,10 @@ namespace MovieDbLite.MVC.Controllers
         private async Task SetMovieLanguages(DbOrgMovie dbOrgMovie, Movie movie)
         {
             // match languages iso codes between two databases to get ones that exist in both
-            var dbOrgLanguages = dbOrgMovie.SpokenLanguages.Select(l => l.Iso639_1).ToList();
-            var matchedLanguages = _context.Language.Where(l => dbOrgLanguages.Contains(l.LanguageIsoCode));
+            var dbOrgLanguages = dbOrgMovie.SpokenLanguages?.Select(l => l.Iso639_1).ToList();
+            IQueryable<Language> matchedLanguages = _context.Language.Where(l => dbOrgLanguages.Contains(l.LanguageIsoCode));
 
-            foreach (var language in await matchedLanguages.ToListAsync())
+            foreach (Language language in await matchedLanguages.ToListAsync())
             {
                 movie.MovieLanguage.Add(new MovieLanguage()
                 {
