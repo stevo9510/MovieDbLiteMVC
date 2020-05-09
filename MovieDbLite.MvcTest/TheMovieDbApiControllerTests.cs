@@ -4,6 +4,7 @@ using MovieDbLite.MVC.Controllers;
 using MovieDbLite.MVC.Models;
 using MovieDbLite.TheMovieDbOrg.Models.Movies;
 using System;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace MovieDbLite.MvcTest
@@ -43,11 +44,17 @@ namespace MovieDbLite.MvcTest
 
             using var retrieveContext = new MovieDbLiteContext(builder.Options);
 
-            var movies = await retrieveContext.Movie.ToListAsync();
+            var movies = await retrieveContext.Movie.Include(m => m.MovieGenre).ToListAsync();
             Assert.AreEqual(1, movies.Count);
             Movie newMovie = movies[0];
 
             Assert.AreEqual("Football Movie", newMovie.Title);
+            Assert.AreEqual(150, newMovie.DurationInMinutes);
+            Assert.AreEqual(new DateTime(2020, 05, 08), newMovie.ReleaseDate);
+            Assert.AreEqual(2, newMovie.MovieGenre.Count);
+            Assert.IsTrue(newMovie.MovieGenre.Any(mg => mg.GenreId == 1));
+            Assert.IsTrue(newMovie.MovieGenre.Any(mg => mg.GenreId == 2));
+            Assert.IsNull(newMovie.RestrictionRatingId);
         }
 
         private static DbOrgMovie CreateObjectWithoutLanguagesAndRestrictionRating()
@@ -66,12 +73,12 @@ namespace MovieDbLite.MvcTest
                     },
                     new TheMovieDbOrg.Models.Movies.Genre()
                     {
-                        Id = 1000,
+                        Id = 1001,
                         Name = "Horror"
                     },
                     new TheMovieDbOrg.Models.Movies.Genre()
                     {
-                        Id = 1000,
+                        Id = 1002,
                         Name = "Action"
                     },
                 },
