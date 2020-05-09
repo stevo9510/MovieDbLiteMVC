@@ -35,6 +35,15 @@ namespace MovieDbLite.MVC.Models
         public virtual DbSet<UserRole> UserRole { get; set; }
         public virtual DbSet<VwAwardWinnerInfo> VwAwardWinnerInfo { get; set; }
 
+        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+        {
+            if (!optionsBuilder.IsConfigured)
+            {
+#warning To protect potentially sensitive information in your connection string, you should move it out of source code. See http://go.microsoft.com/fwlink/?LinkId=723263 for guidance on storing connection strings.
+                optionsBuilder.UseSqlServer("Server=.\\SQLExpress;Database=MovieDbLite;Trusted_Connection=True;");
+            }
+        }
+
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<Award>(entity =>
@@ -43,14 +52,9 @@ namespace MovieDbLite.MVC.Models
                     .HasName("UX_Award_AwardShowId_AwardName")
                     .IsUnique();
 
-                entity.Property(e => e.AwardName)
-                    .IsRequired()
-                    .HasMaxLength(50)
-                    .IsUnicode(false);
+                entity.Property(e => e.AwardName).IsUnicode(false);
 
-                entity.Property(e => e.Description)
-                    .HasMaxLength(200)
-                    .IsUnicode(false);
+                entity.Property(e => e.Description).IsUnicode(false);
 
                 entity.HasOne(d => d.AwardShow)
                     .WithMany(p => p.Award)
@@ -58,22 +62,16 @@ namespace MovieDbLite.MVC.Models
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_Award_AwardShow");
             });
-            
+
             modelBuilder.Entity<AwardShow>(entity =>
             {
                 entity.HasIndex(e => e.ShowName)
                     .HasName("UX_AwardShow_ShowName")
                     .IsUnique();
 
-                entity.Property(e => e.Description)
-                    .HasMaxLength(200)
-                    .IsUnicode(false);
+                entity.Property(e => e.Description).IsUnicode(false);
 
-                entity.Property(e => e.ShowName)
-                    .IsRequired()
-                    .HasMaxLength(50)
-                    .IsUnicode(false);
-
+                entity.Property(e => e.ShowName).IsUnicode(false);
             });
 
             modelBuilder.Entity<AwardShowInstance>(entity =>
@@ -81,8 +79,6 @@ namespace MovieDbLite.MVC.Models
                 entity.HasIndex(e => new { e.AwardShowId, e.Year })
                     .HasName("UX_AwardShowInstance_AwardShowId_Year")
                     .IsUnique();
-
-                entity.Property(e => e.DateHosted).HasColumnType("date");
 
                 entity.HasOne(d => d.AwardShow)
                     .WithMany(p => p.AwardShowInstance)
@@ -126,42 +122,21 @@ namespace MovieDbLite.MVC.Models
 
                 entity.Property(e => e.Biography).IsUnicode(false);
 
-                entity.Property(e => e.DateOfBirth).HasColumnType("date");
-
-                entity.Property(e => e.DateOfDeath).HasColumnType("date");
-
-                entity.Property(e => e.FirstName)
-                    .IsRequired()
-                    .HasMaxLength(50)
-                    .IsUnicode(false);
+                entity.Property(e => e.FirstName).IsUnicode(false);
 
                 entity.Property(e => e.Gender)
-                    .IsRequired()
-                    .HasMaxLength(1)
                     .IsUnicode(false)
                     .IsFixedLength();
 
-                entity.Property(e => e.LastName)
-                    .IsRequired()
-                    .HasMaxLength(50)
-                    .IsUnicode(false);
+                entity.Property(e => e.LastName).IsUnicode(false);
 
-                entity.Property(e => e.MiddleName)
-                    .HasMaxLength(50)
-                    .IsUnicode(false);
+                entity.Property(e => e.MiddleName).IsUnicode(false);
 
-                entity.Property(e => e.PreferredFullName)
-                    .IsRequired()
-                    .HasMaxLength(150)
-                    .IsUnicode(false);
+                entity.Property(e => e.PreferredFullName).IsUnicode(false);
 
-                entity.Property(e => e.Prefix)
-                    .HasMaxLength(10)
-                    .IsUnicode(false);
+                entity.Property(e => e.Prefix).IsUnicode(false);
 
-                entity.Property(e => e.Suffix)
-                    .HasMaxLength(5)
-                    .IsUnicode(false);
+                entity.Property(e => e.Suffix).IsUnicode(false);
             });
 
             modelBuilder.Entity<FilmRole>(entity =>
@@ -172,14 +147,9 @@ namespace MovieDbLite.MVC.Models
 
                 entity.Property(e => e.Id).ValueGeneratedNever();
 
-                entity.Property(e => e.Description)
-                    .HasMaxLength(200)
-                    .IsUnicode(false);
+                entity.Property(e => e.Description).IsUnicode(false);
 
-                entity.Property(e => e.RoleName)
-                    .IsRequired()
-                    .HasMaxLength(50)
-                    .IsUnicode(false);
+                entity.Property(e => e.RoleName).IsUnicode(false);
             });
 
             modelBuilder.Entity<Genre>(entity =>
@@ -190,63 +160,36 @@ namespace MovieDbLite.MVC.Models
 
                 entity.Property(e => e.Id).ValueGeneratedNever();
 
-                entity.Property(e => e.Description)
-                    .HasMaxLength(500)
-                    .IsUnicode(false);
+                entity.Property(e => e.Description).IsUnicode(false);
 
-                entity.Property(e => e.GenreName)
-                    .IsRequired()
-                    .HasMaxLength(25)
-                    .IsUnicode(false);
+                entity.Property(e => e.GenreName).IsUnicode(false);
             });
 
             modelBuilder.Entity<ImageType>(entity =>
             {
                 entity.Property(e => e.Id).ValueGeneratedNever();
 
-                entity.Property(e => e.ImageExtension)
-                    .IsRequired()
-                    .HasMaxLength(10)
-                    .IsUnicode(false);
+                entity.Property(e => e.ImageExtension).IsUnicode(false);
 
-                entity.Property(e => e.Name)
-                    .IsRequired()
-                    .HasMaxLength(25)
-                    .IsUnicode(false);
+                entity.Property(e => e.Name).IsUnicode(false);
             });
 
             modelBuilder.Entity<Language>(entity =>
             {
-                entity.HasKey(e => e.LanguageIsoCode);
-
                 entity.Property(e => e.LanguageIsoCode)
-                    .HasMaxLength(2)
                     .IsUnicode(false)
                     .IsFixedLength();
 
-                entity.Property(e => e.LanguageName)
-                    .IsRequired()
-                    .HasMaxLength(50)
-                    .IsUnicode(false);
+                entity.Property(e => e.LanguageName).IsUnicode(false);
             });
 
             modelBuilder.Entity<Movie>(entity =>
             {
                 entity.HasIndex(e => e.Title);
 
-                entity.Property(e => e.AverageUserRating).HasColumnType("decimal(5, 2)");
+                entity.Property(e => e.Description).IsUnicode(false);
 
-                entity.Property(e => e.Description)
-                    .IsRequired()
-                    .HasMaxLength(500)
-                    .IsUnicode(false);
-
-                entity.Property(e => e.ReleaseDate).HasColumnType("date");
-
-                entity.Property(e => e.Title)
-                    .IsRequired()
-                    .HasMaxLength(150)
-                    .IsUnicode(false);
+                entity.Property(e => e.Title).IsUnicode(false);
 
                 entity.HasOne(d => d.DirectorFilmMember)
                     .WithMany(p => p.DirectorMovies)
@@ -263,10 +206,7 @@ namespace MovieDbLite.MVC.Models
             {
                 entity.HasKey(e => new { e.MovieId, e.ActorFilmMemberId });
 
-                entity.Property(e => e.CharacterName)
-                    .IsRequired()
-                    .HasMaxLength(150)
-                    .IsUnicode(false);
+                entity.Property(e => e.CharacterName).IsUnicode(false);
 
                 entity.HasOne(d => d.ActorFilmMember)
                     .WithMany(p => p.MovieCastMember)
@@ -308,8 +248,6 @@ namespace MovieDbLite.MVC.Models
             {
                 entity.HasKey(e => new { e.MovieId, e.GenreId });
 
-                entity.ToTable("Movie_Genre");
-
                 entity.HasOne(d => d.Genre)
                     .WithMany(p => p.MovieGenre)
                     .HasForeignKey(d => d.GenreId)
@@ -329,16 +267,9 @@ namespace MovieDbLite.MVC.Models
                     .HasName("UX_MovieImage_MovieId_ImageName")
                     .IsUnique();
 
-                entity.Property(e => e.Description)
-                    .HasMaxLength(500)
-                    .IsUnicode(false);
+                entity.Property(e => e.Description).IsUnicode(false);
 
-                entity.Property(e => e.FileContents).IsRequired();
-
-                entity.Property(e => e.ImageName)
-                    .IsRequired()
-                    .HasMaxLength(100)
-                    .IsUnicode(false);
+                entity.Property(e => e.ImageName).IsUnicode(false);
 
                 entity.HasOne(d => d.ImageType)
                     .WithMany(p => p.MovieImage)
@@ -357,10 +288,7 @@ namespace MovieDbLite.MVC.Models
             {
                 entity.HasKey(e => new { e.MovieId, e.LanguageIsoCode });
 
-                entity.ToTable("Movie_Language");
-
                 entity.Property(e => e.LanguageIsoCode)
-                    .HasMaxLength(2)
                     .IsUnicode(false)
                     .IsFixedLength();
 
@@ -383,9 +311,7 @@ namespace MovieDbLite.MVC.Models
                     .HasName("UX_MovieUserReview_MovieId_UserId")
                     .IsUnique();
 
-                entity.Property(e => e.Review)
-                    .HasMaxLength(8000)
-                    .IsUnicode(false);
+                entity.Property(e => e.Review).IsUnicode(false);
 
                 entity.HasOne(d => d.Movie)
                     .WithMany(p => p.MovieUserReview)
@@ -425,20 +351,11 @@ namespace MovieDbLite.MVC.Models
 
                 entity.Property(e => e.Id).ValueGeneratedNever();
 
-                entity.Property(e => e.Code)
-                    .IsRequired()
-                    .HasMaxLength(10)
-                    .IsUnicode(false);
+                entity.Property(e => e.Code).IsUnicode(false);
 
-                entity.Property(e => e.LongDescription)
-                    .IsRequired()
-                    .HasMaxLength(200)
-                    .IsUnicode(false);
+                entity.Property(e => e.LongDescription).IsUnicode(false);
 
-                entity.Property(e => e.ShortDescription)
-                    .IsRequired()
-                    .HasMaxLength(50)
-                    .IsUnicode(false);
+                entity.Property(e => e.ShortDescription).IsUnicode(false);
             });
 
             modelBuilder.Entity<User>(entity =>
@@ -446,20 +363,11 @@ namespace MovieDbLite.MVC.Models
                 entity.HasIndex(e => e.UserName)
                     .HasName("UX_User_UserName");
 
-                entity.Property(e => e.EmailAddress)
-                    .IsRequired()
-                    .HasMaxLength(255)
-                    .IsUnicode(false);
+                entity.Property(e => e.EmailAddress).IsUnicode(false);
 
-                entity.Property(e => e.HashedPassword)
-                    .IsRequired()
-                    .HasMaxLength(60)
-                    .IsUnicode(false);
+                entity.Property(e => e.HashedPassword).IsUnicode(false);
 
-                entity.Property(e => e.UserName)
-                    .IsRequired()
-                    .HasMaxLength(25)
-                    .IsUnicode(false);
+                entity.Property(e => e.UserName).IsUnicode(false);
 
                 entity.HasOne(d => d.UserRole)
                     .WithMany(p => p.User)
@@ -476,15 +384,9 @@ namespace MovieDbLite.MVC.Models
 
                 entity.Property(e => e.Id).ValueGeneratedNever();
 
-                entity.Property(e => e.Description)
-                    .IsRequired()
-                    .HasMaxLength(500)
-                    .IsUnicode(false);
+                entity.Property(e => e.Description).IsUnicode(false);
 
-                entity.Property(e => e.RoleName)
-                    .IsRequired()
-                    .HasMaxLength(25)
-                    .IsUnicode(false);
+                entity.Property(e => e.RoleName).IsUnicode(false);
             });
 
             modelBuilder.Entity<VwAwardWinnerInfo>(entity =>
@@ -493,27 +395,13 @@ namespace MovieDbLite.MVC.Models
 
                 entity.ToView("vw_AwardWinnerInfo");
 
-                entity.Property(e => e.AwardName)
-                    .IsRequired()
-                    .HasMaxLength(50)
-                    .IsUnicode(false);
+                entity.Property(e => e.AwardName).IsUnicode(false);
 
-                entity.Property(e => e.DateHosted).HasColumnType("date");
+                entity.Property(e => e.PreferredFullName).IsUnicode(false);
 
-                entity.Property(e => e.PreferredFullName)
-                    .IsRequired()
-                    .HasMaxLength(150)
-                    .IsUnicode(false);
+                entity.Property(e => e.ShowName).IsUnicode(false);
 
-                entity.Property(e => e.ShowName)
-                    .IsRequired()
-                    .HasMaxLength(50)
-                    .IsUnicode(false);
-
-                entity.Property(e => e.Title)
-                    .IsRequired()
-                    .HasMaxLength(150)
-                    .IsUnicode(false);
+                entity.Property(e => e.Title).IsUnicode(false);
             });
 
             OnModelCreatingPartial(modelBuilder);

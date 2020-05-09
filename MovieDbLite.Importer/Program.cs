@@ -10,17 +10,17 @@ namespace MovieDbLite.Importer
         private static async Task Main(string[] args)
         {
             var theMovieDbApiClient = new TheMovieDbApiClient();
-            var movieDbLiteApiClient = new MovieDbLiteApiClient();    
+            var movieDbLiteApiClient = new MovieDbLiteApiClient();
 
             string movieName = "The Dark Knight";
-            if(args.Length > 0)
+            if (args.Length > 0)
             {
                 // if passed via CLI, use over default
                 movieName = args[0];
             }
 
             DbOrgMovieResults movieResults = await theMovieDbApiClient.GetMovieResults(movieName);
-            if(movieResults.Results.Length == 0)
+            if (movieResults.Results.Length == 0)
             {
                 throw new Exception("No movie results were found from the search");
             }

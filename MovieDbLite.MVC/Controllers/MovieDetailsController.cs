@@ -66,7 +66,7 @@ namespace MovieDbLite.MVC.Controllers
 
             MovieImage topImage = await _context.MovieImage.Include(m => m.ImageType).Where(m => m.MovieId == movieId)
                 .OrderByDescending(m => m.DateUploaded).FirstOrDefaultAsync();
-                
+
             var viewModel = new MovieDetailsViewModel()
             {
                 Title = movieGeneralDetails.Title,

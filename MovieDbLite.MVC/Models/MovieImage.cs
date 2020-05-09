@@ -1,23 +1,29 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace MovieDbLite.MVC.Models
 {
     public partial class MovieImage
     {
+        [Key]
         public long Id { get; set; }
-        [Display(Name = "Movie")]
         public long MovieId { get; set; }
-        [Display(Name = "Image Name")]
+        [Required]
+        [StringLength(100)]
         public string ImageName { get; set; }
         public short ImageTypeId { get; set; }
+        [StringLength(500)]
         public string Description { get; set; }
+        [Required]
         public byte[] FileContents { get; set; }
-        [Display(Name = "Date Uploaded")]
         public DateTime DateUploaded { get; set; }
 
-        [Display(Name = "Image Type")]
+        [ForeignKey(nameof(ImageTypeId))]
+        [InverseProperty("MovieImage")]
         public virtual ImageType ImageType { get; set; }
+        [ForeignKey(nameof(MovieId))]
+        [InverseProperty("MovieImage")]
         public virtual Movie Movie { get; set; }
     }
 }

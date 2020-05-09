@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace MovieDbLite.MVC.Models
 {
@@ -11,12 +12,17 @@ namespace MovieDbLite.MVC.Models
             AwardShowInstance = new HashSet<AwardShowInstance>();
         }
 
+        [Key]
         public short Id { get; set; }
-        [Display(Name = "Show")]
+        [Required]
+        [StringLength(50)]
         public string ShowName { get; set; }
+        [StringLength(200)]
         public string Description { get; set; }
 
+        [InverseProperty("AwardShow")]
         public virtual ICollection<Award> Award { get; set; }
+        [InverseProperty("AwardShow")]
         public virtual ICollection<AwardShowInstance> AwardShowInstance { get; set; }
     }
 }

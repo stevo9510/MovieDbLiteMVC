@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace MovieDbLite.MVC.Models
 {
@@ -14,24 +15,39 @@ namespace MovieDbLite.MVC.Models
             MovieCrewMember = new HashSet<MovieCrewMember>();
         }
 
+        [Key]
         public long Id { get; set; }
+        [StringLength(10)]
         public string Prefix { get; set; }
+        [Required]
+        [StringLength(50)]
         public string FirstName { get; set; }
+        [StringLength(50)]
         public string MiddleName { get; set; }
+        [Required]
+        [StringLength(50)]
         public string LastName { get; set; }
+        [StringLength(5)]
         public string Suffix { get; set; }
-        [Display(Name = "Name")]
+        [Required]
+        [StringLength(150)]
         public string PreferredFullName { get; set; }
+        [Required]
+        [StringLength(1)]
         public string Gender { get; set; }
-        [DataType(DataType.Date)]
+        [Column(TypeName = "date")]
         public DateTime? DateOfBirth { get; set; }
-        [DataType(DataType.Date)]
+        [Column(TypeName = "date")]
         public DateTime? DateOfDeath { get; set; }
         public string Biography { get; set; }
 
+        [InverseProperty("FilmMember")]
         public virtual ICollection<AwardWinner> AwardWinner { get; set; }
+        [InverseProperty("DirectorFilmMember")]
         public virtual ICollection<Movie> DirectorMovies { get; set; }
+        [InverseProperty("ActorFilmMember")]
         public virtual ICollection<MovieCastMember> MovieCastMember { get; set; }
+        [InverseProperty("FilmMember")]
         public virtual ICollection<MovieCrewMember> MovieCrewMember { get; set; }
     }
 }

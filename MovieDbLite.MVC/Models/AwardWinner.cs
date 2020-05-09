@@ -1,21 +1,29 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace MovieDbLite.MVC.Models
 {
     public partial class AwardWinner
     {
-        [Display(Name = "Award Show Event")]
+        [Key]
         public int AwardShowInstanceId { get; set; }
-        [Display(Name = "Award")]
+        [Key]
         public int AwardId { get; set; }
-        [Display(Name = "Film Member")]
+        [Key]
         public long FilmMemberId { get; set; }
-        [Display(Name = "Movie")]
         public long MovieId { get; set; }
 
+        [ForeignKey(nameof(AwardId))]
+        [InverseProperty("AwardWinner")]
         public virtual Award Award { get; set; }
+        [ForeignKey(nameof(AwardShowInstanceId))]
+        [InverseProperty("AwardWinner")]
         public virtual AwardShowInstance AwardShowInstance { get; set; }
+        [ForeignKey(nameof(FilmMemberId))]
+        [InverseProperty("AwardWinner")]
         public virtual FilmMember FilmMember { get; set; }
+        [ForeignKey(nameof(MovieId))]
+        [InverseProperty("AwardWinner")]
         public virtual Movie Movie { get; set; }
     }
 }

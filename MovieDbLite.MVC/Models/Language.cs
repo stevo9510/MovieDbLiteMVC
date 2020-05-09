@@ -1,4 +1,6 @@
 ﻿using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace MovieDbLite.MVC.Models
 {
@@ -9,9 +11,14 @@ namespace MovieDbLite.MVC.Models
             MovieLanguage = new HashSet<MovieLanguage>();
         }
 
+        [Key]
+        [StringLength(2)]
         public string LanguageIsoCode { get; set; }
+        [Required]
+        [StringLength(50)]
         public string LanguageName { get; set; }
 
+        [InverseProperty("LanguageIsoCodeNavigation")]
         public virtual ICollection<MovieLanguage> MovieLanguage { get; set; }
     }
 }

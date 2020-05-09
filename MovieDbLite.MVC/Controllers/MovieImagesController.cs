@@ -72,7 +72,7 @@ namespace MovieDbLite.MVC.Controllers
             movieImage.ImageTypeId = imageType.Id;
 
             // timestamp (note: not UTC for now)
-            movieImage.DateUploaded = DateTime.Now; 
+            movieImage.DateUploaded = DateTime.Now;
 
             if (ModelState.IsValid)
             {

@@ -9,7 +9,7 @@ namespace MovieDbLite.Importer
     public class TheMovieDbApiClient : IDisposable
     {
         // Note: this would normally be in a config file
-        private const string TheMovieDbUrl = "https://api.themoviedb.org/3/"; 
+        private const string TheMovieDbUrl = "https://api.themoviedb.org/3/";
         private HttpClient MovieDbHttpClient { get; }
         private string ApiKey { get; } = Environment.GetEnvironmentVariable("TheMovieDbApiKey", EnvironmentVariableTarget.User);
         private string ApiKeyParam { get; }

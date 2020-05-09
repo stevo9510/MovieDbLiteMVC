@@ -1,25 +1,29 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace MovieDbLite.MVC.Models
 {
     public partial class VwAwardWinnerInfo
     {
         public int AwardId { get; set; }
-        [Display(Name = "Award")]
+        [Required]
+        [StringLength(50)]
         public string AwardName { get; set; }
         public short AwardShowId { get; set; }
-        [Display(Name = "Show")]
+        [Required]
+        [StringLength(50)]
         public string ShowName { get; set; }
-        [Display(Name = "Year")]
         public short Year { get; set; }
         public long MovieId { get; set; }
-        [Display(Name = "Movie")]
+        [Required]
+        [StringLength(150)]
         public string Title { get; set; }
         public long FilmMemberId { get; set; }
-        [Display(Name = "Name")]
+        [Required]
+        [StringLength(150)]
         public string PreferredFullName { get; set; }
-        [Display(Name = "Award Date"), DataType(DataType.Date)]
+        [Column(TypeName = "date")]
         public DateTime DateHosted { get; set; }
     }
 }
