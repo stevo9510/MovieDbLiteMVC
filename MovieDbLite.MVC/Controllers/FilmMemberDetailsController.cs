@@ -66,7 +66,7 @@ namespace MovieDbLite.MVC.Controllers
                 filmMember.MovieCastMember.Select(m => new FilmMemberCredits()
                 {
                     MovieId = m.MovieId,
-                    MovieTitle = m.Movie.Title,
+                    MovieTitle = m.Movie!.Title,
                     FilmRoleId = (short)DbEnum.FilmRole.Actor,
                     RoleName = "Actor",  // not a great way of doing this.
                     CharacterName = m.CharacterName,
@@ -76,9 +76,9 @@ namespace MovieDbLite.MVC.Controllers
                 filmMember.MovieCrewMember.Select(m => new FilmMemberCredits()
                 {
                     MovieId = m.MovieId,
-                    MovieTitle = m.Movie.Title,
+                    MovieTitle = m.Movie!.Title,
                     FilmRoleId = m.FilmRoleId,
-                    RoleName = m.FilmRole.RoleName,
+                    RoleName = m.FilmRole!.RoleName,
                     CharacterName = null,
                     Year = (short?)m.Movie.ReleaseDate?.Year
                 });

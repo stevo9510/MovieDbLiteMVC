@@ -12,6 +12,6 @@
             }
         }
 
-        public string AwardShowName { get; set; }
+        public string? AwardShowName { get; set; }
     }
 }

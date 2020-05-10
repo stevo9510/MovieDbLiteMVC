@@ -29,7 +29,7 @@ namespace MovieDbLite.MVC.Controllers
             var awardWinners = _context.AwardWinner
                 .Include(a => a.Award)
                 .Include(a => a.AwardShowInstance)
-                    .ThenInclude(asi => asi.AwardShow)
+                    .ThenInclude(asi => asi!.AwardShow)
                 .Include(a => a.FilmMember)
                 .Include(a => a.Movie);
             List<AwardWinner> awardWinnersList = await awardWinners.ToListAsync();

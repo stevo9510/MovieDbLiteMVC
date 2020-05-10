@@ -64,7 +64,7 @@ namespace MovieDbLite.MVC.Controllers
 
         private async Task<short?> GetRestrictionRating(DbOrgMovie dbOrgMovie)
         {
-            string restrictionRatingCode =
+            string? restrictionRatingCode =
                 dbOrgMovie?.Releases?.Countries.Where(c => c.Iso3166_1 == "US") // Get US releases
                     .OrderBy(c => c.ReleaseDate) // Get First Release (Assumes it is Theatrical Release)
                     .Select(r => r.Certification)
@@ -78,7 +78,7 @@ namespace MovieDbLite.MVC.Controllers
         private async Task SetMovieGenres(DbOrgMovie dbOrgMovie, Movie movie)
         {
             // match genre names between two databases to get ones that exist in both
-            var dbOrgMovieGenreNames = dbOrgMovie?.Genres.Select(g => g.Name).ToList();
+            var dbOrgMovieGenreNames = dbOrgMovie.Genres.Select(g => g.Name).ToList();
             var matchedGenres = _context.Genre.Where(genre => dbOrgMovieGenreNames.Contains(genre.GenreName));
 
             foreach (Models.Genre genre in await matchedGenres.ToListAsync())
@@ -144,7 +144,7 @@ namespace MovieDbLite.MVC.Controllers
 
             await sqlConn.CloseAsync();
 
-            return long.Parse(movieIdOutputParam.Value.ToString());
+            return long.Parse(movieIdOutputParam.Value.ToString()!);
         }
 
         private static DataTable ToDataTable<T>(string columnName, IEnumerable<T> coll)

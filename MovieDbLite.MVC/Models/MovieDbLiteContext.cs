@@ -35,15 +35,6 @@ namespace MovieDbLite.MVC.Models
         public virtual DbSet<UserRole> UserRole { get; set; } = default!;
         public virtual DbSet<VwAwardWinnerInfo> VwAwardWinnerInfo { get; set; } = default!;
 
-        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-        {
-            if (!optionsBuilder.IsConfigured)
-            {
-#warning To protect potentially sensitive information in your connection string, you should move it out of source code. See http://go.microsoft.com/fwlink/?LinkId=723263 for guidance on storing connection strings.
-                optionsBuilder.UseSqlServer("Server=.\\SQLExpress;Database=MovieDbLite;Trusted_Connection=True;");
-            }
-        }
-
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<Award>(entity =>
@@ -57,7 +48,7 @@ namespace MovieDbLite.MVC.Models
                 entity.Property(e => e.Description).IsUnicode(false);
 
                 entity.HasOne(d => d.AwardShow)
-                    .WithMany(p => p.Award)
+                    .WithMany(p => p!.Award)
                     .HasForeignKey(d => d.AwardShowId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_Award_AwardShow");
@@ -81,7 +72,7 @@ namespace MovieDbLite.MVC.Models
                     .IsUnique();
 
                 entity.HasOne(d => d.AwardShow)
-                    .WithMany(p => p.AwardShowInstance)
+                    .WithMany(p => p!.AwardShowInstance)
                     .HasForeignKey(d => d.AwardShowId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_AwardShowInstance_AwardShow");
@@ -92,25 +83,25 @@ namespace MovieDbLite.MVC.Models
                 entity.HasKey(e => new { e.AwardShowInstanceId, e.AwardId, e.FilmMemberId });
 
                 entity.HasOne(d => d.Award)
-                    .WithMany(p => p.AwardWinner)
+                    .WithMany(p => p!.AwardWinner)
                     .HasForeignKey(d => d.AwardId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_AwardWinner_Award");
 
                 entity.HasOne(d => d.AwardShowInstance)
-                    .WithMany(p => p.AwardWinner)
+                    .WithMany(p => p!.AwardWinner)
                     .HasForeignKey(d => d.AwardShowInstanceId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_AwardWinner_AwardShowInstanceId");
 
                 entity.HasOne(d => d.FilmMember)
-                    .WithMany(p => p.AwardWinner)
+                    .WithMany(p => p!.AwardWinner)
                     .HasForeignKey(d => d.FilmMemberId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_AwardWinner_FilmMember");
 
                 entity.HasOne(d => d.Movie)
-                    .WithMany(p => p.AwardWinner)
+                    .WithMany(p => p!.AwardWinner)
                     .HasForeignKey(d => d.MovieId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_AwardWinner_Movie");
@@ -192,12 +183,12 @@ namespace MovieDbLite.MVC.Models
                 entity.Property(e => e.Title).IsUnicode(false);
 
                 entity.HasOne(d => d.DirectorFilmMember)
-                    .WithMany(p => p.DirectorMovies)
+                    .WithMany(p => p!.DirectorMovies)
                     .HasForeignKey(d => d.DirectorFilmMemberId)
                     .HasConstraintName("FK_Movie_DirectorFilmMember");
 
                 entity.HasOne(d => d.RestrictionRating)
-                    .WithMany(p => p.Movie)
+                    .WithMany(p => p!.Movie)
                     .HasForeignKey(d => d.RestrictionRatingId)
                     .HasConstraintName("FK_Movie_RestrictionRating");
             });
@@ -209,13 +200,13 @@ namespace MovieDbLite.MVC.Models
                 entity.Property(e => e.CharacterName).IsUnicode(false);
 
                 entity.HasOne(d => d.ActorFilmMember)
-                    .WithMany(p => p.MovieCastMember)
+                    .WithMany(p => p!.MovieCastMember)
                     .HasForeignKey(d => d.ActorFilmMemberId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_MovieCastMember_FilmMember");
 
                 entity.HasOne(d => d.Movie)
-                    .WithMany(p => p.MovieCastMember)
+                    .WithMany(p => p!.MovieCastMember)
                     .HasForeignKey(d => d.MovieId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_MovieCastMember_Movie");
@@ -226,19 +217,19 @@ namespace MovieDbLite.MVC.Models
                 entity.HasKey(e => new { e.MovieId, e.FilmMemberId, e.FilmRoleId });
 
                 entity.HasOne(d => d.FilmMember)
-                    .WithMany(p => p.MovieCrewMember)
+                    .WithMany(p => p!.MovieCrewMember)
                     .HasForeignKey(d => d.FilmMemberId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_MovieCrewMember_FilmMember");
 
                 entity.HasOne(d => d.FilmRole)
-                    .WithMany(p => p.MovieCrewMember)
+                    .WithMany(p => p!.MovieCrewMember)
                     .HasForeignKey(d => d.FilmRoleId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_MovieCrewMember_FilmRole");
 
                 entity.HasOne(d => d.Movie)
-                    .WithMany(p => p.MovieCrewMember)
+                    .WithMany(p => p!.MovieCrewMember)
                     .HasForeignKey(d => d.MovieId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_MovieCrewMember_Movie");
@@ -249,13 +240,13 @@ namespace MovieDbLite.MVC.Models
                 entity.HasKey(e => new { e.MovieId, e.GenreId });
 
                 entity.HasOne(d => d.Genre)
-                    .WithMany(p => p.MovieGenre)
+                    .WithMany(p => p!.MovieGenre)
                     .HasForeignKey(d => d.GenreId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_Movie_Genre_Genre");
 
                 entity.HasOne(d => d.Movie)
-                    .WithMany(p => p.MovieGenre)
+                    .WithMany(p => p!.MovieGenre)
                     .HasForeignKey(d => d.MovieId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_Movie_Genre_Movie");
@@ -272,13 +263,13 @@ namespace MovieDbLite.MVC.Models
                 entity.Property(e => e.ImageName).IsUnicode(false);
 
                 entity.HasOne(d => d.ImageType)
-                    .WithMany(p => p.MovieImage)
+                    .WithMany(p => p!.MovieImage)
                     .HasForeignKey(d => d.ImageTypeId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_MovieImage_ImageType");
 
                 entity.HasOne(d => d.Movie)
-                    .WithMany(p => p.MovieImage)
+                    .WithMany(p => p!.MovieImage)
                     .HasForeignKey(d => d.MovieId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_MovieImage_Movie");
@@ -293,13 +284,13 @@ namespace MovieDbLite.MVC.Models
                     .IsFixedLength();
 
                 entity.HasOne(d => d.LanguageIsoCodeNavigation)
-                    .WithMany(p => p.MovieLanguage)
+                    .WithMany(p => p!.MovieLanguage)
                     .HasForeignKey(d => d.LanguageIsoCode)
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_Movie_Language_Language");
 
                 entity.HasOne(d => d.Movie)
-                    .WithMany(p => p.MovieLanguage)
+                    .WithMany(p => p!.MovieLanguage)
                     .HasForeignKey(d => d.MovieId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_Movie_Language_Movie");
@@ -314,13 +305,13 @@ namespace MovieDbLite.MVC.Models
                 entity.Property(e => e.Review).IsUnicode(false);
 
                 entity.HasOne(d => d.Movie)
-                    .WithMany(p => p.MovieUserReview)
+                    .WithMany(p => p!.MovieUserReview)
                     .HasForeignKey(d => d.MovieId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_MovieUserReview_Movie");
 
                 entity.HasOne(d => d.User)
-                    .WithMany(p => p.MovieUserReview)
+                    .WithMany(p => p!.MovieUserReview)
                     .HasForeignKey(d => d.UserId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_MovieUserReview_User");
@@ -331,13 +322,13 @@ namespace MovieDbLite.MVC.Models
                 entity.HasKey(e => new { e.MovieUserReviewId, e.UserId });
 
                 entity.HasOne(d => d.MovieUserReview)
-                    .WithMany(p => p.MovieUserReviewHelpful)
+                    .WithMany(p => p!.MovieUserReviewHelpful)
                     .HasForeignKey(d => d.MovieUserReviewId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_MovieUserReviewHelpful_MovieUserReview");
 
                 entity.HasOne(d => d.User)
-                    .WithMany(p => p.MovieUserReviewHelpful)
+                    .WithMany(p => p!.MovieUserReviewHelpful)
                     .HasForeignKey(d => d.UserId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_MovieUserReviewHelpful_User");
@@ -370,7 +361,7 @@ namespace MovieDbLite.MVC.Models
                 entity.Property(e => e.UserName).IsUnicode(false);
 
                 entity.HasOne(d => d.UserRole)
-                    .WithMany(p => p.User)
+                    .WithMany(p => p!.User)
                     .HasForeignKey(d => d.UserRoleId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_User_UserRole");

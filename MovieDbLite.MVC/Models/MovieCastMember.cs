@@ -19,6 +19,6 @@ namespace MovieDbLite.MVC.Models
         public virtual FilmMember? ActorFilmMember { get; set; }
         [ForeignKey(nameof(MovieId))]
         [InverseProperty("MovieCastMember")]
-        public virtual Movie Movie { get; set; }
+        public virtual Movie? Movie { get; set; }
     }
 }
