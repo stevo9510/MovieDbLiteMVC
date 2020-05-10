@@ -7,9 +7,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Compile Remove="SQL\**" />
-    <Compile Remove="Views\Languages\**" />
-    <Compile Remove="Views\Movies\**" />
     <Content Remove="SQL\**" />
     <Content Remove="Views\Languages\**" />
     <Content Remove="Views\Movies\**" />
@@ -23,6 +20,7 @@
 
 
   <ItemGroup>
+    <PackageReference Include="AutoMapper" Version="9.0.0" />
     <PackageReference Include="BCrypt.Net-Core" Version="1.6.0" />
     <PackageReference Include="Microsoft.AspNetCore.Diagnostics.EntityFrameworkCore" Version="3.1.2" />
     <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="3.1.2" />

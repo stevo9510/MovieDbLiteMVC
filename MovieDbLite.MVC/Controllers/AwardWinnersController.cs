@@ -1,8 +1,11 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using AutoMapper;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
 using MovieDbLite.MVC.Models;
+using MovieDbLite.MVC.ViewModels;
+using System.Collections.Generic;
 using System.Data;
 using System.Linq;
 using System.Threading.Tasks;
@@ -12,10 +15,12 @@ namespace MovieDbLite.MVC.Controllers
     public class AwardWinnersController : Controller
     {
         private readonly MovieDbLiteContext _context;
+        private readonly IMapper _mapper;
 
-        public AwardWinnersController(MovieDbLiteContext context)
+        public AwardWinnersController(MovieDbLiteContext context, IMapper mapper)
         {
             _context = context;
+            _mapper = mapper;
         }
 
         // GET: AwardWinners
@@ -31,9 +36,9 @@ namespace MovieDbLite.MVC.Controllers
         }
 
         // GET: AwardWinners/Details/5
-        public async Task<IActionResult> Details(int? id)
+        public async Task<IActionResult> Details(int? awardShowInstanceId, int? awardId, long? filmMemberId)
         {
-            if (id == null)
+            if (awardShowInstanceId == null || awardId == null || filmMemberId == null)
             {
                 return NotFound();
             }
@@ -43,7 +48,8 @@ namespace MovieDbLite.MVC.Controllers
                 .Include(a => a.AwardShowInstance)
                 .Include(a => a.FilmMember)
                 .Include(a => a.Movie)
-                .FirstOrDefaultAsync(m => m.AwardShowInstanceId == id);
+                .FirstOrDefaultAsync(aw => aw.AwardId == awardId && aw.AwardShowInstanceId == awardShowInstanceId
+                    && aw.FilmMemberId == filmMemberId);
             if (awardWinner == null)
             {
                 return NotFound();
@@ -55,7 +61,7 @@ namespace MovieDbLite.MVC.Controllers
         // GET: AwardWinners/Create
         public IActionResult Create()
         {
-            ViewData["AwardId"] = new SelectList(_context.Award.OrderBy(a => a.AwardShowId), "Id", nameof(Award.FriendlyName));
+            CreateAwardIdSelectList();
             ViewData["AwardShowInstanceId"] = new SelectList(_context.AwardShowInstance.Include(f => f.AwardShow).OrderBy(a => a.Year).ThenBy(a => a.AwardShowId), "Id", nameof(AwardShowInstance.FriendlyName));
             ViewData["FilmMemberId"] = new SelectList(_context.FilmMember, "Id", nameof(FilmMember.PreferredFullName));
             ViewData["MovieId"] = new SelectList(_context.Movie, "Id", nameof(Movie.Title));
@@ -79,28 +85,32 @@ namespace MovieDbLite.MVC.Controllers
                 //await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["AwardId"] = new SelectList(_context.Award, "Id", "AwardName", awardWinner.AwardId);
+            CreateAwardIdSelectList();
             ViewData["FilmMemberId"] = new SelectList(_context.FilmMember, "Id", "FirstName", awardWinner.FilmMemberId);
             ViewData["MovieId"] = new SelectList(_context.Movie, "Id", "Title", awardWinner.MovieId);
             return View(awardWinner);
         }
+
         // GET: AwardWinners/Edit/5
-        public async Task<IActionResult> Edit(int? id)
+        public async Task<IActionResult> Edit(int? awardShowInstanceId, int? awardId, long? filmMemberId)
         {
-            if (id == null)
+            if (awardShowInstanceId == null || awardId == null || filmMemberId == null)
             {
                 return NotFound();
             }
 
-            var awardWinner = await _context.AwardWinner.FindAsync(id);
+            AwardWinner awardWinner = await _context.AwardWinner
+                .FirstOrDefaultAsync(aw => aw.AwardId == awardId && aw.AwardShowInstanceId == awardShowInstanceId 
+                    && aw.FilmMemberId == filmMemberId);
             if (awardWinner == null)
             {
                 return NotFound();
             }
-            ViewData["AwardId"] = new SelectList(_context.Award, "Id", "AwardName", awardWinner.AwardId);
+
+            CreateAwardIdSelectList();
             ViewData["AwardShowInstanceId"] = new SelectList(_context.AwardShowInstance, "Id", "Id", awardWinner.AwardShowInstanceId);
             ViewData["FilmMemberId"] = new SelectList(_context.FilmMember, "Id", "FirstName", awardWinner.FilmMemberId);
-            ViewData["MovieId"] = new SelectList(_context.Movie, "Id", "Description", awardWinner.MovieId);
+            ViewData["MovieId"] = new SelectList(_context.Movie, "Id", nameof(Movie.Title), awardWinner.MovieId);
             return View(awardWinner);
         }
 
@@ -109,13 +119,8 @@ namespace MovieDbLite.MVC.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("AwardShowInstanceId,AwardId,FilmMemberId,MovieId")] AwardWinner awardWinner)
+        public async Task<IActionResult> Edit([Bind("AwardShowInstanceId,AwardId,FilmMemberId,MovieId")] AwardWinner awardWinner)
         {
-            if (id != awardWinner.AwardShowInstanceId)
-            {
-                return NotFound();
-            }
-
             if (ModelState.IsValid)
             {
                 try
@@ -136,7 +141,7 @@ namespace MovieDbLite.MVC.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["AwardId"] = new SelectList(_context.Award, "Id", "AwardName", awardWinner.AwardId);
+            CreateAwardIdSelectList();
             ViewData["AwardShowInstanceId"] = new SelectList(_context.AwardShowInstance, "Id", "Id", awardWinner.AwardShowInstanceId);
             ViewData["FilmMemberId"] = new SelectList(_context.FilmMember, "Id", "FirstName", awardWinner.FilmMemberId);
             ViewData["MovieId"] = new SelectList(_context.Movie, "Id", "Description", awardWinner.MovieId);
@@ -144,9 +149,9 @@ namespace MovieDbLite.MVC.Controllers
         }
 
         // GET: AwardWinners/Delete/5
-        public async Task<IActionResult> Delete(int? id)
+        public async Task<IActionResult> Delete(int? awardShowInstanceId, int? awardId, long? filmMemberId)
         {
-            if (id == null)
+            if (awardShowInstanceId == null || awardId == null || filmMemberId == null)
             {
                 return NotFound();
             }
@@ -156,7 +161,8 @@ namespace MovieDbLite.MVC.Controllers
                 .Include(a => a.AwardShowInstance)
                 .Include(a => a.FilmMember)
                 .Include(a => a.Movie)
-                .FirstOrDefaultAsync(m => m.AwardShowInstanceId == id);
+                .FirstOrDefaultAsync(aw => aw.AwardId == awardId && aw.AwardShowInstanceId == awardShowInstanceId
+                    && aw.FilmMemberId == filmMemberId);
             if (awardWinner == null)
             {
                 return NotFound();
@@ -168,10 +174,20 @@ namespace MovieDbLite.MVC.Controllers
         // POST: AwardWinners/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteConfirmed(int id)
+        public async Task<IActionResult> DeleteConfirmed(int? awardShowInstanceId, int? awardId, long? filmMemberId)
         {
-            var awardWinner = await _context.AwardWinner.FindAsync(id);
-            _context.AwardWinner.Remove(awardWinner);
+            if (awardShowInstanceId == null || awardId == null || filmMemberId == null)
+            {
+                return NotFound();
+            }
+
+            var awardWinner = new AwardWinner()
+            {
+                AwardId = awardId.Value,
+                AwardShowInstanceId = awardShowInstanceId.Value,
+                FilmMemberId = filmMemberId.Value
+            };
+            _context.Entry(awardWinner).State = EntityState.Deleted;
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
@@ -179,6 +195,12 @@ namespace MovieDbLite.MVC.Controllers
         private bool AwardWinnerExists(int id)
         {
             return _context.AwardWinner.Any(e => e.AwardShowInstanceId == id);
+        }
+
+        private void CreateAwardIdSelectList()
+        {
+            IEnumerable<AwardViewModel> awards = _mapper.Map<IEnumerable<AwardViewModel>>(_context.Award.Include(m => m.AwardShow));
+            ViewData["AwardId"] = new SelectList(awards.OrderBy(aw => aw.AwardShowId), nameof(AwardViewModel.Id), nameof(AwardViewModel.FriendlyName));
         }
 
         private async Task InsertMovieAwardWinnerAsync(SqlConnection sqlConn, int awardShowInstanceId, int awardId,

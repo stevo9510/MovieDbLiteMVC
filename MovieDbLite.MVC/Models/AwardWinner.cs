@@ -8,6 +8,7 @@ namespace MovieDbLite.MVC.Models
         [Key]
         public int AwardShowInstanceId { get; set; }
         [Key]
+        [Display(Name = "Award")]
         public int AwardId { get; set; }
         [Key]
         public long FilmMemberId { get; set; }
