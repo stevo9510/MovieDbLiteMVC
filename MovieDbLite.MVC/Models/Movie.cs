@@ -20,10 +20,8 @@ namespace MovieDbLite.MVC.Models
 
         [Key]
         public long Id { get; set; }
-        [Required]
         [StringLength(150)]
         public string Title { get; set; } = default!;
-        [Required]
         [StringLength(500)]
         public string Description { get; set; } = default!;
         [Column(TypeName = "date")]

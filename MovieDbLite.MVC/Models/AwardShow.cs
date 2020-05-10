@@ -14,7 +14,6 @@ namespace MovieDbLite.MVC.Models
 
         [Key]
         public short Id { get; set; }
-        [Required]
         [StringLength(50)]
         public string ShowName { get; set; } = default!;
         [StringLength(200)]

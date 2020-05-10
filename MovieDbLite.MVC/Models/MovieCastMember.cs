@@ -9,7 +9,6 @@ namespace MovieDbLite.MVC.Models
         public long MovieId { get; set; }
         [Key]
         public long ActorFilmMemberId { get; set; }
-        [Required]
         [StringLength(150)]
         public string CharacterName { get; set; } = default!;
         public int? Sequence { get; set; }

@@ -19,7 +19,6 @@ namespace MovieDbLite.MVC.Models
         public long Id { get; set; }
         [StringLength(10)]
         public string? Prefix { get; set; }
-        [Required]
         [StringLength(50)]
         public string FirstName { get; set; } = default!;
         [StringLength(50)]
@@ -29,10 +28,8 @@ namespace MovieDbLite.MVC.Models
         public string LastName { get; set; } = default!;
         [StringLength(5)]
         public string? Suffix { get; set; }
-        [Required]
         [StringLength(150)]
         public string PreferredFullName { get; set; } = default!;
-        [Required]
         [StringLength(1)]
         public string Gender { get; set; } = default!;
         [Column(TypeName = "date")]

@@ -13,7 +13,6 @@ namespace MovieDbLite.MVC.Models
 
         [Key]
         public short Id { get; set; }
-        [Required]
         [StringLength(50)]
         public string RoleName { get; set; } = default!;
         [StringLength(200)]

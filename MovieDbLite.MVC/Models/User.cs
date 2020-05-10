@@ -15,13 +15,10 @@ namespace MovieDbLite.MVC.Models
         [Key]
         public int Id { get; set; }
         public short UserRoleId { get; set; }
-        [Required]
         [StringLength(25)]
         public string UserName { get; set; } = default!;
-        [Required]
         [StringLength(255)]
         public string EmailAddress { get; set; } = default!;
-        [Required]
         [StringLength(60)]
         public string HashedPassword { get; set; } = default!;
 

@@ -13,10 +13,8 @@ namespace MovieDbLite.MVC.Models
 
         [Key]
         public short Id { get; set; }
-        [Required]
         [StringLength(10)]
         public string ImageExtension { get; set; } = default!;
-        [Required]
         [StringLength(25)]
         public string Name { get; set; } = default!;
 

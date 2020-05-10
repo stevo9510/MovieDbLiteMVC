@@ -13,8 +13,8 @@ namespace MovieDbLite.MVC.Models
 
         [Key]
         public short Id { get; set; }
-        [Required]
         [StringLength(25)]
+        [Display(Name = "Genre")]
         public string GenreName { get; set; } = default!;
         [StringLength(500)]
         public string? Description { get; set; }

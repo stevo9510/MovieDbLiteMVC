@@ -9,13 +9,11 @@ namespace MovieDbLite.MVC.Models
         [Key]
         public long Id { get; set; }
         public long MovieId { get; set; }
-        [Required]
         [StringLength(100)]
         public string ImageName { get; set; } = default!;
         public short ImageTypeId { get; set; }
         [StringLength(500)]
         public string? Description { get; set; }
-        [Required]
         public byte[] FileContents { get; set; } = default!;
         public DateTime DateUploaded { get; set; }
 

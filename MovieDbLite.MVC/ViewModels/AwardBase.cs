@@ -8,7 +8,6 @@ namespace MovieDbLite.MVC.ViewModels
         public int Id { get; set; }
 
         public short AwardShowId { get; set; }
-        [Required]
         [StringLength(50)]
         [Display(Name = "Award")]
         public string AwardName { get; set; } = default!;
