@@ -93,7 +93,7 @@ namespace MovieDbLite.MVC.Controllers
         private async Task SetMovieLanguages(DbOrgMovie dbOrgMovie, Movie movie)
         {
             // match languages iso codes between two databases to get ones that exist in both
-            var dbOrgLanguages = dbOrgMovie.SpokenLanguages?.Select(l => l.Iso639_1).ToList();
+            var dbOrgLanguages = dbOrgMovie.SpokenLanguages.Select(l => l.Iso639_1).ToList();
             IQueryable<Language> matchedLanguages = _context.Language.Where(l => dbOrgLanguages.Contains(l.LanguageIsoCode));
 
             foreach (Language language in await matchedLanguages.ToListAsync())
