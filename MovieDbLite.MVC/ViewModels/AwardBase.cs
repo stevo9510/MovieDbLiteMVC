@@ -11,9 +11,9 @@ namespace MovieDbLite.MVC.ViewModels
         [Required]
         [StringLength(50)]
         [Display(Name = "Award")]
-        public string AwardName { get; set; }
+        public string AwardName { get; set; } = default!;
         [StringLength(200)]
-        public string Description { get; set; }
+        public string? Description { get; set; }
 
     }
 }

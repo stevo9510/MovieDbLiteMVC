@@ -15,10 +15,10 @@ namespace MovieDbLite.MVC.Models
         public short Id { get; set; }
         [Required]
         [StringLength(10)]
-        public string ImageExtension { get; set; }
+        public string ImageExtension { get; set; } = default!;
         [Required]
         [StringLength(25)]
-        public string Name { get; set; }
+        public string Name { get; set; } = default!;
 
         [InverseProperty("ImageType")]
         public virtual ICollection<MovieImage> MovieImage { get; set; }

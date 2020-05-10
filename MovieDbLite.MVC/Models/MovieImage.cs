@@ -11,19 +11,19 @@ namespace MovieDbLite.MVC.Models
         public long MovieId { get; set; }
         [Required]
         [StringLength(100)]
-        public string ImageName { get; set; }
+        public string ImageName { get; set; } = default!;
         public short ImageTypeId { get; set; }
         [StringLength(500)]
-        public string Description { get; set; }
+        public string? Description { get; set; }
         [Required]
-        public byte[] FileContents { get; set; }
+        public byte[] FileContents { get; set; } = default!;
         public DateTime DateUploaded { get; set; }
 
         [ForeignKey(nameof(ImageTypeId))]
         [InverseProperty("MovieImage")]
-        public virtual ImageType ImageType { get; set; }
+        public virtual ImageType? ImageType { get; set; }
         [ForeignKey(nameof(MovieId))]
         [InverseProperty("MovieImage")]
-        public virtual Movie Movie { get; set; }
+        public virtual Movie? Movie { get; set; }
     }
 }

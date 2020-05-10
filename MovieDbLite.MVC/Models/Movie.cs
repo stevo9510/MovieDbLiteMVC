@@ -22,10 +22,10 @@ namespace MovieDbLite.MVC.Models
         public long Id { get; set; }
         [Required]
         [StringLength(150)]
-        public string Title { get; set; }
+        public string Title { get; set; } = default!;
         [Required]
         [StringLength(500)]
-        public string Description { get; set; }
+        public string Description { get; set; } = default!;
         [Column(TypeName = "date")]
         public DateTime? ReleaseDate { get; set; }
         public short? RestrictionRatingId { get; set; }
@@ -36,10 +36,10 @@ namespace MovieDbLite.MVC.Models
 
         [ForeignKey(nameof(DirectorFilmMemberId))]
         [InverseProperty(nameof(FilmMember.DirectorMovies))]
-        public virtual FilmMember DirectorFilmMember { get; set; }
+        public virtual FilmMember? DirectorFilmMember { get; set; }
         [ForeignKey(nameof(RestrictionRatingId))]
         [InverseProperty("Movie")]
-        public virtual RestrictionRating RestrictionRating { get; set; }
+        public virtual RestrictionRating? RestrictionRating { get; set; }
         [InverseProperty("Movie")]
         public virtual ICollection<AwardWinner> AwardWinner { get; set; }
         [InverseProperty("Movie")]

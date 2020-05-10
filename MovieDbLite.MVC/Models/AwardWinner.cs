@@ -16,15 +16,15 @@ namespace MovieDbLite.MVC.Models
 
         [ForeignKey(nameof(AwardId))]
         [InverseProperty("AwardWinner")]
-        public virtual Award Award { get; set; }
+        public virtual Award? Award { get; set; }
         [ForeignKey(nameof(AwardShowInstanceId))]
         [InverseProperty("AwardWinner")]
-        public virtual AwardShowInstance AwardShowInstance { get; set; }
+        public virtual AwardShowInstance? AwardShowInstance { get; set; }
         [ForeignKey(nameof(FilmMemberId))]
         [InverseProperty("AwardWinner")]
-        public virtual FilmMember FilmMember { get; set; }
+        public virtual FilmMember? FilmMember { get; set; }
         [ForeignKey(nameof(MovieId))]
         [InverseProperty("AwardWinner")]
-        public virtual Movie Movie { get; set; }
+        public virtual Movie? Movie { get; set; }
     }
 }

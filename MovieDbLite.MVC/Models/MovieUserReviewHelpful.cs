@@ -13,9 +13,9 @@ namespace MovieDbLite.MVC.Models
 
         [ForeignKey(nameof(MovieUserReviewId))]
         [InverseProperty("MovieUserReviewHelpful")]
-        public virtual MovieUserReview MovieUserReview { get; set; }
+        public virtual MovieUserReview? MovieUserReview { get; set; }
         [ForeignKey(nameof(UserId))]
         [InverseProperty("MovieUserReviewHelpful")]
-        public virtual User User { get; set; }
+        public virtual User? User { get; set; }
     }
 }

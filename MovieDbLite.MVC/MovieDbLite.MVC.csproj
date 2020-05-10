@@ -4,20 +4,8 @@
     <TargetFramework>netcoreapp3.1</TargetFramework>
     <UserSecretsId>aspnet-MovieDbLite-F43FB84E-DEE0-446F-B31B-CE97F8705B62</UserSecretsId>
     <AssemblyName>MovieDbLite.MVC</AssemblyName>
+    <Nullable>enable</Nullable>
   </PropertyGroup>
-
-  <ItemGroup>
-    <Content Remove="SQL\**" />
-    <Content Remove="Views\Languages\**" />
-    <Content Remove="Views\Movies\**" />
-    <EmbeddedResource Remove="SQL\**" />
-    <EmbeddedResource Remove="Views\Languages\**" />
-    <EmbeddedResource Remove="Views\Movies\**" />
-    <None Remove="SQL\**" />
-    <None Remove="Views\Languages\**" />
-    <None Remove="Views\Movies\**" />
-  </ItemGroup>
-
 
   <ItemGroup>
     <PackageReference Include="AutoMapper" Version="9.0.0" />
@@ -35,21 +23,6 @@
     <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="3.1.1" />
     <PackageReference Include="NSwag.AspNetCore" Version="13.4.2" />
   </ItemGroup>
-
-
-  <ItemGroup>
-    <Content Include="Views\Languages\Create.cshtml" />
-    <Content Include="Views\Languages\Delete.cshtml" />
-    <Content Include="Views\Languages\Details.cshtml" />
-    <Content Include="Views\Languages\Edit.cshtml" />
-    <Content Include="Views\Languages\Index.cshtml" />
-    <Content Include="Views\Movies\Create.cshtml" />
-    <Content Include="Views\Movies\Delete.cshtml" />
-    <Content Include="Views\Movies\Details.cshtml" />
-    <Content Include="Views\Movies\Edit.cshtml" />
-    <Content Include="Views\Movies\Index.cshtml" />
-  </ItemGroup>
-
 
   <ItemGroup>
     <ProjectReference Include="..\MovieDbLite.TheMovieDbOrg\MovieDbLite.TheMovieDbOrg.csproj" />

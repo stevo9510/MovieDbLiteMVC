@@ -11,12 +11,12 @@ namespace MovieDbLite.MVC.Models
         public long ActorFilmMemberId { get; set; }
         [Required]
         [StringLength(150)]
-        public string CharacterName { get; set; }
+        public string CharacterName { get; set; } = default!;
         public int? Sequence { get; set; }
 
         [ForeignKey(nameof(ActorFilmMemberId))]
         [InverseProperty(nameof(FilmMember.MovieCastMember))]
-        public virtual FilmMember ActorFilmMember { get; set; }
+        public virtual FilmMember? ActorFilmMember { get; set; }
         [ForeignKey(nameof(MovieId))]
         [InverseProperty("MovieCastMember")]
         public virtual Movie Movie { get; set; }

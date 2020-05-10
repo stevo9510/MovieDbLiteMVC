@@ -15,13 +15,13 @@ namespace MovieDbLite.MVC.Models
         public short Id { get; set; }
         [Required]
         [StringLength(10)]
-        public string Code { get; set; }
+        public string Code { get; set; } = default!;
         [Required]
         [StringLength(50)]
-        public string ShortDescription { get; set; }
+        public string ShortDescription { get; set; } = default!;
         [Required]
         [StringLength(200)]
-        public string LongDescription { get; set; }
+        public string LongDescription { get; set; } = default!;
         public bool IsActive { get; set; }
 
         [InverseProperty("RestrictionRating")]

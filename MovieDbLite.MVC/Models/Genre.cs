@@ -15,9 +15,9 @@ namespace MovieDbLite.MVC.Models
         public short Id { get; set; }
         [Required]
         [StringLength(25)]
-        public string GenreName { get; set; }
+        public string GenreName { get; set; } = default!;
         [StringLength(500)]
-        public string Description { get; set; }
+        public string? Description { get; set; }
 
         [InverseProperty("Genre")]
         public virtual ICollection<MovieGenre> MovieGenre { get; set; }

@@ -13,27 +13,27 @@ namespace MovieDbLite.MVC.Models
         {
         }
 
-        public virtual DbSet<Award> Award { get; set; }
-        public virtual DbSet<AwardShow> AwardShow { get; set; }
-        public virtual DbSet<AwardShowInstance> AwardShowInstance { get; set; }
-        public virtual DbSet<AwardWinner> AwardWinner { get; set; }
-        public virtual DbSet<FilmMember> FilmMember { get; set; }
-        public virtual DbSet<FilmRole> FilmRole { get; set; }
-        public virtual DbSet<Genre> Genre { get; set; }
-        public virtual DbSet<ImageType> ImageType { get; set; }
-        public virtual DbSet<Language> Language { get; set; }
-        public virtual DbSet<Movie> Movie { get; set; }
-        public virtual DbSet<MovieCastMember> MovieCastMember { get; set; }
-        public virtual DbSet<MovieCrewMember> MovieCrewMember { get; set; }
-        public virtual DbSet<MovieGenre> MovieGenre { get; set; }
-        public virtual DbSet<MovieImage> MovieImage { get; set; }
-        public virtual DbSet<MovieLanguage> MovieLanguage { get; set; }
-        public virtual DbSet<MovieUserReview> MovieUserReview { get; set; }
-        public virtual DbSet<MovieUserReviewHelpful> MovieUserReviewHelpful { get; set; }
-        public virtual DbSet<RestrictionRating> RestrictionRating { get; set; }
-        public virtual DbSet<User> User { get; set; }
-        public virtual DbSet<UserRole> UserRole { get; set; }
-        public virtual DbSet<VwAwardWinnerInfo> VwAwardWinnerInfo { get; set; }
+        public virtual DbSet<Award> Award { get; set; } = default!;
+        public virtual DbSet<AwardShow> AwardShow { get; set; } = default!;
+        public virtual DbSet<AwardShowInstance> AwardShowInstance { get; set; } = default!;
+        public virtual DbSet<AwardWinner> AwardWinner { get; set; } = default!;
+        public virtual DbSet<FilmMember> FilmMember { get; set; } = default!;
+        public virtual DbSet<FilmRole> FilmRole { get; set; } = default!;
+        public virtual DbSet<Genre> Genre { get; set; } = default!;
+        public virtual DbSet<ImageType> ImageType { get; set; } = default!;
+        public virtual DbSet<Language> Language { get; set; } = default!;
+        public virtual DbSet<Movie> Movie { get; set; } = default!;
+        public virtual DbSet<MovieCastMember> MovieCastMember { get; set; } = default!;
+        public virtual DbSet<MovieCrewMember> MovieCrewMember { get; set; } = default!;
+        public virtual DbSet<MovieGenre> MovieGenre { get; set; } = default!;
+        public virtual DbSet<MovieImage> MovieImage { get; set; } = default!;
+        public virtual DbSet<MovieLanguage> MovieLanguage { get; set; } = default!;
+        public virtual DbSet<MovieUserReview> MovieUserReview { get; set; } = default!;
+        public virtual DbSet<MovieUserReviewHelpful> MovieUserReviewHelpful { get; set; } = default!;
+        public virtual DbSet<RestrictionRating> RestrictionRating { get; set; } = default!;
+        public virtual DbSet<User> User { get; set; } = default!;
+        public virtual DbSet<UserRole> UserRole { get; set; } = default!;
+        public virtual DbSet<VwAwardWinnerInfo> VwAwardWinnerInfo { get; set; } = default!;
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {

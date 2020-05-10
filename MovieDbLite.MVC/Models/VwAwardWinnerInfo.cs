@@ -9,20 +9,20 @@ namespace MovieDbLite.MVC.Models
         public int AwardId { get; set; }
         [Required]
         [StringLength(50)]
-        public string AwardName { get; set; }
+        public string AwardName { get; set; } = default!;
         public short AwardShowId { get; set; }
         [Required]
         [StringLength(50)]
-        public string ShowName { get; set; }
+        public string ShowName { get; set; } = default!;
         public short Year { get; set; }
         public long MovieId { get; set; }
         [Required]
         [StringLength(150)]
-        public string Title { get; set; }
+        public string Title { get; set; } = default!;
         public long FilmMemberId { get; set; }
         [Required]
         [StringLength(150)]
-        public string PreferredFullName { get; set; }
+        public string PreferredFullName { get; set; } = default!;
         [Column(TypeName = "date")]
         public DateTime DateHosted { get; set; }
     }

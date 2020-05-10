@@ -16,9 +16,9 @@ namespace MovieDbLite.MVC.Models
         public short Id { get; set; }
         [Required]
         [StringLength(50)]
-        public string ShowName { get; set; }
+        public string ShowName { get; set; } = default!;
         [StringLength(200)]
-        public string Description { get; set; }
+        public string? Description { get; set; }
 
         [InverseProperty("AwardShow")]
         public virtual ICollection<Award> Award { get; set; }

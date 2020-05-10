@@ -18,28 +18,28 @@ namespace MovieDbLite.MVC.Models
         [Key]
         public long Id { get; set; }
         [StringLength(10)]
-        public string Prefix { get; set; }
+        public string? Prefix { get; set; }
         [Required]
         [StringLength(50)]
-        public string FirstName { get; set; }
+        public string FirstName { get; set; } = default!;
         [StringLength(50)]
-        public string MiddleName { get; set; }
+        public string? MiddleName { get; set; }
         [Required]
         [StringLength(50)]
-        public string LastName { get; set; }
+        public string LastName { get; set; } = default!;
         [StringLength(5)]
-        public string Suffix { get; set; }
+        public string? Suffix { get; set; }
         [Required]
         [StringLength(150)]
-        public string PreferredFullName { get; set; }
+        public string PreferredFullName { get; set; } = default!;
         [Required]
         [StringLength(1)]
-        public string Gender { get; set; }
+        public string Gender { get; set; } = default!;
         [Column(TypeName = "date")]
         public DateTime? DateOfBirth { get; set; }
         [Column(TypeName = "date")]
         public DateTime? DateOfDeath { get; set; }
-        public string Biography { get; set; }
+        public string? Biography { get; set; }
 
         [InverseProperty("FilmMember")]
         public virtual ICollection<AwardWinner> AwardWinner { get; set; }

@@ -18,15 +18,15 @@ namespace MovieDbLite.MVC.Models
         public int UserId { get; set; }
         public short Rating { get; set; }
         [StringLength(8000)]
-        public string Review { get; set; }
+        public string? Review { get; set; }
         public DateTime DatePosted { get; set; }
 
         [ForeignKey(nameof(MovieId))]
         [InverseProperty("MovieUserReview")]
-        public virtual Movie Movie { get; set; }
+        public virtual Movie? Movie { get; set; }
         [ForeignKey(nameof(UserId))]
         [InverseProperty("MovieUserReview")]
-        public virtual User User { get; set; }
+        public virtual User? User { get; set; }
         [InverseProperty("MovieUserReview")]
         public virtual ICollection<MovieUserReviewHelpful> MovieUserReviewHelpful { get; set; }
     }

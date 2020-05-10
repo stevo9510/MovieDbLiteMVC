@@ -15,9 +15,9 @@ namespace MovieDbLite.MVC.Models
         public short Id { get; set; }
         [Required]
         [StringLength(50)]
-        public string RoleName { get; set; }
+        public string RoleName { get; set; } = default!;
         [StringLength(200)]
-        public string Description { get; set; }
+        public string Description { get; set; } = default!;
 
         [InverseProperty("FilmRole")]
         public virtual ICollection<MovieCrewMember> MovieCrewMember { get; set; }

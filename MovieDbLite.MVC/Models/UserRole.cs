@@ -15,10 +15,10 @@ namespace MovieDbLite.MVC.Models
         public short Id { get; set; }
         [Required]
         [StringLength(25)]
-        public string RoleName { get; set; }
+        public string RoleName { get; set; } = default!;
         [Required]
         [StringLength(500)]
-        public string Description { get; set; }
+        public string Description { get; set; } = default!;
 
         [InverseProperty("UserRole")]
         public virtual ICollection<User> User { get; set; }

@@ -26,13 +26,14 @@ namespace MovieDbLite.MVC.Controllers
         // GET: AwardWinners
         public async Task<IActionResult> Index()
         {
-            var movieDbLiteContext = _context.AwardWinner
+            var awardWinners = _context.AwardWinner
                 .Include(a => a.Award)
                 .Include(a => a.AwardShowInstance)
                     .ThenInclude(asi => asi.AwardShow)
                 .Include(a => a.FilmMember)
                 .Include(a => a.Movie);
-            return View(await movieDbLiteContext.ToListAsync());
+            List<AwardWinner> awardWinnersList = await awardWinners.ToListAsync();
+            return View(awardWinnersList);
         }
 
         // GET: AwardWinners/Details/5

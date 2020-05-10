@@ -10,13 +10,13 @@ namespace MovieDbLite.MVC.Models
         public long MovieId { get; set; }
         [Key]
         [StringLength(2)]
-        public string LanguageIsoCode { get; set; }
+        public string LanguageIsoCode { get; set; } = default!;
 
         [ForeignKey(nameof(LanguageIsoCode))]
         [InverseProperty(nameof(Language.MovieLanguage))]
-        public virtual Language LanguageIsoCodeNavigation { get; set; }
+        public virtual Language? LanguageIsoCodeNavigation { get; set; }
         [ForeignKey(nameof(MovieId))]
         [InverseProperty("MovieLanguage")]
-        public virtual Movie Movie { get; set; }
+        public virtual Movie? Movie { get; set; }
     }
 }

@@ -13,9 +13,9 @@ namespace MovieDbLite.MVC.Models
 
         [ForeignKey(nameof(GenreId))]
         [InverseProperty("MovieGenre")]
-        public virtual Genre Genre { get; set; }
+        public virtual Genre? Genre { get; set; }
         [ForeignKey(nameof(MovieId))]
         [InverseProperty("MovieGenre")]
-        public virtual Movie Movie { get; set; }
+        public virtual Movie? Movie { get; set; }
     }
 }
