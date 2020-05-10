@@ -20,6 +20,6 @@ namespace MovieDbLite.MVC.Models
         public string? Description { get; set; }
 
         [InverseProperty("Genre")]
-        public virtual ICollection<MovieGenre> MovieGenre { get; set; }
+        public ICollection<MovieGenre> MovieGenre { get; set; }
     }
 }

@@ -13,8 +13,8 @@ namespace MovieDbLite.MVC.Models
 
         [ForeignKey(nameof(AwardShowId))]
         [InverseProperty("Award")]
-        public virtual AwardShow? AwardShow { get; set; }
+        public AwardShow? AwardShow { get; set; }
         [InverseProperty("Award")]
-        public virtual ICollection<AwardWinner> AwardWinner { get; set; }
+        public ICollection<AwardWinner> AwardWinner { get; set; }
     }
 }

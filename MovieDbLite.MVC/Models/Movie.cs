@@ -34,23 +34,23 @@ namespace MovieDbLite.MVC.Models
 
         [ForeignKey(nameof(DirectorFilmMemberId))]
         [InverseProperty(nameof(FilmMember.DirectorMovies))]
-        public virtual FilmMember? DirectorFilmMember { get; set; }
+        public FilmMember? DirectorFilmMember { get; set; }
         [ForeignKey(nameof(RestrictionRatingId))]
         [InverseProperty("Movie")]
-        public virtual RestrictionRating? RestrictionRating { get; set; }
+        public RestrictionRating? RestrictionRating { get; set; }
         [InverseProperty("Movie")]
-        public virtual ICollection<AwardWinner> AwardWinner { get; set; }
+        public ICollection<AwardWinner> AwardWinner { get; set; }
         [InverseProperty("Movie")]
-        public virtual ICollection<MovieCastMember> MovieCastMember { get; set; }
+        public ICollection<MovieCastMember> MovieCastMember { get; set; }
         [InverseProperty("Movie")]
-        public virtual ICollection<MovieCrewMember> MovieCrewMember { get; set; }
+        public ICollection<MovieCrewMember> MovieCrewMember { get; set; }
         [InverseProperty("Movie")]
-        public virtual ICollection<MovieGenre> MovieGenre { get; set; }
+        public ICollection<MovieGenre> MovieGenre { get; set; }
         [InverseProperty("Movie")]
-        public virtual ICollection<MovieImage> MovieImage { get; set; }
+        public ICollection<MovieImage> MovieImage { get; set; }
         [InverseProperty("Movie")]
-        public virtual ICollection<MovieLanguage> MovieLanguage { get; set; }
+        public ICollection<MovieLanguage> MovieLanguage { get; set; }
         [InverseProperty("Movie")]
-        public virtual ICollection<MovieUserReview> MovieUserReview { get; set; }
+        public ICollection<MovieUserReview> MovieUserReview { get; set; }
     }
 }

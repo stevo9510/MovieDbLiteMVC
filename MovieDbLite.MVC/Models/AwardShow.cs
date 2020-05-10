@@ -20,8 +20,8 @@ namespace MovieDbLite.MVC.Models
         public string? Description { get; set; }
 
         [InverseProperty("AwardShow")]
-        public virtual ICollection<Award> Award { get; set; }
+        public ICollection<Award> Award { get; set; }
         [InverseProperty("AwardShow")]
-        public virtual ICollection<AwardShowInstance> AwardShowInstance { get; set; }
+        public ICollection<AwardShowInstance> AwardShowInstance { get; set; }
     }
 }

@@ -19,9 +19,9 @@ namespace MovieDbLite.MVC.Models
 
         [ForeignKey(nameof(ImageTypeId))]
         [InverseProperty("MovieImage")]
-        public virtual ImageType? ImageType { get; set; }
+        public ImageType? ImageType { get; set; }
         [ForeignKey(nameof(MovieId))]
         [InverseProperty("MovieImage")]
-        public virtual Movie? Movie { get; set; }
+        public Movie? Movie { get; set; }
     }
 }

@@ -39,12 +39,12 @@ namespace MovieDbLite.MVC.Models
         public string? Biography { get; set; }
 
         [InverseProperty("FilmMember")]
-        public virtual ICollection<AwardWinner> AwardWinner { get; set; }
+        public ICollection<AwardWinner> AwardWinner { get; set; }
         [InverseProperty("DirectorFilmMember")]
-        public virtual ICollection<Movie> DirectorMovies { get; set; }
+        public ICollection<Movie> DirectorMovies { get; set; }
         [InverseProperty("ActorFilmMember")]
-        public virtual ICollection<MovieCastMember> MovieCastMember { get; set; }
+        public ICollection<MovieCastMember> MovieCastMember { get; set; }
         [InverseProperty("FilmMember")]
-        public virtual ICollection<MovieCrewMember> MovieCrewMember { get; set; }
+        public ICollection<MovieCrewMember> MovieCrewMember { get; set; }
     }
 }

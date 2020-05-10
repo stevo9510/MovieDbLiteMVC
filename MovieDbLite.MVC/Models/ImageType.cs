@@ -19,6 +19,6 @@ namespace MovieDbLite.MVC.Models
         public string Name { get; set; } = default!;
 
         [InverseProperty("ImageType")]
-        public virtual ICollection<MovieImage> MovieImage { get; set; }
+        public ICollection<MovieImage> MovieImage { get; set; }
     }
 }

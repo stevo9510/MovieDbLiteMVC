@@ -13,27 +13,27 @@ namespace MovieDbLite.MVC.Models
         {
         }
 
-        public virtual DbSet<Award> Award { get; set; } = default!;
-        public virtual DbSet<AwardShow> AwardShow { get; set; } = default!;
-        public virtual DbSet<AwardShowInstance> AwardShowInstance { get; set; } = default!;
-        public virtual DbSet<AwardWinner> AwardWinner { get; set; } = default!;
-        public virtual DbSet<FilmMember> FilmMember { get; set; } = default!;
-        public virtual DbSet<FilmRole> FilmRole { get; set; } = default!;
-        public virtual DbSet<Genre> Genre { get; set; } = default!;
-        public virtual DbSet<ImageType> ImageType { get; set; } = default!;
-        public virtual DbSet<Language> Language { get; set; } = default!;
-        public virtual DbSet<Movie> Movie { get; set; } = default!;
-        public virtual DbSet<MovieCastMember> MovieCastMember { get; set; } = default!;
-        public virtual DbSet<MovieCrewMember> MovieCrewMember { get; set; } = default!;
-        public virtual DbSet<MovieGenre> MovieGenre { get; set; } = default!;
-        public virtual DbSet<MovieImage> MovieImage { get; set; } = default!;
-        public virtual DbSet<MovieLanguage> MovieLanguage { get; set; } = default!;
-        public virtual DbSet<MovieUserReview> MovieUserReview { get; set; } = default!;
-        public virtual DbSet<MovieUserReviewHelpful> MovieUserReviewHelpful { get; set; } = default!;
-        public virtual DbSet<RestrictionRating> RestrictionRating { get; set; } = default!;
-        public virtual DbSet<User> User { get; set; } = default!;
-        public virtual DbSet<UserRole> UserRole { get; set; } = default!;
-        public virtual DbSet<VwAwardWinnerInfo> VwAwardWinnerInfo { get; set; } = default!;
+        public DbSet<Award> Award { get; set; } = default!;
+        public DbSet<AwardShow> AwardShow { get; set; } = default!;
+        public DbSet<AwardShowInstance> AwardShowInstance { get; set; } = default!;
+        public DbSet<AwardWinner> AwardWinner { get; set; } = default!;
+        public DbSet<FilmMember> FilmMember { get; set; } = default!;
+        public DbSet<FilmRole> FilmRole { get; set; } = default!;
+        public DbSet<Genre> Genre { get; set; } = default!;
+        public DbSet<ImageType> ImageType { get; set; } = default!;
+        public DbSet<Language> Language { get; set; } = default!;
+        public DbSet<Movie> Movie { get; set; } = default!;
+        public DbSet<MovieCastMember> MovieCastMember { get; set; } = default!;
+        public DbSet<MovieCrewMember> MovieCrewMember { get; set; } = default!;
+        public DbSet<MovieGenre> MovieGenre { get; set; } = default!;
+        public DbSet<MovieImage> MovieImage { get; set; } = default!;
+        public DbSet<MovieLanguage> MovieLanguage { get; set; } = default!;
+        public DbSet<MovieUserReview> MovieUserReview { get; set; } = default!;
+        public DbSet<MovieUserReviewHelpful> MovieUserReviewHelpful { get; set; } = default!;
+        public DbSet<RestrictionRating> RestrictionRating { get; set; } = default!;
+        public DbSet<User> User { get; set; } = default!;
+        public DbSet<UserRole> UserRole { get; set; } = default!;
+        public DbSet<VwAwardWinnerInfo> VwAwardWinnerInfo { get; set; } = default!;
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

@@ -83,6 +83,7 @@ namespace MovieDbLite.MvcTest
                     },
                 },
                 Overview = "Some people play sports with pigskin to score points",
+                SpokenLanguages = new SpokenLanguage[0]
             };
 
             return dbOrgMovie;

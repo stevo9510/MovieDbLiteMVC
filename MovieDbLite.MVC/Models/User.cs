@@ -24,10 +24,10 @@ namespace MovieDbLite.MVC.Models
 
         [ForeignKey(nameof(UserRoleId))]
         [InverseProperty("User")]
-        public virtual UserRole? UserRole { get; set; }
+        public UserRole? UserRole { get; set; }
         [InverseProperty("User")]
-        public virtual ICollection<MovieUserReview> MovieUserReview { get; set; }
+        public ICollection<MovieUserReview> MovieUserReview { get; set; }
         [InverseProperty("User")]
-        public virtual ICollection<MovieUserReviewHelpful> MovieUserReviewHelpful { get; set; }
+        public ICollection<MovieUserReviewHelpful> MovieUserReviewHelpful { get; set; }
     }
 }

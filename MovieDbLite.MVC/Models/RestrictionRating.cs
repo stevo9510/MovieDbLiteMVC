@@ -22,6 +22,6 @@ namespace MovieDbLite.MVC.Models
         public bool IsActive { get; set; }
 
         [InverseProperty("RestrictionRating")]
-        public virtual ICollection<Movie> Movie { get; set; }
+        public ICollection<Movie> Movie { get; set; }
     }
 }

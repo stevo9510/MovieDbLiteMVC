@@ -23,11 +23,11 @@ namespace MovieDbLite.MVC.Models
 
         [ForeignKey(nameof(MovieId))]
         [InverseProperty("MovieUserReview")]
-        public virtual Movie? Movie { get; set; }
+        public Movie? Movie { get; set; }
         [ForeignKey(nameof(UserId))]
         [InverseProperty("MovieUserReview")]
-        public virtual User? User { get; set; }
+        public User? User { get; set; }
         [InverseProperty("MovieUserReview")]
-        public virtual ICollection<MovieUserReviewHelpful> MovieUserReviewHelpful { get; set; }
+        public ICollection<MovieUserReviewHelpful> MovieUserReviewHelpful { get; set; }
     }
 }

@@ -14,9 +14,9 @@ namespace MovieDbLite.MVC.Models
 
         [ForeignKey(nameof(LanguageIsoCode))]
         [InverseProperty(nameof(Language.MovieLanguage))]
-        public virtual Language? LanguageIsoCodeNavigation { get; set; }
+        public Language? LanguageIsoCodeNavigation { get; set; }
         [ForeignKey(nameof(MovieId))]
         [InverseProperty("MovieLanguage")]
-        public virtual Movie? Movie { get; set; }
+        public Movie? Movie { get; set; }
     }
 }

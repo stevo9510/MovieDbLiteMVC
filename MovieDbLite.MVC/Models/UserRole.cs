@@ -19,6 +19,6 @@ namespace MovieDbLite.MVC.Models
         public string Description { get; set; } = default!;
 
         [InverseProperty("UserRole")]
-        public virtual ICollection<User> User { get; set; }
+        public ICollection<User> User { get; set; }
     }
 }

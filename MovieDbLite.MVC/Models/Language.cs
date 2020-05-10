@@ -18,6 +18,6 @@ namespace MovieDbLite.MVC.Models
         public string LanguageName { get; set; } = default!;
 
         [InverseProperty("LanguageIsoCodeNavigation")]
-        public virtual ICollection<MovieLanguage> MovieLanguage { get; set; }
+        public ICollection<MovieLanguage> MovieLanguage { get; set; }
     }
 }
