@@ -1,0 +1,31 @@
+﻿.restriction-rating {
+    margin-left: 1px;
+    border: solid darkgray 1px;
+}
+
+.year-label {
+    font-size: .6em;
+}
+
+.user-rating-on {
+    font-size: larger;
+    color: goldenrod;
+}
+
+.user-rating-off {
+    font-size: larger;
+}
+
+.award-icon {
+    color: darkgoldenrod;
+    font-size: x-large;
+}
+
+.movie-description {
+    font-size: larger;
+}
+
+.field-label {
+    font-weight: bold;
+}
+

@@ -1,4 +1,9 @@
 ﻿@model MovieDbLite.MVC.Models.MovieDetailsViewModel
+@using Microsoft.AspNetCore.Html;
+
+@section Styles {
+    <link href="@Url.Content("~/css/movie-details.css")" rel="stylesheet" type="text/css" />
+}
 
 @{
     ViewData["Title"] = "Details";
@@ -8,22 +13,41 @@
 <div class="row">
     @{
         int detailsColWidth = Model.Image != null ? 9 : 12;
+        string yearLabel = Model.ReleaseDate.HasValue ? $"({Model.ReleaseDate.Value.Year})" : "";
+
+        IHtmlContent SubTitleDetail(string? modelField)
+        {
+            if (modelField != null)
+            {
+                return Html.Raw($"&nbsp;&nbsp;{modelField}&nbsp;&nbsp;|");
+            }
+            return Html.Raw("");
+        }
     }
     <div class="col-md-@detailsColWidth">
-        <h1>@Html.DisplayFor(model => model.Title) <span style="font-size: .6em">@(Model.ReleaseDate.HasValue ? $"({Model.ReleaseDate.Value.Year})" : "")</span></h1>
+        <h1>@Html.DisplayFor(model => model.Title) <span class="year-label">@yearLabel</span></h1>
         <h5>
-            <span style="margin-left: 1px; border: solid darkgray 1px;"> &nbsp;@Model.RestrictionRating&nbsp;</span>&nbsp&nbsp|&nbsp&nbsp @Model.Duration &nbsp&nbsp| &nbsp&nbsp @Model.Genres &nbsp&nbsp|&nbsp&nbsp @Model.Languages &nbsp&nbsp|&nbsp&nbsp @Html.DisplayFor(model => model.ReleaseDate)
+            <span class="restriction-rating">&nbsp;@Model.RestrictionRating&nbsp;</span>
+            &nbsp;&nbsp;|
+            @SubTitleDetail(Model.Duration)
+            @SubTitleDetail(Model.Genres)
+            @SubTitleDetail(Model.Languages)
+            &nbsp;&nbsp;
+            @Html.DisplayFor(model => model.ReleaseDate)
         </h5>
         @if (Model.AverageUserRating.HasValue)
         {
             <div data-toggle="tooltip" title="Actual Rating: @Model.AverageUserRating">
-                @for (int i = 1; i <= Math.Round(Model.AverageUserRating.Value, MidpointRounding.AwayFromZero); i++)
-                {
-                    <span class="fa fa-star" style="font-size: larger; color: goldenrod"></span>
-                }
-                @for (int i = (int)Math.Round(Model.AverageUserRating.Value, MidpointRounding.AwayFromZero) + 1; i <= 10; i++)
-                {
-                    <span class="far fa-star"></span>
+                @{
+                    decimal numberOfStars = Math.Round(Model.AverageUserRating.Value, MidpointRounding.AwayFromZero);
+                    for (int i = 1; i <= numberOfStars; i++)
+                    {
+                        <span class="fa fa-star user-rating-on"></span>
+                    }
+                    for (int i = (int)numberOfStars + 1; i <= 10; i++)
+                    {
+                        <span class="far fa-star user-rating-off"></span>
+                    }
                 }
                 &nbsp;
                 (@Model.NumberOfUserRatings User Ratings)
@@ -35,29 +59,39 @@
         }
 
         <hr />
-        <p style="font-size: larger">
+        <p class="movie-description">
             @Html.DisplayFor(model => model.Description)
         </p>
 
         @if (Model.DirectorFilmMemberId.HasValue)
         {
-            <p><span style="font-weight: bold;">Directed By:</span>&nbsp;<a asp-controller="FilmMemberDetails" asp-action="Index" asp-route-id="@Model.DirectorFilmMemberId">@Html.DisplayFor(model => model.DirectorName)</a></p>
+            <p><span class="field-label">Directed By:</span>&nbsp;
+                <a asp-controller="FilmMemberDetails" 
+                    asp-action="Index" 
+                    asp-route-id="@Model.DirectorFilmMemberId">
+                    @Html.DisplayFor(model => model.DirectorName)
+                </a>
+            </p>
         }
 
         @if (Model.AwardDetails.Count > 0)
         {
             int awardsCount = Model.AwardDetails.Select(a => a.AwardId).Distinct().Count();
-            <p><span class="fa fa-award" style="color: darkgoldenrod; font-size: x-large"></span> &nbsp;<a href="#awards">@awardsCount Awards Won</a></p>
+            <p><span class="fa fa-award award-icon"></span> &nbsp;
+                <a href="#awards">@awardsCount Awards Won</a>
+            </p>
         }
     </div>
 
     <div class="col-md-@(12-detailsColWidth) text-right">
-        @if (Model.Image != null)
+        @if (Model.Image?.ImageType != null)
         {
             string base64 = Convert.ToBase64String(Model.Image.FileContents);
             string fileType = Model.Image.ImageType.ImageExtension.Replace(".", "");
             var posterImage = $"data:image/{fileType};base64,{base64}";
-            <img src="@posterImage" alt="@Model.Image.ImageName" title="@($"{Model.Image.ImageName} - {Model.Image.Description}")" height="300" />
+            string modelDescription = !string.IsNullOrWhiteSpace(Model.Image.Description) ? $" - {Model.Image.Description}" : "";
+            string imageTitle = $"{Model.Image.ImageName}{modelDescription}";
+            <img src="@posterImage" alt="@Model.Image.ImageName" imageTitle="@(imageTitle)" height="300" />
         }
     </div>
 </div>
